@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.examly.springapp.dto.LoginDto;
 import com.examly.springapp.model.UserEntity;
@@ -54,8 +55,12 @@ public class UserController {
 	@PostMapping("/api/login")
 	public String login(@RequestBody LoginDto user) {
 
+		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
 		if(!userRepository.existsByEmail(user.getEmail())) {
 	    	//System.out.println(user.getEmail());
+	    	return "Incorrect Email or Password...";
+	    }
+		if(!new BCryptPasswordEncoder().matches(user.getPassword(), u.getPassword())) {
 	    	return "Incorrect Email or Password...";
 	    }
 
@@ -63,7 +68,7 @@ public class UserController {
 		//System.out.print(user.getEmail()+" "+user.getPassword());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        UserEntity u = userRepository.findByEmail(user.getEmail()).get();
+        
         Token t = new Token();
         t.setUser(u);
         t.setToken(token);
