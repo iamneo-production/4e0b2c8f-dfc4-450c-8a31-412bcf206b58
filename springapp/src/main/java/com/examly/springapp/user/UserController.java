@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.examly.springapp.config.auth.LoginDto;
 import com.examly.springapp.user.UserEntity;
@@ -45,20 +47,20 @@ public class UserController {
     }
 	
 	@PostMapping("/api/register")
-	public String register(@RequestBody UserEntity user) {
+	public ResponseEntity<?> register(@RequestBody UserEntity user) {
 		return userService.register(user);
 	}
 	
 	@PostMapping("/api/login")
-	public String login(@RequestBody LoginDto user) {
+	public ResponseEntity<?> login(@RequestBody LoginDto user) {
 
 		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
 		if(!userRepository.existsByEmail(user.getEmail())) {
 	    	//System.out.println(user.getEmail());
-	    	return "Incorrect Email or Password...";
+	    	return new ResponseEntity<>("Incorrect Email or Password...", HttpStatus.BAD_REQUEST);
 	    }
 		if(!new BCryptPasswordEncoder().matches(user.getPassword(), u.getPassword())) {
-	    	return "Incorrect Email or Password...";
+	    	return new ResponseEntity<>("Incorrect Email or Password...", HttpStatus.BAD_REQUEST);
 	    }
 
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
@@ -74,16 +76,16 @@ public class UserController {
         t.setExpired(false);
         revokeAllUserTokens(u);
         tokenRepository.save(t);
-        return token;
+        return ResponseEntity.ok(token);
 	}
 	
 	@GetMapping("/api/home")
-	public String home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
+	public ResponseEntity<?> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 		//System.out.println(token);
 		if(jwtGenerator.validateToken(token)) {
-			return "welcome";
+			return ResponseEntity.ok("welcome");
 		}
-		return "unauthorized";
+		return new ResponseEntity<>("unauthorized", HttpStatus.UNAUTHORIZED);
 	}
 	
 	private void revokeAllUserTokens(UserEntity user) {

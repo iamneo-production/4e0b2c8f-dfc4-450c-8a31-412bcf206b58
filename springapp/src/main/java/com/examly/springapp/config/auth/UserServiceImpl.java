@@ -4,6 +4,8 @@ import com.examly.springapp.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.examly.springapp.user.UserEntity;
 import com.examly.springapp.user.UserRepository;
@@ -16,15 +18,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Override
-	public String register(UserEntity user) {
+	public ResponseEntity<?> register(UserEntity user) {
 		
 		if(userRepository.existsByEmail(user.getEmail())) {
-			return "User already exists";
+			return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
 		}
 		
 		user.setPassword(passwordEncoder.encode((user.getPassword())));
 		userRepository.save(user);
-		return "Register successfully";
+		return new ResponseEntity<>("Register successfully", HttpStatus.OK);
 	}
 	
 
