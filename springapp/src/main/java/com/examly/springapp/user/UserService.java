@@ -1,8 +1,10 @@
 package com.examly.springapp.user;
 
+import org.springframework.http.ResponseEntity;
+
 public interface UserService {
 
-	String register(UserEntity user);
+	ResponseEntity<?> register(UserEntity user);
 
 }
 
