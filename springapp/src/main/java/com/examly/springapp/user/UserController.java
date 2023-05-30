@@ -1,5 +1,6 @@
 package com.examly.springapp.user;
 
+import com.examly.springapp.BaseResponceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.examly.springapp.config.auth.LoginDto;
 import com.examly.springapp.user.UserEntity;
@@ -22,12 +25,16 @@ import com.examly.springapp.config.token.Token;
 import com.examly.springapp.config.token.TokenRepository;
 import com.examly.springapp.config.token.TokenType;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 
 @RestController
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -43,29 +50,25 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
     }
-	
+
 	@PostMapping("/api/register")
-	public String register(@RequestBody UserEntity user) {
+	public ResponseEntity<BaseResponceDto> register(@RequestBody UserEntity user) {
 		return userService.register(user);
 	}
-	
+
 	@PostMapping("/api/login")
-	public String login(@RequestBody LoginDto user) {
+	public ResponseEntity<BaseResponceDto> login(@RequestBody LoginDto user) {
 
 		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
 		if(!userRepository.existsByEmail(user.getEmail())) {
-	    	//System.out.println(user.getEmail());
-	    	return "Incorrect Email or Password...";
-	    }
+			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
+		}
 		if(!new BCryptPasswordEncoder().matches(user.getPassword(), u.getPassword())) {
-	    	return "Incorrect Email or Password...";
-	    }
-
+			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
+		}
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-		//System.out.print(user.getEmail()+" "+user.getPassword());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        
         Token t = new Token();
         t.setUser(u);
         t.setToken(token);
@@ -74,18 +77,24 @@ public class UserController {
         t.setExpired(false);
         revokeAllUserTokens(u);
         tokenRepository.save(t);
-        return token;
+
+
+		Map<Object,Object> data = new HashMap<>();
+		data.put("token",token);
+        return ResponseEntity.ok(new BaseResponceDto("success",data));
 	}
-	
+
 	@GetMapping("/api/home")
-	public String home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
-		//System.out.println(token);
+	public ResponseEntity<BaseResponceDto> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
+		Map<Object,Object> data = new HashMap<>();
 		if(jwtGenerator.validateToken(token)) {
-			return "welcome";
+			Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(token));
+			data.put("user",user);
+			return ResponseEntity.ok(new BaseResponceDto("success",data));
 		}
-		return "unauthorized";
+		return new ResponseEntity<>(new BaseResponceDto("unauthorized",data), HttpStatus.UNAUTHORIZED);
 	}
-	
+
 	private void revokeAllUserTokens(UserEntity user) {
 		var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUserId());
 		if(validUserTokens.isEmpty())
