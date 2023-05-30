@@ -1,5 +1,6 @@
 package com.examly.springapp.config.auth;
 
+import com.examly.springapp.BaseResponceDto;
 import com.examly.springapp.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import com.examly.springapp.user.UserEntity;
 import com.examly.springapp.user.UserRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -18,15 +22,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Override
-	public ResponseEntity<?> register(UserEntity user) {
-		
+	public ResponseEntity<BaseResponceDto> register(UserEntity user) {
 		if(userRepository.existsByEmail(user.getEmail())) {
-			return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new BaseResponceDto("User already exists",null), HttpStatus.BAD_REQUEST);
 		}
 		
 		user.setPassword(passwordEncoder.encode((user.getPassword())));
 		userRepository.save(user);
-		return new ResponseEntity<>("Register successfully", HttpStatus.OK);
+		return new ResponseEntity<>(new BaseResponceDto("register successfully",null), HttpStatus.OK);
 	}
 	
 
