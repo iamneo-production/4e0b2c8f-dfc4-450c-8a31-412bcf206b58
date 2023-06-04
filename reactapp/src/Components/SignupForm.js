@@ -9,9 +9,11 @@ import {
     Container,
 } from '@mantine/core';
 import {useForm} from '@mantine/form';
-
+import {useDispatch} from "react-redux";
+import {createAccount} from "../features/userSlice";
 
 export default function SignupForm(props) {
+    const dispatch = useDispatch()
     const form = useForm({
         initialValues: {
             firstName: '',
@@ -36,6 +38,10 @@ export default function SignupForm(props) {
             )
         },
     });
+
+    function handleSignup(){
+        dispatch(createAccount(form.values))
+    }
     return (
         <Modal radius="lg" size="md" opened={props.open} onClose={() => {
             props.handleSignup()
@@ -44,7 +50,7 @@ export default function SignupForm(props) {
             <Container size="md">
                 <Text style={{marginTop: 10}} size="md" c="dimmed">Fill the details to continue with personal finance
                     app </Text>
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form onSubmit={form.onSubmit((values) => handleSignup())}>
                     <Grid>
                         <Grid.Col span={6}>
                             <TextInput radius="md" style={{marginTop: 16}}
