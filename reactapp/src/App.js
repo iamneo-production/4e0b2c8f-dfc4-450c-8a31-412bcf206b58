@@ -1,5 +1,5 @@
-import LandingScreen from './Screens/LandingScreen';
-import DashboardScreen from './Screens/DashboardScreen';
+import LandingScreen from './screens/LandingScreen';
+import DashboardScreen from './screens/DashboardScreen';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 function App() {

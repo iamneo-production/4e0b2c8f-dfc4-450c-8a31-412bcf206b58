@@ -1,5 +1,5 @@
 import { Image, Title, Grid, Container } from '@mantine/core';
-import HeaderBar from '../Components/HeaderBar';
+import HeaderBar from '../components/HeaderBar';
 
 export default function LandingScreen() {
     return (
