@@ -1,15 +1,25 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {createAccountService} from "../api/userService";
 
 export const userSlice = createSlice({
     name:"user",
     initialState:{
-        currentUser:null
+        currentUser:null,
+        token:null,
+        signupInProgress:false,
+        loginInProgress:false,
+        signupError:null,
+        loginError:null
     },
     reducers:{
         createAccount: (state, action) => {
-            state.currentUser = {
-                message:"User registered"
-            }
+            state.signupInProgress = true;
+            createAccountService(
+                action.payload.firstName,
+                action.payload.lastName,
+                action.payload.email,
+                action.payload.password
+            )
         },
         loginAccount:(state,action) =>{
             state.currentUser ={
@@ -17,6 +27,18 @@ export const userSlice = createSlice({
                 password:action.payload.password
             }
             console.log(action.payload.email)
+        },
+        createAccountSuccess:(state, action) =>{
+
+        },
+        createAccountError:(state, action) =>{
+
+        },
+        loginAccountSuccess:(state, action) =>{
+
+        },
+        loginAccountError:(state,action) => {
+
         }
     }
 })
