@@ -9,8 +9,9 @@ function App() {
   return (
       <BrowserRouter>
           <Routes>
-              <Route exact path='/' element={<AlreadyLogin><LandingScreen></LandingScreen></AlreadyLogin>} />
+              <Route exact path='/' element={<AlreadyLoggedin><LandingScreen></LandingScreen></AlreadyLoggedin>} />
               <Route path='/dashboard' element={<RequireAuth><DashboardScreen/></RequireAuth>}/>
+              <Route path='/test' element={<DashboardScreen/>}/>
           </Routes>
       </BrowserRouter>
 
@@ -22,7 +23,7 @@ function RequireAuth({children}){
     return token===null ? <Navigate to="/"/> : children
 }
 
-function AlreadyLogin({children}){
+function AlreadyLoggedin({children}){
     const token = useSelector(state => state.user.token)
     return token!==null ? <Navigate to="/dashboard"/> : children
 }

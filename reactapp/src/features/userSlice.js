@@ -16,7 +16,7 @@ export const createAccount =
     })
 
 export const loginAccount =
-    createAsyncThunk('user/createAccount',async (body)=>{
+    createAsyncThunk('user/loginAccount',async (body)=>{
         return loginAccountService(
             body.email,
             body.password
@@ -77,12 +77,11 @@ export const userSlice = createSlice({
         [loginAccount.fulfilled]:(state,action) =>{
             state.signinInProgress =false
             console.log("logged in")
-            console.log(action.payload.data.token)
             state.token = action.payload.data.token
             state.displaySigninForm = false
         },
         [loginAccount.rejected]:(state)=>{
-            state.signupinProgress = false
+            state.signinInProgress = false
             console.log("Account Create failed")
             alert("Account Create failed,Try again")
         }
