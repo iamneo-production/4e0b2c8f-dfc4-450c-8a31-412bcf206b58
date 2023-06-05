@@ -5,14 +5,16 @@ import {
     Modal,
     Group,
     Button,
-    Container,
+    Container, LoadingOverlay,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import {loginAccount} from "../features/userSlice";
 import {useDispatch,useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 export default function SigninForm(props) {
-    const user = useSelector(state => state.user.currentUser)
+    const signinInProgress = useSelector(state => state.user.signinInProgress)
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const form = useForm({
         initialValues: {
@@ -27,11 +29,12 @@ export default function SigninForm(props) {
     });
     function handleSubmit(){
         dispatch(loginAccount(form.values))
-        console.log(user)
     }
 
+
     return (
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.handleSignin() }} centered>
+        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+            <LoadingOverlay visible={signinInProgress} overlayBlur={2} />
             <Title size="32" align="center">Hello!!</Title>
             <Container size="md">
                 <Text style={{ marginTop: 10 }} size="md" c="dimmed">Use your email to continue with personal finance app  </Text>

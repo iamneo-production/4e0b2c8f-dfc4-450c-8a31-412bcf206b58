@@ -1,47 +1,98 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {createAccountService} from "../api/userService";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAccountService, loginAccountService} from "../api/userService";
+
+export const createAccount =
+    createAsyncThunk('user/createAccount',async (body)=>{
+        return createAccountService(
+            body.firstName,
+            body.lastName,
+            body.email,
+            body.password
+        ).then((response)=>{
+            console.log(response)
+        }).catch((error) =>{
+            console.log(error)
+        })
+    })
+
+export const loginAccount =
+    createAsyncThunk('user/createAccount',async (body)=>{
+        return loginAccountService(
+            body.email,
+            body.password
+        ).then((response)=>{
+            console.log(response)
+            return response.data
+        }).catch((error) =>{
+            console.log(error)
+        })
+    })
 
 export const userSlice = createSlice({
     name:"user",
     initialState:{
         currentUser:null,
         token:null,
+        displaySignupForm:false,
+        displaySigninForm:false,
         signupInProgress:false,
-        loginInProgress:false,
+        signinInProgress:false,
         signupError:null,
         loginError:null
     },
     reducers:{
-        createAccount: (state, action) => {
-            state.signupInProgress = true;
-            createAccountService(
-                action.payload.firstName,
-                action.payload.lastName,
-                action.payload.email,
-                action.payload.password
-            )
+        openSignupForm:(state)=>{
+            state.displaySignupForm = true
         },
-        loginAccount:(state,action) =>{
-            state.currentUser ={
-                email:action.payload.email,
-                password:action.payload.password
-            }
-            console.log(action.payload.email)
+        openSigninForm:(state)=>{
+            state.displaySigninForm = true
         },
-        createAccountSuccess:(state, action) =>{
-
+        closeSignupForm:(state)=>{
+            state.displaySignupForm = false
         },
-        createAccountError:(state, action) =>{
-
+        closeSigninForm:(state)=>{
+            state.displaySigninForm = false
+        }
+    },
+    extraReducers:{
+        [createAccount.pending]:(state) => {
+            state.signupInProgress = true
+            console.log("pending")
         },
-        loginAccountSuccess:(state, action) =>{
-
+        [createAccount.fulfilled]:(state,action) =>{
+            state.signupInProgress =false
+            console.log("Account Created")
+            alert("Account Created")
+            state.displaySignupForm = false
         },
-        loginAccountError:(state,action) => {
-
+        [createAccount.rejected]:(state)=>{
+            state.signupInProgress = false
+            console.log("Account Create failed")
+            alert("Account Create failed,Try again")
+        },
+        [loginAccount.pending]:(state) => {
+            state.signinInProgress = true
+            console.log("pending")
+        },
+        [loginAccount.fulfilled]:(state,action) =>{
+            state.signinInProgress =false
+            console.log("logged in")
+            console.log(action.payload.data.token)
+            state.token = action.payload.data.token
+            state.displaySigninForm = false
+        },
+        [loginAccount.rejected]:(state)=>{
+            state.signupinProgress = false
+            console.log("Account Create failed")
+            alert("Account Create failed,Try again")
         }
     }
 })
 
-export const {createAccount,loginAccount} = userSlice.actions
+export const {
+    openSignupForm,
+    openSigninForm,
+    closeSignupForm,
+    closeSigninForm,
+} = userSlice.actions
 export default userSlice.reducer

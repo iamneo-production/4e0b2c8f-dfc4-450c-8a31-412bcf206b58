@@ -1,5 +1,6 @@
 import { Image, Title, Grid, Container } from '@mantine/core';
 import HeaderBar from '../components/HeaderBar';
+import {useEffect} from "react";
 
 export default function LandingScreen() {
     return (
