@@ -9,7 +9,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
       <Provider store={store}>
-          <MantineProvider withGlobalStyles withNormalizeCSS>
+          <MantineProvider withGlobalStyles withNormalizeCSS
+          >
               <App />
           </MantineProvider>
       </Provider>

@@ -52,11 +52,13 @@ public class JWTGenerator {
                 Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token);
                 return true;
             } catch (Exception ex) {
+                validToken.setRevoked(true);
+                validToken.setExpired(true);
+                tokenRepository.save(validToken);
                 throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
             }
     	}else {
     		return false;
     	}
-        
     }
 }

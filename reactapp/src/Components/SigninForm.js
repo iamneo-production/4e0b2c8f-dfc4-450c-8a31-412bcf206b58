@@ -14,7 +14,6 @@ import {useNavigate} from "react-router-dom";
 
 export default function SigninForm(props) {
     const signinInProgress = useSelector(state => state.user.signinInProgress)
-    const navigate = useNavigate()
     const dispatch = useDispatch();
     const form = useForm({
         initialValues: {

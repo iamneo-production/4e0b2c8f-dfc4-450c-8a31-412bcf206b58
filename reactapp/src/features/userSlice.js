@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {createAccountService, loginAccountService} from "../api/userService";
+import {createAccountService, loginAccountService, validateTokenService} from "../api/userService";
 
 export const createAccount =
     createAsyncThunk('user/createAccount',async (body)=>{
@@ -24,10 +24,23 @@ export const loginAccount =
             console.log(response)
             return response.data
         }).catch((error) =>{
-            console.log(error)
+            console.log(error.response.data)
+            return error.response.data
         })
     })
 
+export const validateToken =
+    createAsyncThunk('user/validateToken',async (token) =>{
+        return validateTokenService(
+            token
+        ).then((response) =>{
+            console.log(response)
+            return response.data
+        }).catch((error)=>{
+            console.log(error)
+            return error.responce.data
+        })
+    })
 export const userSlice = createSlice({
     name:"user",
     initialState:{
@@ -41,6 +54,10 @@ export const userSlice = createSlice({
         loginError:null
     },
     reducers:{
+        logoutAccount:(state)=>{
+            state.token = null
+            state.currentUser = null
+        },
         openSignupForm:(state)=>{
             state.displaySignupForm = true
         },
@@ -76,19 +93,42 @@ export const userSlice = createSlice({
         },
         [loginAccount.fulfilled]:(state,action) =>{
             state.signinInProgress =false
-            console.log("logged in")
-            state.token = action.payload.data.token
-            state.displaySigninForm = false
+            console.log(action)
+            if(action.payload.message ==="success"){
+                state.token = action.payload.data.token
+                state.displaySigninForm = false
+            }else {
+                state.loginError = action.payload.message
+                alert(action.payload.message)
+            }
         },
         [loginAccount.rejected]:(state)=>{
             state.signinInProgress = false
             console.log("Account Create failed")
             alert("Account Create failed,Try again")
+        },
+        [validateToken.pending]:(state) => {
+            console.log("validate token pending")
+        },
+        [validateToken.fulfilled]:(state,action) =>{
+            console.log("validate token success")
+            if(action.payload.message ==="success"){
+                state.currentUser = action.payload.data.user
+            }else {
+                state.loginError = action.payload.message
+                state.token = null
+                alert(action.payload.message)
+            }
+        },
+        [validateToken.rejected]:(state)=>{
+            console.log("validate token success failed")
+            alert("validate token success,Login again")
         }
     }
 })
 
 export const {
+    logoutAccount,
     openSignupForm,
     openSigninForm,
     closeSignupForm,
