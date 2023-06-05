@@ -7,12 +7,14 @@ import {
     Group,
     Button,
     Container,
+    LoadingOverlay
 } from '@mantine/core';
 import {useForm} from '@mantine/form';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {createAccount} from "../features/userSlice";
 
 export default function SignupForm(props) {
+    const signupInProgress = useSelector(state => state.user.signupInProgress)
     const dispatch = useDispatch()
     const form = useForm({
         initialValues: {
@@ -41,11 +43,13 @@ export default function SignupForm(props) {
 
     function handleSignup(){
         dispatch(createAccount(form.values))
+        form.reset()
     }
     return (
         <Modal radius="lg" size="md" opened={props.open} onClose={() => {
-            props.handleSignup()
+            props.close()
         }} centered>
+            <LoadingOverlay visible={signupInProgress} overlayBlur={2} />
             <Title size="32" align="center">Signup</Title>
             <Container size="md">
                 <Text style={{marginTop: 10}} size="md" c="dimmed">Fill the details to continue with personal finance
