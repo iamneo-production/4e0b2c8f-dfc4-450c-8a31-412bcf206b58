@@ -44,7 +44,12 @@ export const validateToken =
 export const userSlice = createSlice({
     name:"user",
     initialState:{
-        currentUser:null,
+        currentUser: {
+            firstName:'',
+            lastName:'',
+            email:'',
+            userId:''
+        },
         token:null,
         displaySignupForm:false,
         displaySigninForm:false,
@@ -113,7 +118,10 @@ export const userSlice = createSlice({
         [validateToken.fulfilled]:(state,action) =>{
             console.log("validate token success")
             if(action.payload.message ==="success"){
-                state.currentUser = action.payload.data.user
+                state.currentUser.firstName = action.payload.data.user.firstName
+                state.currentUser.lastName = action.payload.data.user.lastName
+                state.currentUser.email = action.payload.data.user.email
+                state.currentUser.userId = action.payload.data.user.userId
             }else {
                 state.loginError = action.payload.message
                 state.token = null
