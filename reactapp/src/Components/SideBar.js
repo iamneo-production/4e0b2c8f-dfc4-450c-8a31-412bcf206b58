@@ -35,8 +35,9 @@ export default function SideBar() {
                             label="Dashboard"
                             icon={<DashboardIcon/>}
                             rightSection={<></>}
-                            color="gray"
+                            color="dark"
                             active
+                            disabled
                         />
                         <NavLink
                             style={{borderRadius: 8, margin: 10, width: 230}}

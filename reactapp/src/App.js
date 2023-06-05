@@ -1,8 +1,9 @@
 import LandingScreen from './screens/LandingScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import {Route,Routes, Navigate, BrowserRouter} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import React from "react";
+import {validateToken} from "./features/userSlice";
 
 function App() {
 
@@ -19,12 +20,20 @@ function App() {
 }
 
 function RequireAuth({children}){
+    const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
+    if(token!==null){
+        dispatch(validateToken(token))
+    }
     return token===null ? <Navigate to="/"/> : children
 }
 
 function AlreadyLoggedin({children}){
+    const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
+    if(token!==null){
+        dispatch(validateToken(token))
+    }
     return token!==null ? <Navigate to="/dashboard"/> : children
 }
 

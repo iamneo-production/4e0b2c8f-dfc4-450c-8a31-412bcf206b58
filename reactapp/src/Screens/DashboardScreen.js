@@ -2,7 +2,6 @@ import HeaderBar from "../components/HeaderBar";
 import SideBar from "../components/SideBar";
 import {AppShell, Text, Divider, Header, Navbar, Title} from "@mantine/core";
 import {ReactComponent as NoDataSVG} from "../assets/No-data.svg";
-import {autoBatchEnhancer} from "@reduxjs/toolkit";
 
 export default function  DashboardScreen(){
     return(

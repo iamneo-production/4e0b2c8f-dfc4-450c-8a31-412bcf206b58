@@ -17,3 +17,9 @@ export async function loginAccountService(email,password){
         "password":password
     })
 }
+
+export async function validateTokenService(token){
+    return await axios.get(`${baseUrl}/validateToken`,{
+        headers: {"Authorization" : token}
+    })
+}
