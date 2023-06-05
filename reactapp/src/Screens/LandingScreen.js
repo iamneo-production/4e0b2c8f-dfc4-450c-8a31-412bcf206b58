@@ -5,7 +5,7 @@ import {useEffect} from "react";
 export default function LandingScreen() {
     return (
         <div>
-            <HeaderBar />
+            <HeaderBar isLandingPage={true} />
             <Container size="xl">
                 <Grid>
                     <Grid.Col justify="center" align="center" span={6}>
