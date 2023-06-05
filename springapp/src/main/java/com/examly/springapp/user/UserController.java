@@ -84,7 +84,7 @@ public class UserController {
         return ResponseEntity.ok(new BaseResponceDto("success",data));
 	}
 
-	@GetMapping("/api/home")
+	@GetMapping("/api/validateToken")
 	public ResponseEntity<BaseResponceDto> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 		Map<Object,Object> data = new HashMap<>();
 		if(jwtGenerator.validateToken(token)) {
