@@ -1,6 +1,6 @@
 import HeaderBar from "../components/HeaderBar";
 import SideBar from "../components/SideBar";
-import {AppShell, Text, Divider, Header, Navbar, Title} from "@mantine/core";
+import {AppShell, Text, Header,Title} from "@mantine/core";
 import {ReactComponent as NoDataSVG} from "../assets/No-data.svg";
 
 export default function  DashboardScreen(){
