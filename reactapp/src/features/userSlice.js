@@ -61,7 +61,12 @@ export const userSlice = createSlice({
     reducers:{
         logoutAccount:(state)=>{
             state.token = null
-            state.currentUser = null
+            state.currentUser = {
+                firstName:'',
+                lastName:'',
+                email:'',
+                userId:''
+            }
         },
         openSignupForm:(state)=>{
             state.displaySignupForm = true

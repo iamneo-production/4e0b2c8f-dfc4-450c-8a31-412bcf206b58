@@ -1,6 +1,5 @@
 import {
     Text,
-    Image,
     Header,
     Group,
     Button,
@@ -40,7 +39,7 @@ export default function HeaderBar(props) {
             <Header height={60} px="md">
                 <Group position="apart" sx={{ height: '100%' }}>
                     <Group>
-                        <AppLogo/>
+                        <AppLogo style={{width:140,height:60}}/>
                     </Group>
                         {props.isLandingPage?
                             <Group>

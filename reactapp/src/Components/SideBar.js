@@ -1,5 +1,4 @@
-import HeaderBar from "./HeaderBar";
-import {Box, Text, Divider, Navbar, NavLink, Button} from "@mantine/core";
+import {Box, Text,Navbar, NavLink, Button} from "@mantine/core";
 import {ReactComponent as DashboardIcon} from '../assets/Widget.svg'
 import {ReactComponent as TransactionsIcon} from '../assets/Collapse.svg'
 import {ReactComponent as AccountsIcon} from '../assets/Database.svg'
