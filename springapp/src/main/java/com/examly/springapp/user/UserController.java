@@ -82,10 +82,27 @@ public class UserController {
 	@GetMapping("/api/home")
 	public ResponseEntity<?> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 		//System.out.println(token);
-		if(jwtGenerator.validateToken(token)) {
+		if(jwtGenerator.validateToken(token.substring(7))) {
 			return ResponseEntity.ok("welcome");
 		}
-		return new ResponseEntity<>("unauthorized", HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>("unauthorized or token expired", HttpStatus.UNAUTHORIZED);
+	}
+
+	@PostMapping("/api/logout")
+	public ResponseEntity<?> logout(@RequestHeader(value="Authorization", defaultValue = "")String token){
+		// System.out.println("outside method"+" "+token);
+		if(jwtGenerator.validateToken(token.substring(7))) {
+//			System.out.println("in method"+" "+token);
+			var storedToken = tokenRepository.findByToken(token.substring(7)).orElse(null);
+//			System.out.println(storedToken);
+			if(storedToken != null) {
+				storedToken.setExpired(true);
+				storedToken.setRevoked(true);
+				tokenRepository.save(storedToken);
+			}
+			return ResponseEntity.ok("Logout successfully");
+		}
+		return new ResponseEntity<>("invalid token", HttpStatus.UNAUTHORIZED);
 	}
 	
 	private void revokeAllUserTokens(UserEntity user) {

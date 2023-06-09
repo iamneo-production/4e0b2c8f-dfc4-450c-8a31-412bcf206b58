@@ -14,6 +14,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 @Component
 public class JWTGenerator {
 	
@@ -46,7 +50,13 @@ public class JWTGenerator {
     	//System.out.println(token);
     	var validToken = tokenRepository.findByToken(token).get();
     	//System.out.println(validToken.getRevoked());
-    	boolean check = validToken.getExpired() && validToken.getRevoked();
+
+        DecodedJWT decoded = JWT.decode(token);
+    	if( decoded.getExpiresAt().before(new Date())) {
+    	    validToken.setExpired(true);
+    	    tokenRepository.save(validToken);
+    	}
+    	boolean check = validToken.getExpired() || validToken.getRevoked();
     	if(!check) {
     		try {
                 Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token);
