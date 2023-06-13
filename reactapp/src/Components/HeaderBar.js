@@ -1,39 +1,70 @@
 import {
     Text,
-    Image,
     Header,
     Group,
     Button,
-    Box,
+    Box, Avatar, Menu,
 } from '@mantine/core';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
-import { useState } from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm,logoutAccount} from '../features/userSlice'
+import {ReactComponent as SettingIcon } from "../assets/Setting_line.svg";
+import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
+import {ReactComponent as AppLogo} from "../assets/App logo.svg";
+export default function HeaderBar(props) {
+    const displaySigninForm = useSelector(state => state.user.displaySigninForm)
+    const displaySignupForm = useSelector(state => state.user.displaySignupForm)
+    const currentUser = useSelector(state => state.user.currentUser)
+    const dispatch = useDispatch()
 
-
-export default function HeaderBar() {
-    const [openSignin, setOpenSignin] = useState(false);
-    function handleSignin() {
-        setOpenSignin(false)
+    function handleOpenSigninForm() {
+        dispatch(openSigninForm())
     }
-    const [openSignup, setOpenSignup] = useState(false);
-    function handleSignup() {
-        setOpenSignup(false)
+    function handleOpenSignupForm() {
+        dispatch(openSignupForm())
+    }
+    function handleCloseSigninForm() {
+        dispatch(closeSigninForm())
+    }
+    function handleCloseSignupForm() {
+        dispatch(closeSignupForm())
+    }
+
+    function handleLogout(){
+        dispatch(logoutAccount())
     }
     return (
-        <Box pb={120}>
+        <Box >
             <Header height={60} px="md">
                 <Group position="apart" sx={{ height: '100%' }}>
                     <Group>
-                        <Image alt="With custom placeholder" withPlaceholder placeholder={<Text align="center">Personal Finance</Text>} maw={140} mx="auto" radius="md" src="https://raw.githubusercontent.com/UdhayakumarThangavel/UdhayakumarThangavel/main/Images/PersonalFinanceLogo.jpg" />
+                        <AppLogo style={{width:140,height:60}}/>
                     </Group>
-                    <Group>
-                        <Button variant="default" onClick={() => { setOpenSignin(true) }}>Sign in</Button>
-                        <Button onClick={() => { setOpenSignup(true) }}>Sign up</Button>
-                    </Group>
+                        {props.isLandingPage?
+                            <Group>
+                                <Button variant="default" onClick={() => handleOpenSigninForm()}>Sign in</Button>
+                                <Button onClick={() => handleOpenSignupForm()}>Sign up</Button>
+                            </Group>
+
+                            :<Group>
+                                <Text>{currentUser.firstName}</Text>
+                                <Menu shadow="md" width={200}>
+                                    <Menu.Target>
+                                        <Avatar radius="xl" />
+                                    </Menu.Target>
+                                    <Menu.Dropdown>
+                                        <Menu.Item icon={<SettingIcon style={{height:"20px",width:"20px"}}/>}>Settings</Menu.Item>
+                                        <Menu.Divider />
+                                        <Menu.Item onClick={()=>{handleLogout()}} color="red" icon={<LogoutIcon style={{height:"20px",width:"20px"}}/>}>Logout</Menu.Item>
+                                    </Menu.Dropdown>
+                                </Menu>
+                                </Group>
+                        }
                 </Group>
-                <SigninForm open={openSignin} handleSignin={handleSignin}></SigninForm>
-                <SignupForm open={openSignup} handleSignup={handleSignup}></SignupForm>
+                <SigninForm open={displaySigninForm} close={handleCloseSigninForm}></SigninForm>
+                <SignupForm open={displaySignupForm} close={handleCloseSignupForm}></SignupForm>
+
             </Header>
         </Box>
     );
