@@ -21,32 +21,35 @@ public class CategoryController {
     @Autowired
 
     UserRepository userRepository;
+
     @GetMapping("/api/categories")
-    public BaseResponceDto getCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token){
+    public BaseResponceDto getCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 
-        if(jwtGenerator.validateToken(token)) {
-            Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(token));
-            return new BaseResponceDto("Success",categoryService.getCategories());
+        if (jwtGenerator.validateToken(token)) {
+            String userName = jwtGenerator.getUsernameFromJWT(token);
+            List<Category> categories = categoryService.getCategoriesByUserName(userName);
+            return new BaseResponceDto("Success", categories);
         }
-        return new BaseResponceDto("Failed",null);
+        return new BaseResponceDto("UnAuthorization", null);
 
 
     }
+
     @PostMapping("/api/categories")
-    public String addCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody Category category){
-        if(jwtGenerator.validateToken(token)) {
-
-            Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(token));
-            categoryService.addCategories(category);
-            return "Categories Added";
+    public BaseResponceDto addCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody Category category) {
+        if (jwtGenerator.validateToken(token)) {
+            String userName = jwtGenerator.getUsernameFromJWT(token);
+            categoryService.addCategories(category, userName);
+            return new BaseResponceDto(categoryService.addCategories(category, userName), null);
         }
-        return "Unauthorised";
-
-
-
-
+        return new BaseResponceDto("UnAuthorization", null);
 
 
     }
+    @DeleteMapping("/api/categories/{category_id}")
+    public String deleteCourse(@PathVariable String category_id) {
+        return this.categoryService.deleteCategories(Integer.parseInt(category_id));
+    }
+
 
 }
