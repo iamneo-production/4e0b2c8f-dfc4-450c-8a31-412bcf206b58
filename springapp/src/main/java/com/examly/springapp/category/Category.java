@@ -1,6 +1,9 @@
 package com.examly.springapp.category;
 
 import com.examly.springapp.user.UserEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,15 +11,20 @@ import java.util.Date;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private int categoryId;
+    private int categoryId;
+
     private  String name;
     @ManyToOne
     @JoinColumn(name= "user_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserEntity userId;//Type of userIdentity
     private  boolean isIncome;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isDeleted;
 
+    @CreationTimestamp
     private  Date createdAt;
+    @UpdateTimestamp
     private  Date updatedAt;
 
     public UserEntity getUserId() {
@@ -47,22 +55,22 @@ public class Category {
         this.name = name;
     }
 
-    public boolean isIncome() {
+    public boolean getIsIncome() {
 
         return isIncome;
     }
 
-    public void setIncome(boolean income) {
+    public void setIsIncome(boolean income) {
 
         isIncome = income;
     }
 
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
 
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setIsDeleted(boolean deleted) {
 
         isDeleted = deleted;
     }
