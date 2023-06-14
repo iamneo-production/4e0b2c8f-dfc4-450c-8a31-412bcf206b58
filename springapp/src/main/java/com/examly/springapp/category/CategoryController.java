@@ -18,38 +18,23 @@ public class CategoryController {
     CategoryService categoryService;
     @Autowired
     JWTGenerator jwtGenerator;
-    @Autowired
-
-    UserRepository userRepository;
 
     @GetMapping("/api/categories")
     public BaseResponceDto getCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
-
-        if (jwtGenerator.validateToken(token)) {
-            String userName = jwtGenerator.getUsernameFromJWT(token);
-            List<Category> categories = categoryService.getCategoriesByUserName(userName);
-            return new BaseResponceDto("Success", categories);
-        }
-        return new BaseResponceDto("UnAuthorization", null);
-
-
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        List<Category> categories = categoryService.getCategoriesByUserName(userName);
+        return new BaseResponceDto("Success", categories);
     }
 
     @PostMapping("/api/categories")
     public BaseResponceDto addCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody Category category) {
-        if (jwtGenerator.validateToken(token)) {
-            String userName = jwtGenerator.getUsernameFromJWT(token);
-            categoryService.addCategories(category, userName);
-            return new BaseResponceDto(categoryService.addCategories(category, userName), null);
-        }
-        return new BaseResponceDto("UnAuthorization", null);
-
-
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        categoryService.addCategories(category, userName);
+        return new BaseResponceDto(categoryService.addCategories(category, userName), null);
     }
     @DeleteMapping("/api/categories/{category_id}")
-    public String deleteCourse(@PathVariable String category_id) {
-        return this.categoryService.deleteCategories(Integer.parseInt(category_id));
+    public BaseResponceDto deleteCourse(@PathVariable String category_id) {
+        return new BaseResponceDto(categoryService.deleteCategories(Integer.parseInt(category_id)));
     }
-
 
 }

@@ -44,12 +44,10 @@ public class CategoryService {
         try{
             Category entity=categoryRepository.getOne(category_TD);
             categoryRepository.delete(entity);
-
-
         }catch (Exception e){
             return e.getMessage();
         }
-        return "SuccessFully Deleted";
+        return "success";
 
     }
 

@@ -17,13 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.examly.springapp.config.auth.LoginDto;
-import com.examly.springapp.user.UserEntity;
-import com.examly.springapp.user.UserRepository;
 import com.examly.springapp.config.auth.JWTGenerator;
-import com.examly.springapp.user.UserService;
-import com.examly.springapp.config.token.Token;
-import com.examly.springapp.config.token.TokenRepository;
-import com.examly.springapp.config.token.TokenType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +33,6 @@ public class UserController {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
-    @Autowired
-    private TokenRepository tokenRepository;
 
     @Autowired
     public UserController(AuthenticationManager authenticationManager, UserRepository userRepository,
@@ -69,16 +61,6 @@ public class UserController {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        Token t = new Token();
-        t.setUser(u);
-        t.setToken(token);
-        t.setTokenType(TokenType.BEARER);
-        t.setRevoked(false);
-        t.setExpired(false);
-        revokeAllUserTokens(u);
-        tokenRepository.save(t);
-
-
 		Map<Object,Object> data = new HashMap<>();
 		data.put("token",token);
         return ResponseEntity.ok(new BaseResponceDto("success",data));
@@ -95,14 +77,4 @@ public class UserController {
 		return new ResponseEntity<>(new BaseResponceDto("unauthorized",data), HttpStatus.UNAUTHORIZED);
 	}
 
-	private void revokeAllUserTokens(UserEntity user) {
-		var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUserId());
-		if(validUserTokens.isEmpty())
-			return;
-		validUserTokens.forEach(t -> {
-			t.setExpired(true);
-			t.setRevoked(true);
-		});
-		tokenRepository.saveAll(validUserTokens);
-	}
 }
