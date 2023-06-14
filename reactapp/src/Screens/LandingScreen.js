@@ -1,4 +1,4 @@
-import {Title, Grid, Container, Text, Button, List, Paper, Card, Divider} from '@mantine/core';
+import {Title, Grid, Container, Text, Button, List, Paper, Card} from '@mantine/core';
 import HeaderBar from '../components/HeaderBar';
 import {ReactComponent as LeaderSVG} from "../assets/Finance leaders.svg";
 import {ReactComponent as ArrowRigntIcon} from "../assets/Arrow_right.svg";
