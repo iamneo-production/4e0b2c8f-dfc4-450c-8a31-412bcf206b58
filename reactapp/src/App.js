@@ -4,6 +4,7 @@ import {Route,Routes, Navigate, BrowserRouter} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import {validateToken} from "./features/userSlice";
+import TransactionScreen from './screens/TransactionScreen';
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
           <Routes>
               <Route exact path='/' element={<AlreadyLoggedin><LandingScreen></LandingScreen></AlreadyLoggedin>} />
               <Route path='/dashboard' element={<RequireAuth><DashboardScreen/></RequireAuth>}/>
-              <Route path='/test' element={<DashboardScreen/>}/>
+              <Route path='/test' element={<TransactionScreen/>}/>
           </Routes>
       </BrowserRouter>
 
