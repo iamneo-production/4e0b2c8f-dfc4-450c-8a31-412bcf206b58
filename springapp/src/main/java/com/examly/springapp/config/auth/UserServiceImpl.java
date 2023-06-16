@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 		
 		user.setPassword(passwordEncoder.encode((user.getPassword())));
 		userRepository.save(user);
-		return new ResponseEntity<>(new BaseResponceDto("register successfully",null), HttpStatus.OK);
+		return new ResponseEntity<>(new BaseResponceDto("success",null), HttpStatus.OK);
 	}
 	
 

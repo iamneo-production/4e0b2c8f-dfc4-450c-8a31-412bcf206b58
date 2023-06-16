@@ -6,11 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.examly.springapp.config.token.Token;
 import com.examly.springapp.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
@@ -22,10 +20,9 @@ public class UserEntity extends BaseEntity {
 	private String firstName;
 	private String lastName;
 	private String email;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
-	
-	@OneToMany(mappedBy = "user")
-	private List<Token> tokens;
+
 	
 	public Integer getUserId() {
 		return userId;

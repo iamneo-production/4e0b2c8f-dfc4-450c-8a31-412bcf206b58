@@ -1,8 +1,13 @@
+import Layout from "../components/Layout";
 
 export default function  DashboardScreen(){
     return(
-        <div>
-            <h1>Dashboard</h1>
-        </div>
+        <Layout title={"Dashboard"} load={false}>
+            <div>
+                {/*
+                    Code here
+                */}
+            </div>
+        </Layout>
     )
 }
