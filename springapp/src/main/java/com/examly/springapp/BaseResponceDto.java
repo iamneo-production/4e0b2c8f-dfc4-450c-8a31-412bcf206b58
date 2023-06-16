@@ -1,12 +1,19 @@
 package com.examly.springapp;
 
+import java.util.List;
+
 public class BaseResponceDto {
     private Object message;
     private Object data;
 
+
     public BaseResponceDto(Object message, Object data) {
         this.message = message;
         this.data = data;
+    }
+
+    public BaseResponceDto(Object message) {
+        this.message = message;
     }
 
     public Object getMessage() {

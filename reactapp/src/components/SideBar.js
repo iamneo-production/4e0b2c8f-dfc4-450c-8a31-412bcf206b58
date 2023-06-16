@@ -8,7 +8,7 @@ import {ReactComponent as DebtsIcon} from '../assets/Calendar.svg'
 import {ReactComponent as ReportsIcon} from '../assets/Desk_alt.svg'
 import {ReactComponent as AddIcon} from '../assets/Add_round.svg'
 
-export default function SideBar() {
+export default function SideBar(props) {
     return (
         <div>
             <Navbar
@@ -34,42 +34,60 @@ export default function SideBar() {
                             label="Dashboard"
                             icon={<DashboardIcon/>}
                             rightSection={<></>}
-                            color="dark"
-                            active
-                            disabled
+                            color={props.currentPage==="Dashboard"?"dark":"gray"}
+                            active={props.currentPage==="Dashboard"}
+                            disabled={props.currentPage==="Dashboard"}
                         />
                         <NavLink
                             style={{borderRadius: 8, margin: 10, width: 230}}
                             label="Transactions"
                             icon={<TransactionsIcon/>}
                             rightSection={<></>}
+                            color={props.currentPage==="Transactions"?"dark":"gray"}
+                            active={props.currentPage==="Transactions"}
+                            disabled={props.currentPage==="Transactions"}
                         />
                         <NavLink
                             style={{borderRadius: 8, margin: 10, width: 230}}
                             label="Accounts"
                             icon={<AccountsIcon/>}
                             rightSection={<></>}
+                            color={props.currentPage==="Accounts"?"dark":"gray"}
+                            active={props.currentPage==="Accounts"}
+                            disabled={props.currentPage==="Accounts"}
                         /><NavLink
                         style={{borderRadius: 8, margin: 10, width: 230}}
-                        label="Budget"
+                        label="Budgets"
                         icon={<BudgetIcon/>}
                         rightSection={<></>}
+                        color={props.currentPage==="Budget"?"dark":"gray"}
+                        active={props.currentPage==="Budget"}
+                        disabled={props.currentPage==="Budget"}
                     /><NavLink
                         style={{borderRadius: 8, margin: 10, width: 230}}
                         label="Goals"
                         icon={<GoalsIcon/>}
                         rightSection={<></>}
+                        color={props.currentPage==="Goals"?"dark":"gray"}
+                        active={props.currentPage==="Goals"}
+                        disabled={props.currentPage==="Goals"}
                     /><NavLink
                         style={{borderRadius: 8, margin: 10, width: 230}}
                         label="Debts"
                         icon={<DebtsIcon/>}
                         rightSection={<></>}
+                        color={props.currentPage==="Debts"?"dark":"gray"}
+                        active={props.currentPage==="Debts"}
+                        disabled={props.currentPage==="Debts"}
                     />
                         <NavLink
                             style={{borderRadius: 8, margin: 10, width: 230}}
                             label="Reports"
                             icon={<ReportsIcon/>}
                             rightSection={<></>}
+                            color={props.currentPage==="Reports"?"dark":"gray"}
+                            active={props.currentPage==="Reports"}
+                            disabled={props.currentPage==="Reports"}
                         />
 
 
