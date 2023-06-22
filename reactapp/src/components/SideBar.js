@@ -60,9 +60,9 @@ export default function SideBar(props) {
                         label="Budgets"
                         icon={<BudgetIcon/>}
                         rightSection={<></>}
-                        color={props.currentPage==="Budget"?"dark":"gray"}
-                        active={props.currentPage==="Budget"}
-                        disabled={props.currentPage==="Budget"}
+                        color={props.currentPage==="Budgets"?"dark":"gray"}
+                        active={props.currentPage==="Budgets"}
+                        disabled={props.currentPage==="Budgets"}
                     /><NavLink
                         style={{borderRadius: 8, margin: 10, width: 230}}
                         label="Goals"
