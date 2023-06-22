@@ -3,3 +3,4 @@
 .settings/
 reactapp/.idea/
 reactapp/.vscode/
+target/
