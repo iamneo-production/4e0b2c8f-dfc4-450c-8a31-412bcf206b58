@@ -1,10 +1,10 @@
 package com.example.springapp.controller;
 
 import com.example.springapp.BaseResponceDto;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.springapp.account.Account;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class AccountController {
@@ -19,5 +19,15 @@ public class AccountController {
     @DeleteMapping("/api/accounts")
     public BaseResponceDto deleteAccount(){
         return new BaseResponceDto("delete account",null);
+    }
+
+    @GetMapping("/accounts")
+    public List<Account> getAllAccount(){
+        return null;
+    }
+
+    @GetMapping("/accounts")
+    public List<Account> getAccountById(@RequestParam(value = "id")Integer id){
+        return null;
     }
 }
