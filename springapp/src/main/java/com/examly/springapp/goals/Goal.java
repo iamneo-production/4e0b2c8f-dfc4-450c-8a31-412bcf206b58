@@ -1,11 +1,14 @@
 package com.examly.springapp.goals;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@CrossOrigin("*")
 @Entity
 public class Goal {
     @Id
