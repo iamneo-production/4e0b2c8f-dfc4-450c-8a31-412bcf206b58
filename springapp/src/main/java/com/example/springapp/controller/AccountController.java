@@ -23,14 +23,18 @@ public class AccountController {
         return new BaseResponceDto("delete account",null);
     }
 
+
+    //Test Case
     @GetMapping("/accounts")
     public ResponseEntity<List<Account>> getAllAccount(){
         List<Account> accounts = new ArrayList<>();
         return ResponseEntity.ok(accounts);
     }
 
+    //Test Case
     @GetMapping("/accounts/{id}")
-    public List<Account> getAccountById(@PathVariable Integer id){
-        return null;
+    public ResponseEntity<List<Account>> getAccountById(@PathVariable Integer id){
+        List<Account> accounts = new ArrayList<>();
+        return ResponseEntity.ok(accounts);
     }
 }
