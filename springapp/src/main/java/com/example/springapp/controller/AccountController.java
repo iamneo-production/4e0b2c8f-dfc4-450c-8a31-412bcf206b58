@@ -2,8 +2,10 @@ package com.example.springapp.controller;
 
 import com.example.springapp.BaseResponceDto;
 import com.example.springapp.account.Account;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,8 +24,9 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public List<Account> getAllAccount(){
-        return null;
+    public ResponseEntity<List<Account>> getAllAccount(){
+        List<Account> accounts = new ArrayList<>();
+        return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/accounts/{id}")
