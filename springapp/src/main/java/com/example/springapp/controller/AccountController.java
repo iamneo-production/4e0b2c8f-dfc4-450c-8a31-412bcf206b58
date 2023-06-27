@@ -26,8 +26,8 @@ public class AccountController {
         return null;
     }
 
-    @GetMapping("/accounts")
-    public List<Account> getAccountById(@RequestParam(value = "id")Integer id){
+    @GetMapping("/accounts/{id}")
+    public List<Account> getAccountById(@PathVariable Integer id){
         return null;
     }
 }
