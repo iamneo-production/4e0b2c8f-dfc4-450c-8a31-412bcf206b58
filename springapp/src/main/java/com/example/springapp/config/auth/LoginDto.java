@@ -1,4 +1,4 @@
-package com.examly.springapp.config.auth;
+package com.example.springapp.config.auth;
 
 public class LoginDto {
 	

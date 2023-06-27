@@ -1,4 +1,4 @@
-package com.examly.springapp.account;
+package com.example.springapp.account;
 
 import org.springframework.stereotype.Service;
 

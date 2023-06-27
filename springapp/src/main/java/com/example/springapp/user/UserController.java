@@ -1,6 +1,6 @@
-package com.examly.springapp.user;
+package com.example.springapp.user;
 
-import com.examly.springapp.BaseResponceDto;
+import com.example.springapp.BaseResponceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.examly.springapp.config.auth.LoginDto;
-import com.examly.springapp.config.auth.JWTGenerator;
+import com.example.springapp.config.auth.LoginDto;
+import com.example.springapp.config.auth.JWTGenerator;
 
 import java.util.HashMap;
 import java.util.Map;

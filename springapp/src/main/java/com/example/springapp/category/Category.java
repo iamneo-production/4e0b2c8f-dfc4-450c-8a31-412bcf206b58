@@ -1,6 +1,6 @@
-package com.examly.springapp.category;
+package com.example.springapp.category;
 
-import com.examly.springapp.user.UserEntity;
+import com.example.springapp.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

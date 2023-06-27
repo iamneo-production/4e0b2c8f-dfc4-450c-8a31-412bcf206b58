@@ -1,8 +1,8 @@
-package com.examly.springapp.config.auth;
+package com.example.springapp.config.auth;
 
 import java.util.Date;
 
-import com.examly.springapp.config.SecurityConstants;
+import com.example.springapp.config.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

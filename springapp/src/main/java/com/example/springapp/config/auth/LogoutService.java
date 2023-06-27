@@ -1,4 +1,4 @@
-package com.examly.springapp.config.auth;
+package com.example.springapp.config.auth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;

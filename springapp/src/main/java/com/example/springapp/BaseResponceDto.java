@@ -1,4 +1,4 @@
-package com.examly.springapp;
+package com.example.springapp;
 
 import java.util.List;
 

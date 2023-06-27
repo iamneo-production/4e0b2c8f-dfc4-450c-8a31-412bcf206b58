@@ -1,4 +1,4 @@
-package com.examly.springapp.user;
+package com.example.springapp.user;
 
 import java.util.Optional;
 

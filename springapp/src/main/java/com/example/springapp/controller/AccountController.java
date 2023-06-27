@@ -1,6 +1,6 @@
-package com.examly.springapp.account;
+package com.example.springapp.controller;
 
-import com.examly.springapp.BaseResponceDto;
+import com.example.springapp.BaseResponceDto;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

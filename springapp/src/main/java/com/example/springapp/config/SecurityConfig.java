@@ -1,8 +1,8 @@
-package com.examly.springapp.config;
+package com.example.springapp.config;
 
-import com.examly.springapp.config.auth.CustomUserDetailsService;
-import com.examly.springapp.config.auth.JWTAuthEntryPoint;
-import com.examly.springapp.config.auth.JWTAuthFilter;
+import com.example.springapp.config.auth.CustomUserDetailsService;
+import com.example.springapp.config.auth.JWTAuthEntryPoint;
+import com.example.springapp.config.auth.JWTAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

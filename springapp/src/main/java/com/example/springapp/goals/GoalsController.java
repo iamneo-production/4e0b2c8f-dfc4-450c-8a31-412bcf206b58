@@ -1,4 +1,4 @@
-package com.examly.springapp.goals;
+package com.example.springapp.goals;
 
 
 

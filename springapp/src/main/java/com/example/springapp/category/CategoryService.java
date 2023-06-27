@@ -1,8 +1,8 @@
-package com.examly.springapp.category;
+package com.example.springapp.category;
 
-import com.examly.springapp.BaseResponceDto;
-import com.examly.springapp.user.UserEntity;
-import com.examly.springapp.user.UserRepository;
+import com.example.springapp.BaseResponceDto;
+import com.example.springapp.user.UserEntity;
+import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

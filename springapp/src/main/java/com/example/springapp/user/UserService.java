@@ -1,6 +1,6 @@
-package com.examly.springapp.user;
+package com.example.springapp.user;
 
-import com.examly.springapp.BaseResponceDto;
+import com.example.springapp.BaseResponceDto;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
