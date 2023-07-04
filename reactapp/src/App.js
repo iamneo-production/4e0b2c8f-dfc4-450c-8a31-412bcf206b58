@@ -13,7 +13,7 @@ function App() {
           <Routes>
               <Route exact path='/' element={<AlreadyLoggedin><LandingScreen></LandingScreen></AlreadyLoggedin>} />
               <Route path='/dashboard' element={<RequireAuth><DashboardScreen/></RequireAuth>}/>
-              <Route path='/test' element={<TransactionScreen/>}/>
+              <Route path='/test' element={<DashboardScreen/>}/>
           </Routes>
       </BrowserRouter>
 
