@@ -1,14 +1,15 @@
 import Layout from "../components/Layout"
-import { Button } from '@mantine/core';
-export default function TransactionScreen() {
-    return (
-        <Layout title={"Transactions"} load={true}>
-            <div>
-                <Button>
-                    Settings
-                </Button>
+import TransactionHeader from "../components/transactions/TransactionHeader"
+import TransactionList from "../components/transactions/TransactionList"
+import TransactionForm from "../components/transactions/TransactionFrom"
 
-            </div>
-        </Layout>
-    )
+
+export default function TransactionScreen() {
+  return (
+    <Layout load={true}>
+      <TransactionHeader />
+      <TransactionList/>
+      <TransactionForm/>
+    </Layout>
+  )
 }

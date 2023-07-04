@@ -14,6 +14,7 @@ function App() {
               <Route exact path='/' element={<AlreadyLoggedin><LandingScreen></LandingScreen></AlreadyLoggedin>} />
               <Route path='/dashboard' element={<RequireAuth><DashboardScreen/></RequireAuth>}/>
               <Route path='/test' element={<DashboardScreen/>}/>
+              <Route path='/transaction' element={<TransactionScreen/>}/>
           </Routes>
       </BrowserRouter>
 
