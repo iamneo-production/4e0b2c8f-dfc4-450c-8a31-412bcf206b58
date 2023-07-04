@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import logo from "../assets/image.jpg";
 import {
   Divider,
   Text,
   Space,
   Button,
   Modal,
+  Avatar,
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -120,16 +120,16 @@ export default function Profile() {
                   borderRadius: "1000px",
                 }}
               />
-            ) : (
-              <img
-                src={logo}
-                alt="Default image"
-                style={{
-                  width: "150px",
-                  height: "150px",
-                  borderRadius: "1000px",
-                }}
-              />
+            ) : (<Avatar radius="xl" />
+              // <img
+              //   src={logo}
+              //   alt="Default image"
+              //   style={{
+              //     width: "150px",
+              //     height: "150px",
+              //     borderRadius: "1000px",
+              //   }}
+              // />
             )}
 
             <input

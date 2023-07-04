@@ -6,7 +6,7 @@ import TransactionForm from "../components/transactions/TransactionFrom"
 
 export default function TransactionScreen() {
   return (
-    <Layout load={true}>
+    <Layout title={"Transactions"} load={true}>
       <TransactionHeader />
       <TransactionList/>
       <TransactionForm/>
