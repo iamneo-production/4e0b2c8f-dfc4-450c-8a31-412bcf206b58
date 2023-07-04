@@ -1,4 +1,4 @@
-import { Flex, Table } from '@mantine/core';
+import { Flex, Table, Text } from '@mantine/core';
 import ArrowRIcon from '../../assets/Arrow_alt_ltop.svg'
 import ArrowGIcon from '../../assets/Arrow_alt_ldown.svg'
 import Edit from '../../assets/Edit.svg'
@@ -50,56 +50,57 @@ export default function TransactionList() {
         date: "23-06-2023",
         time: "10:05:AM"
     }]
-    
+
     const dateCol = (date, time) => {
         return (
             <div>
-                <p>{date}</p>
-                <p>{time}</p>
+                <Text fw={700} fz="md" style={{marginBottom:12}}>{date}</Text>
+                <Text fw={500} c="dimmed" fz="sm">{time}</Text>
             </div>
         )
     }
     const categoryCol = (category, categoryDetails, transactionId, type) => {
         return (
-            <div>
-                <div style={{ display: "flex" }}>
+            <div style={{marginBottom:12}}>
+                <div style={{ display: "flex",marginBottom:8,marginTop:8 }}>
                     {type === "income" ?
                         <img src={ArrowGIcon} /> : <img src={ArrowRIcon} />}
-                    <p>{category}</p>
+                    <Text fw={700} fz="md">{category}</Text>
                 </div>
-                <div style={{marginLeft:"24px"}}>
-                    <p>{categoryDetails}</p>
-                    <p>{transactionId}</p>
+                <div style={{ marginLeft: "24px" }}>
+                    <Text fw={500} style={{marginBottom:8}} c="dimmed" fz="sm">{categoryDetails}</Text>
+                    <Text fw={500} c="dimmed" fz="sm">{transactionId}</Text>
                 </div>
             </div>
         )
     }
     const accountDetails = (accountName, paymentType) => {
         return (
-            <div>
-                <p>{accountName}</p>
-                <p>{paymentType}</p>
+            <div style={{marginBottom:12}}>
+                <Text fw={700} fz="md" style={{marginBottom:12}}>{accountName}</Text>
+                <Text fw={500} c="dimmed" fz="sm">{paymentType}</Text>
             </div>
         )
     }
-    const paytype =(paymentType) =>{
-        return(
-            <div>
-                <img src={Edit}/>
+    const paytype = (paymentType) => {
+        return (
+            <div style={{marginBottom:12}}>
+                <img src={Edit} />
             </div>
         )
     }
     const amountCol = (amount, type) => {
         console.log(amount)
         return (
-            <div>
+            <div style={{marginBottom:12}}>
                 {type === "income" ?
-                    <p style={{ color: '#26AB35' }}>{"+ Rs. " + amount}</p> : <p>{"- Rs. " + amount}</p>}
+                
+                <Text fw={700} fz="md" style={{marginBottom:12,color: '#26AB35'}}>{"+ Rs. " + amount}</Text> : <Text fw={700} fz="md" style={{marginBottom:12}}>{"- Rs. " + amount}</Text>}
             </div>
         )
     }
     const rows = TranactionsDate.map((element) => (
-        <tr key={element.id}>
+        <tr key={element.id} >
             <td>{dateCol(element.date, element.time)}</td>
             <td>{categoryCol(element.category, element.categoryDetails, element.transactionId, element.type)}</td>
             <td>{accountDetails(element.accountName, element.paymentType)}</td>
@@ -109,13 +110,13 @@ export default function TransactionList() {
     ));
     return (
         <div>
-            <Table>
+            <Table style={{marginTop:10}}>
                 <thead>
                     <tr>
-                        <th>DATE & TIME</th>
-                        <th>TRANSACTION DETAILS</th>
-                        <th>ACCOUNT DETAILS</th>
-                        <th>AMOUNT</th>
+                        <th><Text fw={700}  c="dimmed" >DATE & TIME</Text></th>
+                        <th><Text fw={700}  c="dimmed" >TRANSACTION DETAILS</Text></th>
+                        <th><Text fw={700}  c="dimmed" >ACCOUNT DETAILS</Text></th>
+                        <th><Text fw={700}  c="dimmed" >AMOUNT</Text></th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
