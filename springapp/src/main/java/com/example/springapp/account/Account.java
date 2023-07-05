@@ -1,12 +1,17 @@
 package com.example.springapp.account;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.example.springapp.user.UserEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 public class Account {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
     private String name;
     private double currentBalance;
@@ -14,9 +19,25 @@ public class Account {
     private boolean isDebitCardEnabled;
     private boolean isUpiEnabled;
     private boolean isNetBankingEnabled;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isDeleted;
+    @CreationTimestamp
     private Date createdAt;
+    @UpdateTimestamp
     private Date updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UserEntity user;
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
     public int getAccountId() {
         return accountId;
