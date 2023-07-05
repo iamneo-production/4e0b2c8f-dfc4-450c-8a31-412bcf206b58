@@ -1,4 +1,4 @@
-import { Box, Menu, Text, Navbar, NavLink, Button } from "@mantine/core";
+import { Box, Text, Navbar, NavLink, Button } from "@mantine/core";
 import { ReactComponent as DashboardIcon } from "../assets/Widget.svg";
 import { ReactComponent as TransactionsIcon } from "../assets/Collapse.svg";
 import { ReactComponent as AccountsIcon } from "../assets/Database.svg";
@@ -7,14 +7,8 @@ import { ReactComponent as GoalsIcon } from "../assets/Road_finish.svg";
 import { ReactComponent as DebtsIcon } from "../assets/Calendar.svg";
 import { ReactComponent as ReportsIcon } from "../assets/Desk_alt.svg";
 import { ReactComponent as AddIcon } from "../assets/Add_round.svg";
-import CategoryForm from "./category/CategoryForm";
-import { useState } from "react";
 
 export default function SideBar(props) {
-  const [diplayCategoryForm, setDiplayCategoryForm] = useState(false);
-  function handleCategoryFormClose() {
-    setDiplayCategoryForm(false);
-  }
   return (
     <div>
       <Navbar
@@ -41,6 +35,7 @@ export default function SideBar(props) {
               label="Dashboard"
               icon={<DashboardIcon />}
               rightSection={<></>}
+              onClick={() => navigate("/test")}
               color={props.currentPage === "Dashboard" ? "dark" : "gray"}
               active={props.currentPage === "Dashboard"}
               disabled={props.currentPage === "Dashboard"}
@@ -50,6 +45,7 @@ export default function SideBar(props) {
               label="Transactions"
               icon={<TransactionsIcon />}
               rightSection={<></>}
+              onClick={() => navigate("/transaction")}
               color={props.currentPage === "Transactions" ? "dark" : "gray"}
               active={props.currentPage === "Transactions"}
               disabled={props.currentPage === "Transactions"}
@@ -59,6 +55,7 @@ export default function SideBar(props) {
               label="Accounts"
               icon={<AccountsIcon />}
               rightSection={<></>}
+              onClick={() => navigate("/account")}
               color={props.currentPage === "Accounts" ? "dark" : "gray"}
               active={props.currentPage === "Accounts"}
               disabled={props.currentPage === "Accounts"}
@@ -77,6 +74,7 @@ export default function SideBar(props) {
               label="Goals"
               icon={<GoalsIcon />}
               rightSection={<></>}
+              onClick={() => navigate("/goal")}
               color={props.currentPage === "Goals" ? "dark" : "gray"}
               active={props.currentPage === "Goals"}
               disabled={props.currentPage === "Goals"}
@@ -94,6 +92,7 @@ export default function SideBar(props) {
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Reports"
               icon={<ReportsIcon />}
+              onClick={() => navigate("/report")}
               rightSection={<></>}
               color={props.currentPage === "Reports" ? "dark" : "gray"}
               active={props.currentPage === "Reports"}
