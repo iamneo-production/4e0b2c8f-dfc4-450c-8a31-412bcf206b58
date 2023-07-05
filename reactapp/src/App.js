@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import {validateToken} from "./features/userSlice";
 
+
+
 function App() {
 
   return (
@@ -21,7 +23,9 @@ function App() {
               <Route path='/goal' element={<GoalScreen/>}/>
           </Routes>
       </BrowserRouter>
-
+   
+     
+     
   );
 }
 
