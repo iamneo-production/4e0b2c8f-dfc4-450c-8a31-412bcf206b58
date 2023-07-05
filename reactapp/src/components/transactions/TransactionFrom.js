@@ -116,6 +116,7 @@ export default function TransactionForm(props) {
                 { value: 'Debit Card', label: 'Debit Card' },
                 { value: 'Credit Card', label: 'Credit Card' },
                 { value: 'Net Banking', label: 'Net Banking' },
+                  { value: '-', label: '-' },
               ]}
                     {...form.getInputProps('paymentType')}
             />
@@ -124,8 +125,8 @@ export default function TransactionForm(props) {
                          {...form.getInputProps('type')}
             >
               <Group mt="xs">
-                <Radio value="react" label="Expenses" />
-                <Radio value="svelte" label="Income" />
+                <Radio value="expenses" label="Expenses" />
+                <Radio value="income" label="Income" />
               </Group>
             </Radio.Group>
             <Grid style={{ marginTop: 16 }} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
