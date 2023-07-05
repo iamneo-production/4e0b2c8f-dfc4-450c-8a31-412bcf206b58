@@ -49,6 +49,10 @@ export default function TransactionForm(props) {
       props.close()
   }
 
+  function  handleCancel(){
+      form.reset()
+      props.close()
+  }
   return (
     <>
       <Modal size={"xl"} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
@@ -126,7 +130,7 @@ export default function TransactionForm(props) {
             </Radio.Group>
             <Grid style={{ marginTop: 16 }} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
               <Grid.Col span={"auto"}>
-                <Button radius="md" color="gray" fullWidth type="submit">Cancel</Button>
+                <Button radius="md" color="gray" fullWidth onClick={() => handleCancel()} >Cancel</Button>
               </Grid.Col>
               <Grid.Col span={"auto"}>
                 <Button radius="md" fullWidth type="submit">Save</Button>
