@@ -33,8 +33,18 @@ public class AccountController {
         return new BaseResponceDto("success",accounts);
     }
     @DeleteMapping("/api/accounts")
-    public BaseResponceDto deleteAccount(){
-        return new BaseResponceDto("delete account",null);
+    public BaseResponceDto deleteAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token,@PathVariable String account_id){
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        if(accountService.hasAccount(account_id)){
+            if(accountService.hasPermission(userName,account_id)){
+                accountService.deleteAccount(account_id);
+                return new BaseResponceDto("success");
+            }else {
+                return new BaseResponceDto("couldn't delete account");
+            }
+        }else {
+            return new BaseResponceDto("account not found");
+        }
     }
 
 
