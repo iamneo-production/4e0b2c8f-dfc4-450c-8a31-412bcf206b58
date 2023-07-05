@@ -1,4 +1,4 @@
-import { Box, Text, Navbar, NavLink, Button } from "@mantine/core";
+import { Box, Text, Navbar, Menu, NavLink, Button } from "@mantine/core";
 import { ReactComponent as DashboardIcon } from "../assets/Widget.svg";
 import { ReactComponent as TransactionsIcon } from "../assets/Collapse.svg";
 import { ReactComponent as AccountsIcon } from "../assets/Database.svg";
@@ -7,8 +7,18 @@ import { ReactComponent as GoalsIcon } from "../assets/Road_finish.svg";
 import { ReactComponent as DebtsIcon } from "../assets/Calendar.svg";
 import { ReactComponent as ReportsIcon } from "../assets/Desk_alt.svg";
 import { ReactComponent as AddIcon } from "../assets/Add_round.svg";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import CategoryForm from "./category/CategoryForm";
 
 export default function SideBar(props) {
+  const navigate = useNavigate();
+  const [diplayCategoryForm, setDiplayCategoryForm] = useState(false);
+
+  function handleCategoryFormClose() {
+    setDiplayCategoryForm(false);
+  }
+
   return (
     <div>
       <Navbar
