@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import {validateToken} from "./features/userSlice";
 import TransactionScreen from './screens/TransactionScreen';
+import Profile from './screens/Profile';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
               <Route path='/report' element={<ReportScreen/>}/>
               <Route path='/goal' element={<GoalScreen/>}/>
               <Route path='/transaction' element={<TransactionScreen/>}/>
+              <Route path='/profile' element={<Profile/>}/>
           </Routes>
       </BrowserRouter>
 

@@ -117,6 +117,7 @@ export default function TransactionList() {
                         <th><Text fw={700}  c="dimmed" >TRANSACTION DETAILS</Text></th>
                         <th><Text fw={700}  c="dimmed" >ACCOUNT DETAILS</Text></th>
                         <th><Text fw={700}  c="dimmed" >AMOUNT</Text></th>
+                        <th><Text fw={700}  c="dimmed" ></Text></th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
