@@ -28,4 +28,19 @@ public class TransactionController {
         transactionService.addTransaction(transactionRequestDto, userName);
         return new BaseResponceDto("success", null);
     }
+
+    @DeleteMapping("/api/transactions/{transaction_id}")
+    public BaseResponceDto deleteTransaction(@RequestHeader(value = "Authorization", defaultValue = "") String token,@PathVariable String transaction_id) {
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        if(transactionService.hasTransaction(transaction_id)){
+            if(transactionService.hasPermission(userName,transaction_id)){
+                transactionService.deleteTransaction(Integer.parseInt(transaction_id));
+                return new BaseResponceDto("success");
+            }else {
+                return new BaseResponceDto("couldn't delete transaction");
+            }
+        }else {
+            return new BaseResponceDto("transaction not found");
+        }
+    }
 }
