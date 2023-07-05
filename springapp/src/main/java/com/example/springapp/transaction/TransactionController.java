@@ -3,9 +3,7 @@ package com.example.springapp.transaction;
 import com.example.springapp.BaseResponceDto;
 import com.example.springapp.config.auth.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,12 @@ public class TransactionController {
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
         List<Transaction> transactions = transactionService.getTransactionsByUserName(userName);
         return new BaseResponceDto("Success", transactions);
+    }
+
+    @PostMapping("/api/transactions")
+    public BaseResponceDto addTransactions(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody TransactionRequestDto transactionRequestDto) {
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        transactionService.addTransaction(transactionRequestDto, userName);
+        return new BaseResponceDto("success", null);
     }
 }
