@@ -10,6 +10,8 @@ import {validateToken} from "./features/userSlice";
 import TransactionScreen from './screens/TransactionScreen';
 import Profile from './screens/Profile';
 
+
+
 function App() {
 
   return (
@@ -25,7 +27,9 @@ function App() {
               <Route path='/profile' element={<Profile/>}/>
           </Routes>
       </BrowserRouter>
-
+   
+     
+     
   );
 }
 
