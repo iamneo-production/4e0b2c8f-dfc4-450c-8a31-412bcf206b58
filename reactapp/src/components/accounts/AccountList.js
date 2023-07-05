@@ -32,7 +32,7 @@ export default function AccountList() {
       ));
 
     return (
-        <div style={{margin:30}}>
+        <div style={{margin:20}}>
             <Table verticalSpacing="lg">
                 <thead>
                     <tr>
