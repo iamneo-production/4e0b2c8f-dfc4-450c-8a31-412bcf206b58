@@ -5,6 +5,8 @@ import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountService {
 
@@ -21,6 +23,15 @@ public class AccountService {
             accountRepository.save(account);
         }catch (Exception ignored){
 
+        }
+    }
+
+    public List<Account> getAccountsByUsername(String userName) {
+        try{
+            UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+            return accountRepository.findAllByUser(user);
+        }catch (Exception e){
+            return null;
         }
     }
 }

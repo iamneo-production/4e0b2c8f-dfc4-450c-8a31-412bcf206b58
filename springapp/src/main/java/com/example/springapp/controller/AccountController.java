@@ -27,8 +27,10 @@ public class AccountController {
         return new BaseResponceDto("success");
     }
     @GetMapping("/api/accounts")
-    public BaseResponceDto getAccount(){
-        return new BaseResponceDto("get account",null);
+    public BaseResponceDto getAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token){
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        List<Account> accounts = accountService.getAccountsByUsername(userName);
+        return new BaseResponceDto("success",accounts);
     }
     @DeleteMapping("/api/accounts")
     public BaseResponceDto deleteAccount(){
