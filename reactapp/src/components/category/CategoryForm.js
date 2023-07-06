@@ -11,17 +11,25 @@ import {
   Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import {useDispatch} from "react-redux";
+import {addCategory} from "../../features/categorySlice";
 
 export default function CategoryForm(props) {
+  const dispatch = useDispatch()
   const form = useForm({
     initialValues: {
       name: "",
       description: "",
-      categoryType: "",
+      type: "",
     },
     validate: {},
   });
-  // console.log(props.value);
+  function handleSubmit(){
+    dispatch(addCategory(form.values))
+    form.reset()
+    props.close()
+  }
+
   return (
     <Modal
       radius="lg"
@@ -37,7 +45,7 @@ export default function CategoryForm(props) {
       </Title>
       <Container size="md">
         <form
-          onSubmit={form.onSubmit((values) => console.log("Category Added ! "))}
+          onSubmit={form.onSubmit((values) => handleSubmit())}
         >
           <TextInput
             radius="md"
@@ -64,7 +72,7 @@ export default function CategoryForm(props) {
             label="Select your Category Type"
             description=""
             withAsterisk
-            {...form.getInputProps("categoryType")}
+            {...form.getInputProps("type")}
           >
             <Group mt="xs">
               <Radio value="expense" label="Expense" />
