@@ -126,19 +126,19 @@ export default function SideBar(props) {
               <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
                 Add Category
               </Menu.Item>
-              <Menu.Item icon={<AccountsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
+              <Menu.Item icon={<AccountsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
                 Add Account
               </Menu.Item>
-              <Menu.Item icon={<TransactionsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
+              <Menu.Item icon={<TransactionsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
                 Add Transaction
               </Menu.Item>
-              <Menu.Item icon={<BudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
+              <Menu.Item icon={<BudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
                 Add Budget
               </Menu.Item>
-              <Menu.Item icon={<GoalsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
+              <Menu.Item icon={<GoalsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
                 Add Goal
               </Menu.Item>
-              <Menu.Item icon={<DebtsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
+              <Menu.Item icon={<DebtsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
                 Add Debt
               </Menu.Item>
             </Menu.Dropdown>
