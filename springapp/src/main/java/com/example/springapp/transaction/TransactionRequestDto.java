@@ -3,7 +3,6 @@ package com.example.springapp.transaction;
 public class TransactionRequestDto {
     private double amount;
     private String description;
-    private String type;
     private String paymentType;
 
     private Integer categoryId;
@@ -24,14 +23,6 @@ public class TransactionRequestDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getPaymentType() {

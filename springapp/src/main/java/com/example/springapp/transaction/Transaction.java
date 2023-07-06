@@ -17,7 +17,6 @@ public class Transaction {
     private Integer id;
     private double amount;
     private String description;
-    private String type;
     private String paymentType;
 
     @ManyToOne
@@ -37,19 +36,18 @@ public class Transaction {
     private boolean isDeleted;
 
     @CreationTimestamp
-    private Date isCreated;
+    private Date createdAt;
 
     @UpdateTimestamp
-    private Date isUpdated;
+    private Date updatedAt;
 
     public Transaction() {
 
     }
 
-    public Transaction(double amount, String description, String type, String paymentType, Category category, Account account, UserEntity user) {
+    public Transaction(double amount, String description, String paymentType, Category category, Account account, UserEntity user) {
         this.amount = amount;
         this.description = description;
-        this.type = type;
         this.paymentType = paymentType;
         this.category = category;
         this.account = account;
@@ -78,14 +76,6 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getPaymentType() {
@@ -120,27 +110,27 @@ public class Transaction {
         this.user = user;
     }
 
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setIsDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
-    public Date getIsCreated() {
-        return isCreated;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setIsCreated(Date isCreated) {
-        this.isCreated = isCreated;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getIsUpdated() {
-        return isUpdated;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setIsUpdated(Date isUpdated) {
-        this.isUpdated = isUpdated;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
