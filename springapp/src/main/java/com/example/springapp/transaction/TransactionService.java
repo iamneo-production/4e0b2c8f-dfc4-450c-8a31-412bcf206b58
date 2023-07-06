@@ -42,7 +42,6 @@ public class TransactionService {
         Transaction transaction = new Transaction(
                 transactionRequestDto.getAmount(),
                 transactionRequestDto.getDescription(),
-                transactionRequestDto.getType(),
                 transactionRequestDto.getPaymentType(),
                 category,
                 account,
