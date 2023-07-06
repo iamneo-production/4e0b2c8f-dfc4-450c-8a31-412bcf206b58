@@ -27,6 +27,7 @@ export default function AccountForm(props) {
     });
 
     function handleSubmit(){
+        console.log(form.values)
         dispatch(addAccount(form.values))
         form.reset()
         props.close()

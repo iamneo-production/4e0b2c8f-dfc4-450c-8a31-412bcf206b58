@@ -8,21 +8,33 @@ const accountSlice = createSlice({
             totalDeposit: 50788,
             totalWithdrawal: 48185,
             currentBalance: 2185,
-            paymentType:''
+            paymentType:[
+                "Net Banking",
+                "UPI"
+            ]
         }, {
             id:2,
             name: "Paytm Payment Bank",
             totalDeposit: 20788,
             totalWithdrawal: 2365,
             currentBalance: 18305,
-            paymentType:''
+            paymentType:[
+                "UPI",
+                "Debit Card",
+                "Net Banking"
+            ]
         }, {
             id:3,
             name: "HDFC Bank",
             totalDeposit: 15788,
             totalWithdrawal: 14895,
             currentBalance: 985,
-            paymentType:''
+            paymentType:[
+                "UPI",
+                "Credit Card",
+                "Debit Card",
+                "Net Banking"
+            ]
         }]
     }, reducers: {
         addAccount: (state, action) => {
