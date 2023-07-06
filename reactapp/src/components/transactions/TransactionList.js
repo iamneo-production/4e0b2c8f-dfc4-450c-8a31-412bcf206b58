@@ -6,7 +6,6 @@ import {useSelector} from "react-redux";
 
 export default function TransactionList() {
     const transactionList = useSelector(state => state.transaction.transactionList)
-    console.log(transactionList)
     const dateCol = (date, time) => {
         return (
             <div>
