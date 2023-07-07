@@ -50,7 +50,7 @@ export default function HeaderBar(props) {
                             </Group>
 
                             :<Group>
-                                <Text>{currentUser.firstName}</Text>
+                                <Text fw={500}>{`Hello, ${currentUser.firstName}`}</Text>
                                 <Menu shadow="md" width={200}>
                                     <Menu.Target>
                                         <Avatar radius="xl" />
