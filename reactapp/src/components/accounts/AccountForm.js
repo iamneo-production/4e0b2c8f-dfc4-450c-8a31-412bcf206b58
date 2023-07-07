@@ -10,16 +10,17 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addAccount} from "../../features/accountSlice";
 
 export default function AccountForm(props) {
     const dispatch = useDispatch()
+    const token  = useSelector(state => state.user.token)
     const form = useForm({
         initialValues: {
             name:'',
             currentBalance: '',
-            paymentType:''
+            paymentTypes:''
         },
         validate: {
 
@@ -28,7 +29,7 @@ export default function AccountForm(props) {
 
     function handleSubmit(){
         console.log(form.values)
-        dispatch(addAccount(form.values))
+        dispatch(addAccount({...form.values,token:token}))
         form.reset()
         props.close()
     }
@@ -52,7 +53,7 @@ export default function AccountForm(props) {
                         {...form.getInputProps('currentBalance')}
                     />
                     <Checkbox.Group style={{marginTop:16}}
-                        {...form.getInputProps('paymentType')}
+                        {...form.getInputProps('paymentTypes')}
                         label="Payment Type"
                         withAsterisk
                     >

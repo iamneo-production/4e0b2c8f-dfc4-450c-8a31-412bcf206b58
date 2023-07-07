@@ -35,6 +35,8 @@ public class Transaction {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isDeleted;
 
+    private Date dateTime;
+
     @CreationTimestamp
     private Date createdAt;
 
@@ -132,5 +134,13 @@ public class Transaction {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 }

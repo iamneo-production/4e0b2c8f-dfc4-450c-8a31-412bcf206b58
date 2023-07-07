@@ -11,11 +11,12 @@ import {
   Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addCategory} from "../../features/categorySlice";
 
 export default function CategoryForm(props) {
   const dispatch = useDispatch()
+  const token  = useSelector(state => state.user.token)
   const form = useForm({
     initialValues: {
       name: "",
@@ -25,7 +26,7 @@ export default function CategoryForm(props) {
     validate: {},
   });
   function handleSubmit(){
-    dispatch(addCategory(form.values))
+    dispatch(addCategory({...form.values,token:token}))
     form.reset()
     props.close()
   }

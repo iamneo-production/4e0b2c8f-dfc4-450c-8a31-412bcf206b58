@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export async function createAccountService(firstName, lastName, email, password) {
-    return await axios.post(`${baseUrl}/register`, {
+    return await axios.post(`${baseUrl}/auth/register`, {
         "firstName": firstName,
         "lastName": lastName,
         "email": email,
@@ -12,7 +12,7 @@ export async function createAccountService(firstName, lastName, email, password)
 }
 
 export async function loginAccountService(email,password){
-    return await axios.post(`${baseUrl}/login`,{
+    return await axios.post(`${baseUrl}/auth/login`,{
         "email":email,
         "password":password
     })
@@ -20,6 +20,6 @@ export async function loginAccountService(email,password){
 
 export async function validateTokenService(token){
     return await axios.get(`${baseUrl}/validateToken`,{
-        headers: {"Authorization" : token}
+        headers: { Authorization: `Bearer ${token}` }
     })
 }

@@ -14,9 +14,11 @@ import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import {useDispatch, useSelector} from "react-redux";
 import {addTransaction} from "../../features/transactionSlice";
+import {fetchCategory} from "../../features/categorySlice";
 
 export default function TransactionForm(props) {
   const dispatch = useDispatch()
+  const token = useSelector(state => state.user.token)
   const categoryList = useSelector(state => state.category.categoryList)
   const accountList = useSelector(state => state.account.accountList)
   const form = useForm({
@@ -53,14 +55,14 @@ export default function TransactionForm(props) {
   function categoryData(){
       const data =[]
       categoryList.map(val => {
-          data.push({value:val.id,label:val.name})
+          data.push({value:val.categoryId,label:val.name})
       })
       return data
   }
   function accountData(){
       const data =[]
       accountList.map(val => {
-          data.push({value:val.id,label:val.name})
+          data.push({value:val.accountId,label:val.name})
       })
       return data
   }
@@ -69,8 +71,8 @@ export default function TransactionForm(props) {
       const selectedAccount = form.values.accountName
       let paymentType = []
       accountList.map(val =>{
-          if(val.id===selectedAccount){
-              paymentType = val.paymentType
+          if(val.accountId===selectedAccount){
+              paymentType = val.paymentTypes
           }
       })
       if(paymentType.length > 0){

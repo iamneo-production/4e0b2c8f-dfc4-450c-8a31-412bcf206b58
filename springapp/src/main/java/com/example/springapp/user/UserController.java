@@ -69,8 +69,8 @@ public class UserController {
 	@GetMapping("/api/validateToken")
 	public ResponseEntity<BaseResponceDto> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 		Map<Object,Object> data = new HashMap<>();
-		if(jwtGenerator.validateToken(token)) {
-			Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(token));
+		if(jwtGenerator.validateToken(jwtGenerator.getTokenFromHeader(token))) {
+			Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token)));
 			data.put("user",user);
 			return ResponseEntity.ok(new BaseResponceDto("success",data));
 		}
