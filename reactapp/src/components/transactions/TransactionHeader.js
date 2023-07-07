@@ -3,11 +3,17 @@ import { ReactComponent as FilterIcon } from '../../assets/Filter_alt.svg'
 import { ReactComponent as SearchIcon } from '../../assets/Search.svg'
 import { useState } from "react";
 import TransactionForm from './TransactionFrom';
+import {fetchCategory} from "../../features/categorySlice";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAccount} from "../../features/accountSlice";
 
 export default function TransactionHeader() {
     const [searchValue, setSearchValue] = useState("");
     const [displayTransactionForm, setDisplayTransactionForm] = useState(false)
-
+    const dispatch = useDispatch()
+    const token = useSelector(state => state.user.token)
+    dispatch(fetchCategory({token:token}))
+    dispatch(fetchAccount({token:token}))
     function handleTransactionFormClose() {
         setDisplayTransactionForm(false)
     }

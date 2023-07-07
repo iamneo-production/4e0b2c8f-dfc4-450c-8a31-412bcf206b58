@@ -7,7 +7,14 @@ import { ReactComponent as GoalsIcon } from "../assets/Road_finish.svg";
 import { ReactComponent as DebtsIcon } from "../assets/Calendar.svg";
 import { ReactComponent as ReportsIcon } from "../assets/Desk_alt.svg";
 import { ReactComponent as AddIcon } from "../assets/Add_round.svg";
-import { ReactComponent as AddCategoryIcon } from "../assets/Folder_add_duotone_fill.svg";
+import { ReactComponent as AddCategoryIcon } from "../assets/Folder_add_duotone_line.svg";
+import { ReactComponent as AddDebtIcon } from "../assets/Calendar_add_duotone.svg";
+import { ReactComponent as AddBudgetIcon } from "../assets/Date_range_duotone.svg";
+import { ReactComponent as AddTransactionIcon } from "../assets/Collapse_light_duotone.svg";
+import { ReactComponent as AddAccountIcon } from "../assets/Database_duotone.svg";
+import { ReactComponent as AddGoalIcon } from "../assets/Road_finish_duotone_line.svg";
+
+
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CategoryForm from "./category/CategoryForm";
@@ -127,21 +134,21 @@ export default function SideBar(props) {
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showCategoryForm())}>
-                Add Category
+                <Text size={"sm"}>Add Category</Text>
               </Menu.Item>
-              <Menu.Item icon={<AccountsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
+              <Menu.Item icon={<AddAccountIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
                 Add Account
               </Menu.Item>
-              <Menu.Item icon={<TransactionsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddTransactionIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
                 Add Transaction
               </Menu.Item>
-              <Menu.Item icon={<BudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
+              <Menu.Item icon={<AddBudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
                 Add Budget
               </Menu.Item>
-              <Menu.Item icon={<GoalsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
                 Add Goal
               </Menu.Item>
-              <Menu.Item icon={<DebtsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddDebtIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
                 Add Debt
               </Menu.Item>
             </Menu.Dropdown>

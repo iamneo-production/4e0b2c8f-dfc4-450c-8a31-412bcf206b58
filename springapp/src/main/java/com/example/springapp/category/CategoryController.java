@@ -23,7 +23,7 @@ public class CategoryController {
     public BaseResponceDto getCategories(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
         List<Category> categories = categoryService.getCategoriesByUserName(userName);
-        return new BaseResponceDto("Success", categories);
+        return new BaseResponceDto("success", categories);
     }
 
     @PostMapping("/api/categories")
