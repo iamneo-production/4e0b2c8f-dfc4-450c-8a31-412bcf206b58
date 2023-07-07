@@ -11,13 +11,16 @@ import { ReactComponent as AddCategoryIcon } from "../assets/Folder_add_duotone_
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CategoryForm from "./category/CategoryForm";
+import {useDispatch, useSelector} from "react-redux";
+import {closeCategoryForm, showCategoryForm} from "../features/categorySlice";
 
 export default function SideBar(props) {
   const navigate = useNavigate();
-  const [diplayCategoryForm, setDiplayCategoryForm] = useState(false);
+  const dispatch = useDispatch()
+  const displayCategoryForm = useSelector(state => state.category.displayCategoryForm)
 
   function handleCategoryFormClose() {
-    setDiplayCategoryForm(false);
+    dispatch(closeCategoryForm());
   }
 
   return (
@@ -123,7 +126,7 @@ export default function SideBar(props) {
               </Button>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => setDiplayCategoryForm(true)}>
+              <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showCategoryForm())}>
                 Add Category
               </Menu.Item>
               <Menu.Item icon={<AccountsIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
@@ -144,7 +147,7 @@ export default function SideBar(props) {
             </Menu.Dropdown>
           </Menu>
           <CategoryForm
-            open={diplayCategoryForm}
+            open={displayCategoryForm}
             close={handleCategoryFormClose}
           ></CategoryForm>
         </Navbar.Section>
