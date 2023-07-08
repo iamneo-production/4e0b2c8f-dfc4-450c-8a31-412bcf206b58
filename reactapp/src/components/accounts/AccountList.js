@@ -1,7 +1,9 @@
 
 import { Text,Table } from '@mantine/core';
 import { ReactComponent as EditSVG } from '../../assets/Edit.svg';
+import {useSelector} from "react-redux";
 export default function AccountList() {
+    const accountList = useSelector(state => state.account.accountList)
     const accounts = [{
         accountname:"State Bank of India",
         totalDeposit:50788,
@@ -21,18 +23,18 @@ export default function AccountList() {
         currentBalance:985
     }]
 
-    const rows = accounts.map((element) => (
-        <tr key={element.name}>
-          <td><Text fw={700}>{element.accountname}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalDeposit}`}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalWithdrawal}`}</Text></td>
+    const rows = accountList.map((element) => (
+        <tr key={element.accountId}>
+          <td><Text fw={700}>{element.name}</Text></td>
+          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
           <td><Text fw={700}>{`Rs. ${element.currentBalance}`}</Text></td>
           <td>{<EditSVG/>}</td>
         </tr>
       ));
 
     return (
-        <div style={{margin:30}}>
+        <div style={{margin:20}}>
             <Table verticalSpacing="lg">
                 <thead>
                     <tr>

@@ -12,12 +12,13 @@ import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm,logoutA
 import {ReactComponent as SettingIcon } from "../assets/Setting_line.svg";
 import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
+import {useNavigate} from "react-router-dom";
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
     const displaySignupForm = useSelector(state => state.user.displaySignupForm)
     const currentUser = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
-
+    const navigate = useNavigate();
     function handleOpenSigninForm() {
         dispatch(openSigninForm())
     }
@@ -33,6 +34,7 @@ export default function HeaderBar(props) {
 
     function handleLogout(){
         dispatch(logoutAccount())
+        navigate("/")
     }
     return (
         <Box >
@@ -48,7 +50,7 @@ export default function HeaderBar(props) {
                             </Group>
 
                             :<Group>
-                                <Text>{currentUser.firstName}</Text>
+                                <Text fw={500}>{`Hello, ${currentUser.firstName}`}</Text>
                                 <Menu shadow="md" width={200}>
                                     <Menu.Target>
                                         <Avatar radius="xl" />

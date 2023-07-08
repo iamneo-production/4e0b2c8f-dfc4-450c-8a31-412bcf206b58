@@ -51,4 +51,8 @@ public class CategoryService {
 
     }
 
+    public Category getCategoryById(Integer id){
+        return categoryRepository.findById(id).orElseThrow();
+    }
+
 }

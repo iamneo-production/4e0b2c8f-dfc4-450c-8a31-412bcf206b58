@@ -43,12 +43,12 @@ public class UserController {
         this.jwtGenerator = jwtGenerator;
     }
 
-	@PostMapping("/api/register")
+	@PostMapping("/api/auth/register")
 	public ResponseEntity<BaseResponceDto> register(@RequestBody UserEntity user) {
 		return userService.register(user);
 	}
 
-	@PostMapping("/api/login")
+	@PostMapping("/api/auth/login")
 	public ResponseEntity<BaseResponceDto> login(@RequestBody LoginDto user) {
 
 		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
@@ -69,8 +69,8 @@ public class UserController {
 	@GetMapping("/api/validateToken")
 	public ResponseEntity<BaseResponceDto> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 		Map<Object,Object> data = new HashMap<>();
-		if(jwtGenerator.validateToken(token)) {
-			Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(token));
+		if(jwtGenerator.validateToken(jwtGenerator.getTokenFromHeader(token))) {
+			Optional<UserEntity> user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token)));
 			data.put("user",user);
 			return ResponseEntity.ok(new BaseResponceDto("success",data));
 		}
