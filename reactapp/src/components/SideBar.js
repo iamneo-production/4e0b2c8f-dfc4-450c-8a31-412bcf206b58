@@ -19,15 +19,30 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CategoryForm from "./category/CategoryForm";
 import {useDispatch, useSelector} from "react-redux";
-import {closeCategoryForm, showCategoryForm} from "../features/categorySlice";
+import {closeCategoryForm, fetchCategory, showCategoryForm} from "../features/categorySlice";
+import {closeTransactionForm, showTransactionForm} from "../features/transactionSlice";
+import {closeAccountForm, showAccountForm} from "../features/accountSlice";
+import AccountForm from "./accounts/AccountForm";
+import TransactionForm from "./transactions/TransactionFrom";
 
 export default function SideBar(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const displayCategoryForm = useSelector(state => state.category.displayCategoryForm)
-
+  const displayTransactionForm = useSelector(state => state.transaction.displayTransactionForm)
+  const displayAccountForm = useSelector(state => state.account.displayAccountForm)
+  const token = useSelector(state => state.user.token)
+  //dispatch(fetchTransaction({token:token}))
+  //dispatch(fetchCategory({token:token}))
+  //dispatch(fetchAccount({token:token}))
   function handleCategoryFormClose() {
     dispatch(closeCategoryForm());
+  }
+  function handleTransactionFormClose() {
+    dispatch(closeTransactionForm());
+  }
+  function handleAccountFormClose() {
+    dispatch(closeAccountForm());
   }
 
   return (
@@ -136,10 +151,10 @@ export default function SideBar(props) {
               <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showCategoryForm())}>
                 <Text size={"sm"}>Add Category</Text>
               </Menu.Item>
-              <Menu.Item icon={<AddAccountIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
+              <Menu.Item icon={<AddAccountIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showAccountForm())}>
                 Add Account
               </Menu.Item>
-              <Menu.Item icon={<AddTransactionIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddTransactionIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showTransactionForm())}>
                 Add Transaction
               </Menu.Item>
               <Menu.Item icon={<AddBudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
@@ -157,6 +172,12 @@ export default function SideBar(props) {
             open={displayCategoryForm}
             close={handleCategoryFormClose}
           ></CategoryForm>
+          <AccountForm
+              open={displayAccountForm}
+              close={handleAccountFormClose}></AccountForm>
+          <TransactionForm
+              open={displayTransactionForm}
+              close={handleTransactionFormClose}></TransactionForm>
         </Navbar.Section>
       </Navbar>
     </div>

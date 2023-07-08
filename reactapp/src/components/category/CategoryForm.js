@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {useDispatch, useSelector} from "react-redux";
-import {addCategory, closeCategoryForm} from "../../features/categorySlice";
+import {addCategory, closeCategoryForm, fetchCategory} from "../../features/categorySlice";
 import {useState} from "react";
 
 export default function CategoryForm(props) {
@@ -36,8 +36,9 @@ export default function CategoryForm(props) {
       ),
     },
   });
-  function handleSubmit(){
-    dispatch(addCategory({...form.values,token:token}))
+  async function handleSubmit(){
+    await dispatch(addCategory({...form.values,token:token}))
+    await dispatch(fetchCategory({token:token}))
     form.reset()
   }
 

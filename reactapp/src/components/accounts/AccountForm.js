@@ -11,7 +11,7 @@ import {
 import { useForm } from '@mantine/form';
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addAccount, closeAccountForm} from "../../features/accountSlice";
+import {addAccount, closeAccountForm, fetchAccount} from "../../features/accountSlice";
 import {closeCategoryForm} from "../../features/categorySlice";
 
 export default function AccountForm(props) {
@@ -38,11 +38,10 @@ export default function AccountForm(props) {
         }
     });
 
-    function handleSubmit(){
-        console.log(form.values)
-        dispatch(addAccount({...form.values,token:token}))
+    async function handleSubmit(){
+        await dispatch(addAccount({...form.values,token:token}))
+        await dispatch(fetchAccount({token:token}))
         form.reset()
-        props.close()
     }
 
     function handleDiscard(){
@@ -56,7 +55,7 @@ export default function AccountForm(props) {
     }
 
     return (
-        <Modal withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal  withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={addAccountInProcess} overlayBlur={2} />
             <Title style={{ marginLeft: 10 }} order={3}>Add Account</Title>
             <Container size="md">

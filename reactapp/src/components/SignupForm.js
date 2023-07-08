@@ -46,7 +46,7 @@ export default function SignupForm(props) {
         form.reset()
     }
     return (
-        <Modal radius="lg" size="md" opened={props.open} onClose={() => {
+        <Modal withCloseButton={false} radius="lg" size="md" opened={props.open} onClose={() => {
             props.close()
         }} centered>
             <LoadingOverlay visible={signupInProgress} overlayBlur={2} />

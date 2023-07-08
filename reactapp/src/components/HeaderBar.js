@@ -45,20 +45,31 @@ export default function HeaderBar(props) {
                     </Group>
                         {props.isLandingPage?
                             <Group>
-                                <Button variant="default" onClick={() => handleOpenSigninForm()}>Sign in</Button>
-                                <Button onClick={() => handleOpenSignupForm()}>Sign up</Button>
+                                <Button radius="xl" variant="subtle" onClick={() => handleOpenSigninForm()}>Sign in</Button>
+                                <Button radius="xl" onClick={() => handleOpenSignupForm()}>Sign up</Button>
                             </Group>
 
                             :<Group>
-                                <Text fw={500}>{`Hello, ${currentUser.firstName}`}</Text>
-                                <Menu shadow="md" width={200}>
+                                <Menu trigger="hover" openDelay={100} shadow="md" width={200}>
                                     <Menu.Target>
-                                        <Avatar radius="xl" />
+                                        <Group>
+                                            <Avatar radius="xl" />
+                                            <div style={{ flex: 1 }}>
+                                                <Text size="sm" weight={500}>
+                                                    {currentUser.firstName}
+                                                </Text>
+
+                                                <Text color="dimmed" size="xs">
+                                                    {currentUser.email}
+                                                </Text>
+                                            </div>
+                                        </Group>
+
                                     </Menu.Target>
-                                    <Menu.Dropdown>
-                                        <Menu.Item icon={<SettingIcon style={{height:"20px",width:"20px"}}/>}>Settings</Menu.Item>
+                                    <Menu.Dropdown >
+                                        <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} icon={<SettingIcon style={{height:"16px",width:"16px"}}/>}><Text size={"sm"}>Setting</Text></Menu.Item>
                                         <Menu.Divider />
-                                        <Menu.Item onClick={()=>{handleLogout()}} color="red" icon={<LogoutIcon style={{height:"20px",width:"20px"}}/>}>Logout</Menu.Item>
+                                        <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} onClick={()=>{handleLogout()}} color="red" icon={<LogoutIcon style={{height:"16px",width:"16px"}}/>}><Text size={"sm"}>Logout</Text></Menu.Item>
                                     </Menu.Dropdown>
                                 </Menu>
                                 </Group>
