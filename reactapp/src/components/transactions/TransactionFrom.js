@@ -8,19 +8,25 @@ import {
     Container,
     Grid,
     Textarea,
-    Select, Text,
+    Select, Text, Loader,
 } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import {useDispatch, useSelector} from "react-redux";
-import {addTransaction, closeTransactionForm} from "../../features/transactionSlice";
-import {closeAccountForm} from "../../features/accountSlice";
-import {useState} from "react";
+import {addTransaction, closeTransactionForm, fetchTransaction} from "../../features/transactionSlice";
+import {closeAccountForm, fetchAccount} from "../../features/accountSlice";
+import {useEffect, useState} from "react";
+import {fetchCategory, showCategoryForm} from "../../features/categorySlice";
+import AccountList from "../accounts/AccountList";
 
 export default function TransactionForm(props) {
   const dispatch = useDispatch()
   const token = useSelector(state => state.user.token)
   const addTransactionInProcess = useSelector(state => state.transaction.addTransactionInProcess)
+    useEffect(()=>{
+        dispatch(fetchCategory({token:token}))
+        dispatch(fetchAccount({token:token}))
+    },[])
   const [showDiscard,setShowDiscard] = useState(false);
   const categoryList = useSelector(state => state.category.categoryList)
   const accountList = useSelector(state => state.account.accountList)
@@ -60,9 +66,10 @@ export default function TransactionForm(props) {
         setShowDiscard(false)
     }
 
-  function handleAddTransaction(values){
+  async function handleAddTransaction(values){
     console.log(values)
-      dispatch(addTransaction({...form.values,token:token,dateTime:form.values.dateTime.getTime()}))
+      await dispatch(addTransaction({...form.values,token:token,dateTime:form.values.dateTime.getTime()}))
+      await dispatch(fetchTransaction({token:token}))
       form.reset()
       props.close()
   }
@@ -148,14 +155,20 @@ export default function TransactionForm(props) {
             <Select radius="md"
               label="Category"
               placeholder="Select Category"
+              searchable
+              clearable
+              nothingFound={categoryList.length===0 ? <Text c="blue">No data found</Text> : <Loader size="sm" variant="dots" />}
               withAsterisk
               data={categoryData()}
-                    onChange={handleTransactionType()}
-                    {...form.getInputProps('categoryId')}
+              onChange={handleTransactionType()}
+              {...form.getInputProps('categoryId')}
             />
             <Select radius="md" style={{ marginTop: 16 }}
               label="Account"
               withAsterisk
+              searchable
+              clearable
+              nothingFound={accountList.length===0 ? <Text c="blue">No data found</Text> : <Loader size="sm" variant="dots" />}
               placeholder="Select Account"
               data={accountData()}
                     {...form.getInputProps('accountId')}
@@ -163,9 +176,12 @@ export default function TransactionForm(props) {
             <Select radius="md" style={{ marginTop: 16 }}
               label="Payment Type"
               withAsterisk
+              disabled={form.values.accountId===''}
+              clearable
+              nothingFound={paymentTypeDate().length===0 ?  <Text>No data found</Text> : <Loader size="sm" variant="dots" />}
               placeholder="Select Payment Type"
               data={paymentTypeDate()}
-                    {...form.getInputProps('paymentType')}
+              {...form.getInputProps('paymentType')}
             />
             <Radio.Group style={{ marginTop: 16 }}
               label="Type"

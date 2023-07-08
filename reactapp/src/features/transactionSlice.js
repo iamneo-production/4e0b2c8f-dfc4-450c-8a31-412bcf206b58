@@ -1,8 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createTransaction, getTransaction} from "../api/transactionService";
+import {notifications} from "@mantine/notifications";
+import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
 export const addTransaction =
-    createAsyncThunk('category/addTransaction',async (body)=>{
+    createAsyncThunk('transaction/addTransaction',async (body)=>{
         return  createTransaction(
             body.token,
             body.amount,
@@ -19,7 +21,7 @@ export const addTransaction =
     })
 
 export const fetchTransaction =
-    createAsyncThunk('category/fetchTransaction',async (body)=>{
+    createAsyncThunk('transaction/fetchTransaction',async (body)=>{
         return  getTransaction(
             body.token
         ).then((res) =>{
@@ -32,6 +34,7 @@ export const fetchTransaction =
 const transactionSlice = createSlice({
     name:"transaction",
     initialState:{
+        count:0,
         displayTransactionForm:false,
         addTransactionInProcess:false,
         fetchTransactionInProcess:false,
@@ -52,9 +55,21 @@ const transactionSlice = createSlice({
         },
         [addTransaction.fulfilled]:(state,action) =>{
             if(action.payload.message ==="success"){
+                notifications.show({
+                    title: 'Transaction Added',
+                    message: 'your transaction added successfuly!!',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
                 console.log("Transaction Created")
-                alert("Transaction Created")
             }else {
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                })
                 console.log(action.payload.message)
             }
             state.addTransactionInProcess =false
@@ -63,7 +78,12 @@ const transactionSlice = createSlice({
         [addTransaction.rejected]:(state)=>{
             state.addTransactionInProcess = false
             console.log("Transaction Create failed")
-            alert("Transaction Create failed,Try again")
+            notifications.show({
+                title: "Transaction Create failed",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+            })
         },
         [fetchTransaction.pending]:(state) => {
             state.fetchTransactionInProcess = true

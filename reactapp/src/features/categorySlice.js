@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createCategory, getCategory} from "../api/categoryService";
+import {notifications} from "@mantine/notifications";
+import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
 export const addCategory =
     createAsyncThunk('category/addCategory',async (body)=>{
@@ -48,18 +50,34 @@ const categorySlice = createSlice({
         },
         [addCategory.fulfilled]:(state,action) =>{
             if(action.payload.message ==="success"){
-                console.log("Category Created")
-                alert("Category Created")
+                notifications.show({
+                    title: 'Category Added',
+                    message: 'your category added successfuly!!',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
             }else {
-                console.log(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
             }
             state.addCategoryInProcess =false
             state.displayCategoryForm = false
         },
         [addCategory.rejected]:(state)=>{
             state.addCategoryInProcess = false
-            console.log("Category Create failed")
-            alert("Category Create failed,Try again")
+            notifications.show({
+                title: "Category Create failed",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         },
         [fetchCategory.pending]:(state) => {
             state.fetchCategoryInProcess = true
