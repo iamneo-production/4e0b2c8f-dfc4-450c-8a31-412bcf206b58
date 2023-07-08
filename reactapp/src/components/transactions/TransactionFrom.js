@@ -14,7 +14,6 @@ import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import {useDispatch, useSelector} from "react-redux";
 import {addTransaction} from "../../features/transactionSlice";
-import {fetchCategory} from "../../features/categorySlice";
 
 export default function TransactionForm(props) {
   const dispatch = useDispatch()
@@ -25,11 +24,11 @@ export default function TransactionForm(props) {
     initialValues: {
       amount: '',
       type: '',
-      accountName: '',
+      accountId: '',
       paymentType: '',
-      category: '',
+      categoryId: '',
       description: '',
-      date: new Date()
+      dateTime: new Date()
     },
     validate: {
 
@@ -38,16 +37,7 @@ export default function TransactionForm(props) {
 
   function handleAddTransaction(values){
     console.log(values)
-      dispatch(addTransaction({
-          amount: values.amount,
-          type: values.type,
-          accountName: values.accountName,
-          paymentType: values.paymentType,
-          category: values.category,
-          description: values.description,
-          date: values.date.toDateString(),
-          time: values.date.toLocaleTimeString('en-US')
-      }))
+      dispatch(addTransaction({...form.values,token:token,dateTime:form.values.dateTime.getTime()}))
       form.reset()
       props.close()
   }
@@ -68,7 +58,7 @@ export default function TransactionForm(props) {
   }
   function paymentTypeDate(){
       const data =[]
-      const selectedAccount = form.values.accountName
+      const selectedAccount = form.values.accountId
       let paymentType = []
       accountList.map(val =>{
           if(val.accountId===selectedAccount){
@@ -86,7 +76,7 @@ export default function TransactionForm(props) {
   function handleTransactionType(){
       let data =''
       categoryList.map(val =>{
-          if(val.id===form.values.category){
+          if(val.id===form.values.categoryId){
               data = val.type
           }
       })
@@ -112,7 +102,7 @@ export default function TransactionForm(props) {
                     placeholder="Pick date and time"
                     maw={400}
                     mx="auto"
-                    {...form.getInputProps('date')}
+                    {...form.getInputProps('dateTime')}
                 />
                 <TextInput radius="md" style={{ marginTop: 16 }}
                   label="Amount"
@@ -134,13 +124,13 @@ export default function TransactionForm(props) {
               label="Category"
               placeholder="Select Category"
               data={categoryData()}
-                    {...form.getInputProps('category')}
+                    {...form.getInputProps('categoryId')}
             />
             <Select radius="md" style={{ marginTop: 16 }}
               label="Account"
               placeholder="Select Account"
               data={accountData()}
-                    {...form.getInputProps('accountName')}
+                    {...form.getInputProps('accountId')}
             />
             <Select radius="md" style={{ marginTop: 16 }}
               label="Payment Type"

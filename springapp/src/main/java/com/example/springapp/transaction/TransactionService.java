@@ -43,6 +43,7 @@ public class TransactionService {
                 transactionRequestDto.getAmount(),
                 transactionRequestDto.getDescription(),
                 transactionRequestDto.getPaymentType(),
+                transactionRequestDto.getDateTime(),
                 category,
                 account,
                 user
