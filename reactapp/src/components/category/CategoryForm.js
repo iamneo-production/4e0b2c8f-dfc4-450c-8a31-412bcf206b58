@@ -57,6 +57,7 @@ export default function CategoryForm(props) {
       size="sm"
       opened={props.open}
       withCloseButton={false}
+      closeOnClickOutside={false}
       overlayProps={{
         color: "white",
         opacity: 0.55,
