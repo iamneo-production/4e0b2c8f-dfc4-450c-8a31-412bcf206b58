@@ -1,53 +1,68 @@
 import {
-  TextInput,
-  Title,
-  Radio,
-  Modal,
-  Group,
-  Button,
-  Container,
-  Grid,
-  Textarea,
-  Select,
+    TextInput,
+    Title,
+    Radio,
+    Modal,
+    Group,
+    Button,
+    Container,
+    Grid,
+    Textarea,
+    Select, Text,
 } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import {useDispatch, useSelector} from "react-redux";
-import {addTransaction} from "../../features/transactionSlice";
-import {fetchCategory} from "../../features/categorySlice";
+import {addTransaction, closeTransactionForm} from "../../features/transactionSlice";
+import {closeAccountForm} from "../../features/accountSlice";
+import {useState} from "react";
 
 export default function TransactionForm(props) {
   const dispatch = useDispatch()
   const token = useSelector(state => state.user.token)
+  const addTransactionInProcess = useSelector(state => state.transaction.addTransactionInProcess)
+  const [showDiscard,setShowDiscard] = useState(false);
   const categoryList = useSelector(state => state.category.categoryList)
   const accountList = useSelector(state => state.account.accountList)
   const form = useForm({
     initialValues: {
       amount: '',
       type: '',
-      accountName: '',
+      accountId: '',
       paymentType: '',
-      category: '',
+      categoryId: '',
       description: '',
-      date: new Date()
+      dateTime: new Date()
     },
     validate: {
-
+        amount: (value) => (
+            value !== '' ? null : 'Amount is required'
+        ),
+        accountId: (value) => (
+            value !== '' ? null : 'Select account'
+        ),
+        categoryId: (value) => (
+            value !== '' ? null : 'Select category'
+        ),
+        paymentType: (value) => (
+            value !== '' ? null : 'Select type'
+        ),
     }
   });
 
+    function handleDiscard(){
+        form.reset()
+        setShowDiscard(false)
+        dispatch(closeTransactionForm())
+    }
+
+    function handleDiscardCancel(){
+        setShowDiscard(false)
+    }
+
   function handleAddTransaction(values){
     console.log(values)
-      dispatch(addTransaction({
-          amount: values.amount,
-          type: values.type,
-          accountName: values.accountName,
-          paymentType: values.paymentType,
-          category: values.category,
-          description: values.description,
-          date: values.date.toDateString(),
-          time: values.date.toLocaleTimeString('en-US')
-      }))
+      dispatch(addTransaction({...form.values,token:token,dateTime:form.values.dateTime.getTime()}))
       form.reset()
       props.close()
   }
@@ -68,7 +83,7 @@ export default function TransactionForm(props) {
   }
   function paymentTypeDate(){
       const data =[]
-      const selectedAccount = form.values.accountName
+      const selectedAccount = form.values.accountId
       let paymentType = []
       accountList.map(val =>{
           if(val.accountId===selectedAccount){
@@ -84,13 +99,11 @@ export default function TransactionForm(props) {
   }
 
   function handleTransactionType(){
-      let data =''
       categoryList.map(val =>{
-          if(val.id===form.values.category){
-              data = val.type
+          if(val.categoryId===form.values.categoryId){
+              form.values.type = val.type
           }
       })
-      return data
   }
   function  handleCancel(){
       form.reset()
@@ -98,7 +111,7 @@ export default function TransactionForm(props) {
   }
   return (
     <>
-      <Modal size={"xl"} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
+      <Modal size={"xl"} withCloseButton={false} closeOnClickOutside={false} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
         <Title style={{ marginLeft: 10 }} order={3}>Add Transaction</Title>
         <form onSubmit={form.onSubmit((values) => handleAddTransaction(values))}>
         <Grid style={{ margin: 10 }}>
@@ -106,21 +119,23 @@ export default function TransactionForm(props) {
             <Container size="md">
 
                 <DateTimePicker
+                    radius="md"
                     dropdownType="modal"
                     valueFormat="DD MMM YYYY hh:mm A"
                     label="Date and time"
                     placeholder="Pick date and time"
                     maw={400}
                     mx="auto"
-                    {...form.getInputProps('date')}
+                    {...form.getInputProps('dateTime')}
                 />
                 <TextInput radius="md" style={{ marginTop: 16 }}
                   label="Amount"
                   placeholder="Ex: 5,000"
                   type='number'
                   {...form.getInputProps('amount')}
+                  withAsterisk
                 />
-                <Textarea style={{ marginTop: 16 }}
+                <Textarea radius="md" style={{ marginTop: 16 }}
                   placeholder="Enter Description"
                   label="Description"
                   autosize
@@ -133,34 +148,37 @@ export default function TransactionForm(props) {
             <Select radius="md"
               label="Category"
               placeholder="Select Category"
+              withAsterisk
               data={categoryData()}
-                    {...form.getInputProps('category')}
+                    onChange={handleTransactionType()}
+                    {...form.getInputProps('categoryId')}
             />
             <Select radius="md" style={{ marginTop: 16 }}
               label="Account"
+              withAsterisk
               placeholder="Select Account"
               data={accountData()}
-                    {...form.getInputProps('accountName')}
+                    {...form.getInputProps('accountId')}
             />
             <Select radius="md" style={{ marginTop: 16 }}
               label="Payment Type"
+              withAsterisk
               placeholder="Select Payment Type"
               data={paymentTypeDate()}
                     {...form.getInputProps('paymentType')}
             />
             <Radio.Group style={{ marginTop: 16 }}
               label="Type"
-                         defaultValue = {handleTransactionType()}
               {...form.getInputProps('type')}
             >
               <Group mt="xs">
-                <Radio  value="expense" label="Expenses" />
-                <Radio  value="income" label="Income" />
+                <Radio disabled value="expense" label="Expenses" />
+                <Radio  disabled value="income" label="Income" />
               </Group>
             </Radio.Group>
             <Grid style={{ marginTop: 16 }} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
               <Grid.Col span={"auto"}>
-                <Button radius="md" color="gray" fullWidth onClick={() => handleCancel()} >Cancel</Button>
+                <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)} >Discard</Button>
               </Grid.Col>
               <Grid.Col span={"auto"}>
                 <Button radius="md" fullWidth type="submit">Save</Button>
@@ -169,6 +187,27 @@ export default function TransactionForm(props) {
           </Grid.Col>
         </Grid>
         </form>
+          <Modal
+              overlayProps={{
+                  color: "red",
+                  blur: 3,
+              }}
+              size="sm" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showDiscard} onClose={handleDiscardCancel} radius="lg" centered  withCloseButton={false} title="Confirm Discard">
+              <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>You will lose all the content you entered</Text>
+              <Grid
+              >
+                  <Grid.Col span={"auto"}>
+                      <Button radius="md" color="gray" fullWidth  onClick={() => setShowDiscard(false)}>
+                          No
+                      </Button>
+                  </Grid.Col>
+                  <Grid.Col span={"auto"}>
+                      <Button color={"red"} onClick={()=> handleDiscard()} radius="md" fullWidth type="submit">
+                          Yes
+                      </Button>
+                  </Grid.Col>
+              </Grid>
+          </Modal>
       </Modal>
     </>
   );

@@ -6,16 +6,18 @@ import TransactionForm from './TransactionFrom';
 import {fetchCategory} from "../../features/categorySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchAccount} from "../../features/accountSlice";
+import {closeTransactionForm, fetchTransaction, showTransactionForm} from "../../features/transactionSlice";
 
 export default function TransactionHeader() {
     const [searchValue, setSearchValue] = useState("");
-    const [displayTransactionForm, setDisplayTransactionForm] = useState(false)
     const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
+    const displayTransactionForm = useSelector(state => state.transaction.displayTransactionForm)
+    dispatch(fetchTransaction({token:token}))
     dispatch(fetchCategory({token:token}))
     dispatch(fetchAccount({token:token}))
     function handleTransactionFormClose() {
-        setDisplayTransactionForm(false)
+        dispatch(closeTransactionForm())
     }
     const handleInputChange = (event) => {
         const value = event.target.value;
@@ -29,7 +31,7 @@ export default function TransactionHeader() {
                             <Title order={1}>Transactions</Title>
                         </Grid.Col>
                         <Grid.Col span={4}>
-                            <Button fullWidth style={{ margin: 8 }} onClick={() => setDisplayTransactionForm(true)}>Add Transactions</Button>
+                            <Button fullWidth style={{ margin: 8 }} onClick={() => dispatch(showTransactionForm())}>Add Transactions</Button>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>

@@ -6,33 +6,35 @@ import {useSelector} from "react-redux";
 
 export default function TransactionList() {
     const transactionList = useSelector(state => state.transaction.transactionList)
-    const dateCol = (date, time) => {
+    const dateCol = (date) => {
+        const dateTime = new Date(date)
+        const dateoptions = { year: 'numeric', month: 'long', day: 'numeric' };
         return (
             <div>
-                <Text fw={700} fz="md" style={{marginBottom:12}}>{date}</Text>
-                <Text fw={500} c="dimmed" fz="sm">{time}</Text>
+                <Text fw={700} fz="md" style={{marginBottom:12}}>{dateTime.toLocaleDateString('en-US',dateoptions)}</Text>
+                <Text fw={500} c="dimmed" fz="sm">{dateTime.toLocaleTimeString('en-US')}</Text>
             </div>
         )
     }
-    const categoryCol = (category, categoryDetails, id, type) => {
+    const categoryCol = (category, description, id, ) => {
         return (
             <div style={{marginBottom:12}}>
                 <div style={{ display: "flex",marginBottom:8,marginTop:8 }}>
-                    {type === "income" ?
+                    {category.type === "income" ?
                         <img src={ArrowGIcon} /> : <img src={ArrowRIcon} />}
-                    <Text fw={700} fz="md">{category}</Text>
+                    <Text fw={700} fz="md">{category.name}</Text>
                 </div>
                 <div style={{ marginLeft: "24px" }}>
-                    <Text fw={500} style={{marginBottom:8}} c="dimmed" fz="sm">{categoryDetails}</Text>
+                    <Text fw={500} style={{marginBottom:8}} c="dimmed" fz="sm">{description}</Text>
                     <Text fw={500} c="dimmed" fz="sm">{`Transaction ID : #${id}`}</Text>
                 </div>
             </div>
         )
     }
-    const accountDetails = (accountName, paymentType) => {
+    const accountDetails = (account, paymentType) => {
         return (
             <div style={{marginBottom:12}}>
-                <Text fw={700} fz="md" style={{marginBottom:12}}>{accountName}</Text>
+                <Text fw={700} fz="md" style={{marginBottom:12}}>{account.name}</Text>
                 <Text fw={500} c="dimmed" fz="sm">{paymentType}</Text>
             </div>
         )
@@ -55,10 +57,10 @@ export default function TransactionList() {
     }
     const rows = transactionList.map((element) => (
         <tr key={element.id} >
-            <td>{dateCol(element.date, element.time)}</td>
-            <td>{categoryCol(element.category, element.description, element.id, element.type)}</td>
-            <td>{accountDetails(element.accountName, element.paymentType)}</td>
-            <td>{amountCol(element.amount, element.type)}</td>
+            <td>{dateCol(element.dateTime)}</td>
+            <td>{categoryCol(element.category, element.description, element.id)}</td>
+            <td>{accountDetails(element.account, element.paymentType)}</td>
+            <td>{amountCol(element.amount, element.category.type)}</td>
             <td>{paytype(element.paymentType)}</td>
         </tr>
     ));

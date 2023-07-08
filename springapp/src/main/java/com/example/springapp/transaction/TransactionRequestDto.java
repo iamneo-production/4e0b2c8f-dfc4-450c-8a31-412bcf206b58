@@ -9,6 +9,16 @@ public class TransactionRequestDto {
 
     private Integer accountId;
 
+    private Long dateTime;
+
+    public Long getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Long dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public double getAmount() {
         return amount;
     }

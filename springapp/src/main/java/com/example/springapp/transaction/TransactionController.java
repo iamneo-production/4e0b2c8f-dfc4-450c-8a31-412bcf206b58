@@ -19,7 +19,7 @@ public class TransactionController {
     public BaseResponceDto getTransactions(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
         List<Transaction> transactions = transactionService.getTransactionsByUserName(userName);
-        return new BaseResponceDto("Success", transactions);
+        return new BaseResponceDto("success", transactions);
     }
 
     @PostMapping("/api/transactions")

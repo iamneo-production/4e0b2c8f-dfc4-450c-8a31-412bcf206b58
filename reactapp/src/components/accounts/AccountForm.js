@@ -6,16 +6,19 @@ import {
     Group,
     Button,
     Container,
-    Grid
+    Grid, Text, LoadingOverlay
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addAccount} from "../../features/accountSlice";
+import {addAccount, closeAccountForm} from "../../features/accountSlice";
+import {closeCategoryForm} from "../../features/categorySlice";
 
 export default function AccountForm(props) {
     const dispatch = useDispatch()
     const token  = useSelector(state => state.user.token)
+    const addAccountInProcess = useSelector(state => state.account.addAccountInProcess)
+    const [showDiscard,setShowDiscard] = useState(false);
     const form = useForm({
         initialValues: {
             name:'',
@@ -23,7 +26,15 @@ export default function AccountForm(props) {
             paymentTypes:''
         },
         validate: {
-
+            name: (value) => (
+                value !== '' ? null : 'Name is required'
+            ),
+            currentBalance: (value) => (
+                value !== '' ? null : 'Enter currentBalance if your account'
+            ),
+            paymentTypes: (value) => (
+                value !== '' ? null : 'Select at least one type'
+            ),
         }
     });
 
@@ -33,8 +44,20 @@ export default function AccountForm(props) {
         form.reset()
         props.close()
     }
+
+    function handleDiscard(){
+        form.reset()
+        setShowDiscard(false)
+        dispatch(closeAccountForm())
+    }
+
+    function handleDiscardCancel(){
+        setShowDiscard(false)
+    }
+
     return (
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+            <LoadingOverlay visible={addAccountInProcess} overlayBlur={2} />
             <Title style={{ marginLeft: 10 }} order={3}>Add Account</Title>
             <Container size="md">
                 <form onSubmit={form.onSubmit((values) => handleSubmit())}>
@@ -66,7 +89,7 @@ export default function AccountForm(props) {
                     </Checkbox.Group>
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth>Cancel</Button>
+                        <Button radius="md" color="gray" onClick={() => setShowDiscard(true)} fullWidth>Discard</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                         <Button radius="md" fullWidth type="submit">Save</Button>
@@ -74,6 +97,27 @@ export default function AccountForm(props) {
                     </Grid>
                 </form>
             </Container>
+            <Modal
+                overlayProps={{
+                    color: "red",
+                    blur: 3,
+                }}
+                size="auto" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showDiscard} onClose={handleDiscardCancel} radius="lg" centered  withCloseButton={false} title="Confirm Discard">
+                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>You will lose all the content you entered</Text>
+                <Grid
+                >
+                    <Grid.Col span={"auto"}>
+                        <Button radius="md" color="gray" fullWidth  onClick={() => setShowDiscard(false)}>
+                            No
+                        </Button>
+                    </Grid.Col>
+                    <Grid.Col span={"auto"}>
+                        <Button color={"red"} onClick={()=> handleDiscard()} radius="md" fullWidth type="submit">
+                            Yes
+                        </Button>
+                    </Grid.Col>
+                </Grid>
+            </Modal>
         </Modal>
     )
 }
