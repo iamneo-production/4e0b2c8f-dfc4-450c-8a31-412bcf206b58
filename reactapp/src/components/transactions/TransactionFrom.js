@@ -70,6 +70,7 @@ export default function TransactionForm(props) {
     console.log(values)
       await dispatch(addTransaction({...form.values,token:token,dateTime:form.values.dateTime.getTime()}))
       await dispatch(fetchTransaction({token:token}))
+      await dispatch(fetchAccount({token:token}))
       form.reset()
       props.close()
   }
