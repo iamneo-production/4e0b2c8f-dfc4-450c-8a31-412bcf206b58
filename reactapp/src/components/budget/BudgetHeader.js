@@ -8,7 +8,7 @@ import {fetchCategory} from "../../features/categorySlice";
 
 export default function BudgetHeader() {
     const dispatch = useDispatch()
-    const displayBudgetForm = useSelector(state => state.account.displayBudgetForm)
+
     const token = useSelector(state => state.user.token)
     dispatch(fetchBudget({token:token}))
     dispatch(fetchTransaction({token:token}))
@@ -29,7 +29,7 @@ export default function BudgetHeader() {
                         </Button>
                     </Grid.Col>
                 </Grid>
-                <BudgetForm open={displayBudgetForm} close={handleBudgetFormClose}/>
+
             </div>
     )
 }

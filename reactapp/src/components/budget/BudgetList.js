@@ -7,8 +7,8 @@ export default function BudgetList(){
     const budgetList = useSelector(state => state.budget.budgetList)
         const rows = budgetList.map((element) => (
         <tr key={element.budgetId}>
-            <td><Text fw={700}> {element.category} </Text></td>
-            <td><Text fw={700}> {element.budget} </Text></td>
+            <td><Text fw={700}> {element.category.name} </Text></td>
+            <td><Text fw={700}> {element.amount} </Text></td>
             <td><Text fw={700}> {element.used} (.....ui element goes here) </Text></td>
             <td><Text fw={700}> {element.left} </Text></td>
             <td>{<EditSVG/>}</td>

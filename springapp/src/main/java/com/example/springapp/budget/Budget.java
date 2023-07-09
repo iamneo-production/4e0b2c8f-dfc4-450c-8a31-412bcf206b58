@@ -1,6 +1,7 @@
 package com.example.springapp.budget;
 
 
+import com.example.springapp.category.Category;
 import com.example.springapp.user.UserEntity;
 
 import javax.persistence.*;
@@ -10,24 +11,27 @@ public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String budgetId;
-    private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     private double amount;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public Budget() {
 
     }
 
-    public Budget(Long id, String budgetId, String category, double amount) {
-        this.id = id;
-        this.budgetId = budgetId;
+    public Budget(Category category, double amount, UserEntity user) {
         this.category = category;
         this.amount = amount;
+        this.user = user;
     }
 
-    //Getters and Setters
+
+//Getters and Setters
 
     public Long getId() {
         return id;
@@ -37,19 +41,11 @@ public class Budget {
         this.id = id;
     }
 
-    public String getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(String budgetId) {
-        this.budgetId = budgetId;
-    }
-
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

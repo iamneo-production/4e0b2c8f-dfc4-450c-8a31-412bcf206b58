@@ -18,8 +18,8 @@ function BudgetForm(props) {
     const categoryList = useSelector(state => state.category.categoryList)
     const form = useForm({
         initialValues: {
-            category: '',
-            budget: ''
+            categoryId: '',
+            amount: ''
         },
         validate: {
             category: (value) => (
@@ -35,7 +35,6 @@ function BudgetForm(props) {
         console.log(form.values)
         dispatch(addBudget({...form.values, token: token}))
         form.reset()
-        props.close()
     }
 
     function handleCancel() {
@@ -63,31 +62,26 @@ function BudgetForm(props) {
             <Title style={{marginLeft: 10}} order={3}>Add Budget</Title>
             <Container size="md">
                 <form onSubmit={form.onSubmit((values) => handleSubmit())}>
-
                     <Select
                         label="Category"
                         placeholder="Select Category"
                         searchable
                         nothingFound="No options"
                         data={categoryData()}
-
+                        {...form.getInputProps("categoryId")}
                     />
                     <NumberInput
                         label="Budget"
                         placeholder="Enter Budget"
                         hideControls
-                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                        formatter={(value) =>
-                            !Number.isNaN(parseFloat(value))
-                                ? `₹ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-                                : '₹ '
-                        }
+                        {...form.getInputProps("amount")}
+
 
                     />
                     <Grid style={{marginTop: 16, marginBottom: 8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                            <Button radius="md" color="gray" onClick={() => handleCancel(true)}
-                                    fullWidth>Cancel</Button>
+                            <Button radius="md" color="gray"
+                                    fullWidth onClick={handleCancel}>Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                             <Button radius="md" fullWidth type="submit">Save</Button>
@@ -110,7 +104,7 @@ function BudgetForm(props) {
                         </Button>
                     </Grid.Col>
                     <Grid.Col span={"auto"}>
-                        <Button color={"red"} onClick={()=> handleCancel()} radius="md" fullWidth type="submit">
+                        <Button color={"red"} onClick={()=> handleCancel()} radius="md" fullWidth>
                             Yes
                         </Button>
                     </Grid.Col>

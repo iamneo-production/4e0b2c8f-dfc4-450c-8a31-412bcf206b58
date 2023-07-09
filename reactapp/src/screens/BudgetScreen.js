@@ -11,7 +11,7 @@ export default function BudgetScreen(){
     const token = useSelector(state => state.user.token)
     dispatch(fetchBudget({token:token}))
     return(
-        <Layout title={"Budget"} load={true}>
+        <Layout title={"Budgets"} load={true}>
 
                 <BudgetHeader/>
                 <BudgetFeature/>

@@ -1,13 +1,19 @@
 package com.example.springapp.budget;
 
+import com.example.springapp.controller.BudgetController;
+import com.example.springapp.user.UserEntity;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface BudgetService {
 
-    List<Budget> getAllBudget();
+    List<Budget> getAllBudgetByUser(UserEntity user);
     Optional<Budget> getBudgetById(Long id);
-    Budget createBudget(Budget budget);
-    Budget updateBudget(Long id, Budget budget);
+    Budget createBudget(BudgetRequestDto budgetRequestDto,String userName);
+    Budget updateBudget(Budget budget);
     void deleteBudget(Long id);
+
+
+
 }

@@ -1,8 +1,15 @@
 package com.example.springapp.controller;
 
+import com.example.springapp.BaseResponceDto;
 import com.example.springapp.account.Account;
 import com.example.springapp.budget.Budget;
+import com.example.springapp.budget.BudgetRequestDto;
 import com.example.springapp.budget.BudgetService;
+import com.example.springapp.category.Category;
+import com.example.springapp.category.CategoryService;
+import com.example.springapp.config.auth.JWTGenerator;
+import com.example.springapp.user.UserEntity;
+import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +24,26 @@ public class BudgetController {
     @Autowired
     private BudgetService budgetService;
 
+    @Autowired
+    JWTGenerator jwtGenerator;
+
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    UserRepository userRepository;
+
     //API EndPoint for fetching all the existing Budget
-    @GetMapping("/api/budget")
-    public ResponseEntity<List<Budget>> getAllBudgets() {
-        List<Budget> budgets = budgetService.getAllBudget();
-        return new ResponseEntity<>(budgets, HttpStatus.OK);
+    @GetMapping("/api/budgets")
+    public ResponseEntity<BaseResponceDto> getAllBudgets(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
+        UserEntity user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token))).orElseThrow();
+        List<Budget> budgets = budgetService.getAllBudgetByUser(user);
+        return new ResponseEntity<>(new BaseResponceDto("success",budgets), HttpStatus.OK);
     }
 
 
     //API EndPoint for fetching a particular Budget
-    @GetMapping("/api/budget/{id}")
+    @GetMapping("/api/budgets/{id}")
     public ResponseEntity<Budget> getBudgetById(@PathVariable("id") Long id) {
         Budget budget = budgetService.getBudgetById(id).orElse(null);
         if (budget == null) {
@@ -37,29 +54,29 @@ public class BudgetController {
 
 
     //API EndPoint for creating a Budget
-    @PostMapping("/api/budget")
-    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget) {
-        Budget createdBudget = budgetService.createBudget(budget);
-        return new ResponseEntity<>(createdBudget, HttpStatus.CREATED);
+    @PostMapping("/api/budgets")
+    public ResponseEntity<BaseResponceDto> createBudget(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody BudgetRequestDto budgetRequestDto) {
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        Budget createdBudget = budgetService.createBudget(budgetRequestDto,userName);
+        return new ResponseEntity<>(new BaseResponceDto("success",createdBudget), HttpStatus.CREATED);
     }
 
     //API EndPoint for Updating an existing Budget
-    @PutMapping("/api/budget/{id}")
-    public ResponseEntity<Budget> updateBudget(@PathVariable("id") Long id, @RequestBody Budget budget) {
+    @PutMapping("/api/budgets/{id}")
+    public ResponseEntity<BaseResponceDto> updateBudget(@PathVariable("id") Long id, @RequestBody BudgetRequestDto budgetRequestDto) {
         Budget existingBudget = budgetService.getBudgetById(id).orElse(null);
         if (existingBudget == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        existingBudget.setBudgetId(budget.getBudgetId());
-        existingBudget.setCategory(budget.getCategory());
-        existingBudget.setAmount(budget.getAmount());
-
-        Budget updatedBudget = budgetService.updateBudget(id,existingBudget);
-        return new ResponseEntity<>(updatedBudget, HttpStatus.OK);
+        Category category = categoryService.getCategoryById(budgetRequestDto.getCategoryId());
+        existingBudget.setCategory(category);
+        existingBudget.setAmount(budgetRequestDto.getAmount());
+        budgetService.updateBudget(existingBudget);
+        return new ResponseEntity<>(new BaseResponceDto("success"), HttpStatus.OK);
     }
 
     //API EndPoint for Deleting an existing Budget
-    @DeleteMapping("api/budget/{id}")
+    @DeleteMapping("api/budgets/{id}")
     public ResponseEntity<Void> deleteBudget(@PathVariable("id") Long id) {
         Budget budget = budgetService.getBudgetById(id).orElse(null);
         if (budget == null) {

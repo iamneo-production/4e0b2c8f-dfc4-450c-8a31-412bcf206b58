@@ -3,11 +3,11 @@ import {createBudget, getBudget} from "../api/budgetService";
 
 
 export const addBudget =
-    createAsyncThunk('category/addBudget',async (body)=>{
+    createAsyncThunk('budget/addBudget',async (body)=>{
         return  createBudget(
             body.token,
-            body.category,
-            body.budget,
+            body.categoryId,
+            body.amount,
         ).then((res) =>{
             return res.data
         }).catch((err) =>{
@@ -16,7 +16,7 @@ export const addBudget =
     })
 
 export const fetchBudget =
-    createAsyncThunk('category/fetchBudget',async (body)=>{
+    createAsyncThunk('budget/fetchBudget',async (body)=>{
         return  getBudget(
             body.token
         ).then((res) =>{
