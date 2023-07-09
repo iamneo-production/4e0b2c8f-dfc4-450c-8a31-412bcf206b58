@@ -1,15 +1,15 @@
 package com.example.springapp.config.auth;
 
 import com.example.springapp.BaseResponceDto;
-import com.example.springapp.user.UserService;
+import com.example.springapp.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.springapp.user.UserEntity;
-import com.example.springapp.user.UserRepository;
+import java.io.IOException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,6 +28,32 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return new ResponseEntity<>(new BaseResponceDto("success",null), HttpStatus.OK);
 	}
-	
+
+	@Override
+	public void updateUserProfileImage(ProfileImageDto profileImageDto, String userName) {
+		try{
+			UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+			user.setProfileImage(profileImageDto.getImage().getBytes());
+			userRepository.save(user);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void updateUserProfileName(ProfileNameDto profileNameDto, String userName) {
+		UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+		user.setFirstName(profileNameDto.getFirstName());
+		user.setLastName(profileNameDto.getLastName());
+		userRepository.save(user);
+	}
+
+	@Override
+	public void updateUserProfileEmail(ProfileEmailDto profileEmailDto, String userName) {
+		UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+		user.setEmail(profileEmailDto.getEmail());
+		userRepository.save(user);
+	}
+
 
 }
