@@ -24,6 +24,8 @@ import {closeTransactionForm, showTransactionForm} from "../features/transaction
 import {closeAccountForm, showAccountForm} from "../features/accountSlice";
 import AccountForm from "./accounts/AccountForm";
 import TransactionForm from "./transactions/TransactionFrom";
+import BudgetForm from "./budget/BudgetForm";
+import {closeBudgetForm, showBudgetForm} from "../features/budgetSlice";
 
 export default function SideBar(props) {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ export default function SideBar(props) {
   const displayCategoryForm = useSelector(state => state.category.displayCategoryForm)
   const displayTransactionForm = useSelector(state => state.transaction.displayTransactionForm)
   const displayAccountForm = useSelector(state => state.account.displayAccountForm)
+  const displayBudgetForm = useSelector(state => state.budget.displayBudgetForm)
   const token = useSelector(state => state.user.token)
   //dispatch(fetchTransaction({token:token}))
   //dispatch(fetchCategory({token:token}))
@@ -43,6 +46,10 @@ export default function SideBar(props) {
   }
   function handleAccountFormClose() {
     dispatch(closeAccountForm());
+  }
+
+  function handleBudgetFormClose() {
+    dispatch(closeBudgetForm());
   }
 
   return (
@@ -101,6 +108,7 @@ export default function SideBar(props) {
               label="Budgets"
               icon={<BudgetIcon />}
               rightSection={<></>}
+              onClick={() => navigate("/budget")}
               color={props.currentPage === "Budgets" ? "dark" : "gray"}
               active={props.currentPage === "Budgets"}
               disabled={props.currentPage === "Budgets"}
@@ -157,7 +165,7 @@ export default function SideBar(props) {
               <Menu.Item icon={<AddTransactionIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showTransactionForm())}>
                 Add Transaction
               </Menu.Item>
-              <Menu.Item icon={<AddBudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>{}}>
+              <Menu.Item icon={<AddBudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>dispatch(showBudgetForm())}>
                 Add Budget
               </Menu.Item>
               <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
@@ -178,6 +186,7 @@ export default function SideBar(props) {
           <TransactionForm
               open={displayTransactionForm}
               close={handleTransactionFormClose}></TransactionForm>
+          <BudgetForm open={displayBudgetForm} close={handleBudgetFormClose}/>
         </Navbar.Section>
       </Navbar>
     </div>
