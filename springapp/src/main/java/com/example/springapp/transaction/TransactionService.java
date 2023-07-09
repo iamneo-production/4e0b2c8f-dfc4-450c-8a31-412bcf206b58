@@ -49,6 +49,11 @@ public class TransactionService {
                 user
         );
         transactionRepository.save(transaction);
+        if(category.getType().equals("expenses")){
+            accountService.debitBalance(account,transactionRequestDto.getAmount());
+        }else {
+            accountService.creditBalance(account,transactionRequestDto.getAmount());
+        }
     }
 
     public boolean hasTransaction(String transactionId) {
