@@ -82,7 +82,29 @@ public class UserController {
 			userService.updateUserProfileImage(profileImageDto,userName);
 			return ResponseEntity.ok(new BaseResponceDto("success"));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to create user with profile image."));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile image."));
+		}
+	}
+
+	@PostMapping("/api/profile/name")
+	public ResponseEntity<BaseResponceDto> updateProfileName(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody ProfileNameDto profileNameDto){
+		try {
+			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+			userService.updateUserProfileName(profileNameDto,userName);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile name."));
+		}
+	}
+
+	@PostMapping("/api/profile/email")
+	public ResponseEntity<BaseResponceDto> updateProfileName(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody ProfileEmailDto profileEmailDto){
+		try {
+			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+			userService.updateUserProfileEmail(profileEmailDto,userName);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile email."));
 		}
 	}
 
