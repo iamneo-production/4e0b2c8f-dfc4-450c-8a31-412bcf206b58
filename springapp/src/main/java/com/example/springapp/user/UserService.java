@@ -7,5 +7,6 @@ public interface UserService {
 
 	ResponseEntity<BaseResponceDto> register(UserEntity user);
 
+    void updateUserProfileImage(ProfileImageDto profileImageDto, String userName);
 }
 
