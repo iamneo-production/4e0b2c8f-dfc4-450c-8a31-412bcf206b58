@@ -35,6 +35,8 @@ public class Transaction {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isDeleted;
 
+    private Long dateTime;
+
     @CreationTimestamp
     private Date createdAt;
 
@@ -45,13 +47,22 @@ public class Transaction {
 
     }
 
-    public Transaction(double amount, String description, String paymentType, Category category, Account account, UserEntity user) {
+    public Transaction(double amount, String description, String paymentType,Long dateTime, Category category, Account account, UserEntity user) {
         this.amount = amount;
         this.description = description;
         this.paymentType = paymentType;
+        this.dateTime =dateTime;
         this.category = category;
         this.account = account;
         this.user = user;
+    }
+
+    public void setDateTime(Long dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Long getDateTime() {
+        return dateTime;
     }
 
     public void setId(Integer id) {
@@ -133,4 +144,5 @@ public class Transaction {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

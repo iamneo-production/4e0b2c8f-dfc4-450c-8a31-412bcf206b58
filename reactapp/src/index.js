@@ -4,6 +4,7 @@ import App from './App';
 import { MantineProvider } from '@mantine/core';
 import store from "./store";
 import { Provider } from 'react-redux';
+import {Notifications} from "@mantine/notifications";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,6 +12,7 @@ root.render(
       <Provider store={store}>
           <MantineProvider withGlobalStyles withNormalizeCSS
           >
+              <Notifications />
               <App />
           </MantineProvider>
       </Provider>

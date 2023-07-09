@@ -24,10 +24,10 @@ export default function AccountList() {
     }]
 
     const rows = accountList.map((element) => (
-        <tr key={element.id}>
+        <tr key={element.accountId}>
           <td><Text fw={700}>{element.name}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalDeposit}`}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalWithdrawal}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
           <td><Text fw={700}>{`Rs. ${element.currentBalance}`}</Text></td>
           <td>{<EditSVG/>}</td>
         </tr>
