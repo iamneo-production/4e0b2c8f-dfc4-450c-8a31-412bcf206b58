@@ -10,7 +10,8 @@ export async function createTransaction(token,amount,description,paymentType,dat
         "paymentType":paymentType,
         "dateTime":dateTime,
         "categoryId":categoryId,
-        "accountId":accountId
+        "accountId":accountId,
+        "budgetId":accountId,
     },{
         headers: { Authorization: `Bearer ${token}` }
     })
