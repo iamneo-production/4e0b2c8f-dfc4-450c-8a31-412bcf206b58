@@ -2,7 +2,7 @@ import { Flex, Table, Text } from '@mantine/core';
 import ArrowRIcon from '../../assets/Arrow_alt_ltop.svg'
 import ArrowGIcon from '../../assets/Arrow_alt_ldown.svg'
 import Edit from '../../assets/Edit.svg'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function TransactionList() {
     const transactionList = useSelector(state => state.transaction.transactionList)

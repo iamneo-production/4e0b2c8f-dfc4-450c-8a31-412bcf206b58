@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createAccount, getAccount} from "../api/accountService";
-import {addCategory, fetchCategory} from "./categorySlice";
-
+import {notifications} from "@mantine/notifications";
+import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
 export const addAccount =
     createAsyncThunk('category/addAccount',async (body)=>{
@@ -46,22 +46,37 @@ const accountSlice = createSlice({
     extraReducers:{
         [addAccount.pending]:(state) => {
             state.addAccountInProcess = true
-            console.log("Account Add pending")
         },
         [addAccount.fulfilled]:(state,action) =>{
             if(action.payload.message ==="success"){
-                console.log("Account Created")
-                alert("Account Created")
+                notifications.show({
+                    title: 'Account Added',
+                    message: 'your account added successfuly!!',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
             }else {
-                console.log(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
             }
             state.addAccountInProcess =false
             state.displayAccountForm = false
         },
         [addAccount.rejected]:(state)=>{
             state.addAccountInProcess = false
-            console.log("Account Create failed")
-            alert("Account Create failed,Try again")
+            notifications.show({
+                title: "Account Create failed",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         },
         [fetchAccount.pending]:(state) => {
             state.fetchAccountInProcess = true
@@ -69,10 +84,7 @@ const accountSlice = createSlice({
         },
         [fetchAccount.fulfilled]:(state,action) =>{
             if(action.payload.message ==="success"){
-                console.log(state.accountList)
                 state.accountList = action.payload.data
-                console.log("Account fetched")
-                console.log(state.accountList)
             }else {
                 console.log(action.payload.message)
             }

@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createAccountService, loginAccountService, validateTokenService} from "../api/userService";
+import {notifications} from "@mantine/notifications";
+import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
 export const createAccount =
     createAsyncThunk('user/createAccount',async (body)=>{
@@ -9,9 +11,9 @@ export const createAccount =
             body.email,
             body.password
         ).then((response)=>{
-            console.log(response)
+            return response.data
         }).catch((error) =>{
-            console.log(error)
+            return error.response.data
         })
     })
 
@@ -88,13 +90,38 @@ export const userSlice = createSlice({
         },
         [createAccount.fulfilled]:(state,action) =>{
             state.signupInProgress =false
-            console.log("Account Created")
-            alert("Account Created")
+            if(action.payload.message ==="success"){
+                state.displaySignupForm = false
+                console.log("Account Created")
+                notifications.show({
+                    title: 'Account Created Successfully',
+                    message: 'Now you can login to you account with signin option',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
+            }else {
+                console.log(action.payload)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
+            }
             state.displaySignupForm = false
         },
         [createAccount.rejected]:(state)=>{
             state.signupInProgress = false
             console.log("Account Create failed")
+            notifications.show({
+                title: 'Request Failed',
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
             alert("Account Create failed,Try again")
         },
         [loginAccount.pending]:(state) => {
@@ -108,14 +135,24 @@ export const userSlice = createSlice({
                 state.token = action.payload.data.token
                 state.displaySigninForm = false
             }else {
-                state.loginError = action.payload.message
-                alert(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
             }
         },
         [loginAccount.rejected]:(state)=>{
             state.signinInProgress = false
-            console.log("Account Create failed")
-            alert("Account Create failed,Try again")
+            notifications.show({
+                title: "Something went wrong ",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         },
         [validateToken.pending]:(state) => {
             console.log("validate token pending")
@@ -130,12 +167,24 @@ export const userSlice = createSlice({
             }else {
                 state.loginError = action.payload.message
                 state.token = null
-                alert(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Login again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
             }
         },
         [validateToken.rejected]:(state)=>{
             console.log("validate token success failed")
-            alert("validate token success,Login again")
+            notifications.show({
+                title: 'validate token  failed',
+                message: 'Login again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         }
     }
 })
