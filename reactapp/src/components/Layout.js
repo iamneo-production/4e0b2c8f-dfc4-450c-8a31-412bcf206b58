@@ -2,6 +2,8 @@ import HeaderBar from "../components/HeaderBar";
 import SideBar from "../components/SideBar";
 import {AppShell, Text, Header,Title} from "@mantine/core";
 import {ReactComponent as NoDataSVG} from "../assets/No-data.svg";
+import {useSelector} from "react-redux";
+import {useState} from "react";
 
 export default function Layout(props){
    return(
@@ -13,10 +15,10 @@ export default function Layout(props){
            {
                <div>
                    {props.load ? props.children : <div>
-                       <Title order={2}>{props.title}</Title>
+                       <Title order={1}>{props.title}</Title>
                        <div style={{textAlign:"center",alignSelf:"center",marginTop:50}}>
                            <NoDataSVG/>
-                           <Text>You don’t have any {props.title} yet.</Text>
+                           <Text>You Haven't Created Any {props.title} Yet.</Text>
                        </div>
                    </div>
                    }
