@@ -46,11 +46,6 @@ const DebtList = () => {
 
   const handleViewOpenModal = (e, debtList) => {
     e.preventDefault();
-    // setAmount(`${debtList.amount}`);
-    // setdueDate(`${debtList.dueDate}`);
-    // setMoneyFrom(`${debtList.moneyFrom}`);
-    // setStatus(`${debtList.status}`);
-    // setDebtId(`${debtList.debtId}`);
     setSelectedDebt(debtList);
     setViewModalOpen(true);
   };
@@ -103,10 +98,23 @@ const DebtList = () => {
       <td>{element.dueDate}</td>
       <td>{`Rs. ${element.amount}`}</td>
       <td>
-        <Badge color={element.status === 'paid' ? "green" : "red"} size="lg" variant="outline">{element.status}</Badge>
+        <Badge 
+          color={element.status === 'paid' ? "green" : "red"} 
+          size="lg" 
+          variant="outline">
+          {element.status}
+          </Badge>
       </td>
       <td>
-        <Button variant='light' style={{ color: 'grey', background: 'rgba(217, 214, 210,0.2)' }} onClick={(e) => { handleViewOpenModal(e, element) }}><b>view</b></Button>
+        <Button 
+          variant='light'
+          style={{
+             color: 'grey',
+              background: 'rgba(217, 214, 210,0.2)' 
+              }} 
+          onClick={(e) => { handleViewOpenModal(e, element) }}>
+            <b>view</b>
+            </Button>
       </td>
     </tr>
   ));
@@ -134,7 +142,9 @@ const DebtList = () => {
               </th>
         </tr>
       </thead>
-      <tbody>{rows}</tbody>
+      <tbody>
+        {rows}
+      </tbody>
     </Table>
           <Modal
             opened={opened}
@@ -150,7 +160,6 @@ const DebtList = () => {
             radius="lg"
             zIndex={1001} // Set a higher zIndex value for the Edit Modal
 
-            // transitionProps={{ transition: 'fade', duration: 500, timingFunction: 'linear' }}
             overlayProps={{
               color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
               opacity: 0.5,
@@ -166,7 +175,6 @@ const DebtList = () => {
               label="Due date"
               value={new Date(dueDate)}
               onChange={(date) => {
-                // Convert the selected date back to the desired format
                 const formattedDate = date.toLocaleDateString('en-US', {
                   month: 'short',
                   day: 'numeric',
@@ -174,14 +182,12 @@ const DebtList = () => {
                 });
                 setdueDate(formattedDate);
               }}
-                          // dropdownType='popover'
               icon={<FaCalendarAlt size="1.1rem" stroke={1.5} />}
 
             />
 
 
             <TextInput radius="md" style={{marginTop:6}}
-                // withAsterisk
                 label="From"
                 value={moneyFrom}
                 data-autofocus
@@ -189,20 +195,13 @@ const DebtList = () => {
                 icon={<FaUser size="1.1rem" stroke={1.5}/>}
               />
               <TextInput radius="md" style={{marginTop:6}}
-                // withAsterisk 
                 label="Amount"
                 value={amount}
                 placeholder=""
                 onChange={(event) => setAmount(event.currentTarget.value)}
                 icon={<FaMoneyBill size="1.1rem" stroke={1.5}/>}           
               />
-              {/* <TextInput radius="md"
-                style={{marginTop: 6}}
-                // withAsterisk 
-                label="Due date"
-                value={dueDate}
-                onChange={(event) => setdueDate(event.currentTarget.value)}
-              /> */}
+
               <div radius="md"
                 style={{marginTop: "6px"}}>
                 <Switch 
@@ -210,14 +209,20 @@ const DebtList = () => {
                   onChange={handleSwitchToggle} size="md"
                   onLabel={<span style={{fontSize:"13px"}}><b> &nbsp; paid</b></span>} 
                   offLabel= {<span style={{fontSize:"13px",color:"rgb(51, 154, 240)"}}><b>unpaid</b></span>} />
-                {/* <span>{status === 'paid' ? 'paid' : 'unpaid'}</span> */}
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
-              <Button variant="subtle" onClick={close} fullWidth style={{ marginLeft: '10px', width: '45%' }} >
+              <Button 
+                variant="subtle" 
+                onClick={close} 
+                fullWidth 
+                style={{ marginLeft: '10px', width: '45%' }} >
                 Cancel
               </Button>
-              <Button onClick={() => handleSaveModal(debtId)}fullWidth style={{ marginRight: '10px', width: '45%' }}>
+              <Button 
+                onClick={() => handleSaveModal(debtId)}
+                fullWidth 
+                style={{ marginRight: '10px', width: '45%' }}>
                 Update
               </Button>
             </div>
@@ -236,7 +241,7 @@ const DebtList = () => {
             }} 
             size="400px"
             position="center" 
-          >
+            >
 
             {selectedDebt && setViewModalOpen && (
               <div style={{fontSize:"18px"}}>
@@ -247,12 +252,10 @@ const DebtList = () => {
                   <p><b>{`To :`}</b>{selectedDebt.moneyFrom}</p>
                   <p><b>{`Status :`}</b>{selectedDebt.status}</p>
                 </div>
-                {/* Button group */}
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   
                   <Button
                     variant="light"
-                    // style={{ background: 'rgba(22, 222, 175, 0.9)', color: 'white' }}
                     onClick={(e) => {
                       handleOpenModal(e,selectedDebt);
                     }}
@@ -261,7 +264,6 @@ const DebtList = () => {
                     Edit
                   </Button>
                   <Button
-                    // style={{ background: 'rgba(222, 22, 86, 0.7)', color: 'white' }}
                     onClick={(e) => {
                       handleDelete(e, selectedDebt.debtId);
                     }}

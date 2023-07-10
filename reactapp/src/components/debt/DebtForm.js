@@ -55,18 +55,13 @@ function DebtForm() {
 
   };
   
-  // const handleSwitchToggle = () => {
-  //   const newStatus = status === 'paid' ? 'unpaid' : 'paid';
-  //   setStatus(newStatus);
-  //   console.log(status);
-  // };
   return (
     <>
       <Modal
         opened={opened}
         onClose={close}
         centered
-        position="center" // Center the Modal on the page
+        position="center" 
 
         title={
           <Title size="32" style={{textAlign:"center"}}>
@@ -91,13 +86,11 @@ function DebtForm() {
               label="Due date"
               value={dueDate}
               onChange={setdueDate}
-              // dropdownType='popover'
               icon={<FaCalendarAlt size="1.1rem" stroke={1.5} />}
 
             />
 
           <TextInput radius="md" style={{marginTop:"7px"}}
-              // withAsterisk
               label="From"
               value={moneyFrom}
               data-autofocus
@@ -113,28 +106,23 @@ function DebtForm() {
               icon={<FaMoneyBill size="1.1rem" stroke={1.5}/>}
             />
 
-            {/* <TextInput
-              radius="md"
-              style={{marginTop: "6px"}}
-              type="date"
-              label="Due date"
-              value={dueDate}
-              onChange={setdueDate}
-              icon={<FaCalendarAlt size="1.1rem" stroke={1.5} />}
-
-            /> */}
-
-            {/* <div radius="md"
-              style={{marginTop: "6px"}}>
-              <Switch style={{width:"80px"}} onChange={handleSwitchToggle} size="md" onLabel={<span style={{fontSize:"13px"}}><b>paid</b></span>} offLabel= {<span style={{fontSize:"13px",color:"rgb(51, 154, 240)"}}><b>unpaid</b></span>} />
-              {/* <span>{status === 'paid' ? 'Paid' : 'Unpaid'}</span> */}
-            {/* </div> */}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
-          <Button variant="subtle" onClick={close} fullWidth style={{ marginLeft: '10px', width: '45%' }} >
+        <div style={{ 
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '16px' 
+              }}>
+          <Button 
+            variant="subtle" 
+            onClick={close} 
+            fullWidth 
+            style={{ marginLeft: '10px', width: '45%' }} >
             Cancel
           </Button>
-          <Button onClick={handleSaveModal} fullWidth style={{ marginRight: '10px', width: '45%' }}>
+          <Button 
+            onClick={handleSaveModal}
+            fullWidth 
+            style={{ marginRight: '10px', width: '45%' }}>
             Save
           </Button>
         </div>
@@ -150,8 +138,12 @@ function DebtForm() {
           style={{ position: 'fixed', bottom: '30px', right: '30px' }}
         />
       }
-      <Group position="center" style={{marginLeft:"50px"}}>
-        <Button onClick={handleOpenModal} style={{width:"170px"}}>
+      <Group 
+        position="center"
+        style={{marginLeft:"50px"}}>
+        <Button 
+          onClick={handleOpenModal} 
+          style={{width:"170px"}}>
           New Debt
           <FaPlus style={{marginLeft:"15px"}}/>
         </Button>

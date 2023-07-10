@@ -10,22 +10,33 @@ const DebtFeature = () => {
 
                 <Grid>
                 <Grid.Col span={2}>
-                    <Paper radius="md" p="md" withBorder>
+                    <Paper 
+                      radius="md" 
+                      p="md" 
+                      withBorder>
                         <Text style={{fontSize:"24px"}}>
                           <b>{`${debtCount}`}</b>
                           </Text>
-                        <Text style={{fontSize:"17px"}}color='grey'>
+                        <Text 
+                          style={{fontSize:"17px"}}
+                          color='grey'>
                           <b>TOTAL DEBT</b>
                           </Text>
                     </Paper>
                 </Grid.Col>
                 
                 <Grid.Col span={2}>
-                    <Paper radius="md" p="md" withBorder style={{fontSize:"17px"}}>
+                    <Paper 
+                      radius="md"
+                      p="md" 
+                      withBorder 
+                      style={{fontSize:"17px"}}>
                         <Text style={{color:"#F03C2E",fontSize:"24px"}} >
                           <b>{`${debtPending}`}</b>
                           </Text>
-                        <Text color='grey' style={{fontSize:"17px"}}>
+                        <Text 
+                          color='grey'
+                          style={{fontSize:"17px"}}>
                           <b>PENDING</b>
                           </Text>
                     </Paper>

@@ -3,16 +3,14 @@ import DebtFeature from '../components/debt/DebtFeature';
 import DebtList from '../components/debt/DebtList';
 import DebtForm from '../components/debt/DebtForm';
 import DebtHeader from '../components/debt/DebtHeader';
-import NoDebt from '../components/debt/NoDebt';
 import Layout from "../components/Layout";
-import { useStoreState,useStoreActions } from 'easy-peasy';
+import { useStoreActions } from 'easy-peasy';
 import { useSelector } from 'react-redux';
 
 const DebtScreen = () => {
   const token  = useSelector(state => state.user.token)
   const getData=useStoreActions((action)=>action.getData);
   getData(token);
-  // const debts = useStoreState((state) => state.debts);
 
   return (
         <Layout title={"Debts"} load={true}>

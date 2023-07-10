@@ -39,7 +39,6 @@ export default createStore({
             headers: { Authorization: `Bearer ${body.token}` }
         })
           console.log(response.data.data); 
-          // response.data will return whole json object along with message so adding another data points to the actual data
           action.setDebts([...debts,response.data.data]);
           console.log(debts);
           console.log("Added ");
@@ -47,7 +46,6 @@ export default createStore({
           action.setStatus('unpaid'); 
           action.setMoneyFrom('');
           action.setdueDate('');
-          // history('/');
         }
         catch(err){
           console.log(`Error: ${err.message}`)
@@ -65,7 +63,6 @@ export default createStore({
         });
         action.setDebts(debts.filter(debt=>debt.debtId!==body.debtId));
         console.log('Deleted : '+ body.debtId);
-        // history('/');
       } catch (err) {
         console.log(`Error: ${err.message}`)
       }
@@ -74,7 +71,6 @@ export default createStore({
     editDebt:thunk(async (action, body,helpers)=>{
       const { debts } = helpers.getState();
       const { debtId } = body;
-      console.log(debtId+""+typeof(debtId));
       console.log(body.token);
 
       try{
