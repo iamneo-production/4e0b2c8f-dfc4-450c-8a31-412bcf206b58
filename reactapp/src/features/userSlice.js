@@ -67,6 +67,7 @@ export const userSlice = createSlice({
                 firstName:'',
                 lastName:'',
                 email:'',
+                profileImage:'',
                 userId:''
             }
         },
@@ -164,6 +165,7 @@ export const userSlice = createSlice({
                 state.currentUser.lastName = action.payload.data.user.lastName
                 state.currentUser.email = action.payload.data.user.email
                 state.currentUser.userId = action.payload.data.user.userId
+                state.currentUser.profileImage = action.payload.data.user.profileImage
             }else {
                 state.loginError = action.payload.message
                 state.token = null

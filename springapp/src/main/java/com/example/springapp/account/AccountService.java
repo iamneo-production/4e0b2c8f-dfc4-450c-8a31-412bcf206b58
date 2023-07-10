@@ -66,4 +66,15 @@ public class AccountService {
     public Account getAccountById(Integer id){
         return accountRepository.findById(id).orElseThrow();
     }
+
+
+    public void debitBalance(Account account, double amount) {
+        account.setCurrentBalance(account.getCurrentBalance()-amount);
+        accountRepository.save(account);
+    }
+
+    public void creditBalance(Account account, double amount) {
+        account.setCurrentBalance(account.getCurrentBalance()+amount);
+        accountRepository.save(account);
+    }
 }
