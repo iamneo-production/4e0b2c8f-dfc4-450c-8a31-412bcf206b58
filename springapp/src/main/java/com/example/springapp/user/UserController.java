@@ -16,6 +16,8 @@ import com.example.springapp.config.auth.LoginDto;
 import com.example.springapp.config.auth.JWTGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -108,4 +110,17 @@ public class UserController {
 		}
 	}
 
+
+	@PostMapping("/api/send-verification-email")
+	public ResponseEntity<BaseResponceDto> sendVerificationEmail(@RequestParam(value = "email") String email){
+		try{
+			String code = userService.sendVerificationEmail(email);
+			Map<String,Object> data = new HashMap<>();
+			data.put("security-code",code);
+			return ResponseEntity.ok(new BaseResponceDto("success",data));
+		} catch (MessagingException | UnsupportedEncodingException e) {
+			return ResponseEntity.internalServerError().body(new BaseResponceDto("Failed try again"));
+		}
+
+	}
 }
