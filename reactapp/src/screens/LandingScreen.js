@@ -9,7 +9,10 @@ import {ReactComponent as BudgetingSVG} from "../assets/Budgeting.svg";
 import {ReactComponent as SavingSVG} from "../assets/Piggy bank.svg";
 import {ReactComponent as DebtManageSVG} from "../assets/Debt Manage.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
+import {useDispatch} from "react-redux";
+import {openSignupForm} from "../features/userSlice";
 export default function LandingScreen() {
+    const dispatch = useDispatch()
     return (
         <div>
             <HeaderBar isLandingPage={true} />
@@ -19,7 +22,7 @@ export default function LandingScreen() {
                     <Grid.Col justify="center" span={6}>
                         <Title style={{ marginTop: 70,marginLeft:20,textAlign:"left" }} size="48">Empower your finances, simplify your life.</Title>
                         <Text c="dimmed" style={{marginTop:10,marginLeft:20,textAlign:"left"}}>PayMint: Simplify payments, track expenses, achieve financial goals</Text>
-                        <Button style={{marginTop:20,marginLeft:20}} rightIcon={<ArrowRigntIcon/>}>Get stated</Button>
+                        <Button onClick={() => dispatch(openSignupForm())} size={"md"} radius="xl" style={{marginTop:20,marginLeft:20}} rightIcon={<ArrowRigntIcon/>}>Get stated</Button>
                     </Grid.Col>
                     <Grid.Col justify="center" align="center" span={6}>
                         <LeaderSVG/>

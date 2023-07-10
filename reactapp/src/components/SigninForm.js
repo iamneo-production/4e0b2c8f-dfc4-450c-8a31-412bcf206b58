@@ -32,7 +32,7 @@ export default function SigninForm(props) {
 
 
     return (
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal withCloseButton={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={signinInProgress} overlayBlur={2} />
             <Title size="32" align="center">Hello!!</Title>
             <Container size="md">

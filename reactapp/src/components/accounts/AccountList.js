@@ -4,30 +4,11 @@ import { ReactComponent as EditSVG } from '../../assets/Edit.svg';
 import {useSelector} from "react-redux";
 export default function AccountList() {
     const accountList = useSelector(state => state.account.accountList)
-    const accounts = [{
-        accountname:"State Bank of India",
-        totalDeposit:50788,
-        totalWithdrawal:48185,
-        currentBalance:2185
-    },
-    {
-        accountname:"Paytm Payment Bank",
-        totalDeposit:20788,
-        totalWithdrawal:2365,
-        currentBalance:18305
-    },
-    {
-        accountname:"HDFC Bank",
-        totalDeposit:15788,
-        totalWithdrawal:14895,
-        currentBalance:985
-    }]
-
     const rows = accountList.map((element) => (
-        <tr key={element.id}>
+        <tr key={element.accountId}>
           <td><Text fw={700}>{element.name}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalDeposit}`}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalWithdrawal}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
           <td><Text fw={700}>{`Rs. ${element.currentBalance}`}</Text></td>
           <td>{<EditSVG/>}</td>
         </tr>

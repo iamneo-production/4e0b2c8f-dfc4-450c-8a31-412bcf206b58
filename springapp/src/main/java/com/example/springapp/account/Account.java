@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Account {
@@ -15,10 +17,7 @@ public class Account {
     private int accountId;
     private String name;
     private double currentBalance;
-    private boolean isCreditCardEnabled;
-    private boolean isDebitCardEnabled;
-    private boolean isUpiEnabled;
-    private boolean isNetBankingEnabled;
+    private String paymentTypes;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isDeleted;
     @CreationTimestamp
@@ -33,6 +32,14 @@ public class Account {
 
     public UserEntity getUser() {
         return user;
+    }
+
+    public List<String> getPaymentTypes() {
+        return Arrays.asList(paymentTypes.split(", "));
+    }
+
+    public void setPaymentTypes(List<String> paymentTypes) {
+        this.paymentTypes = String.join(", ", paymentTypes);
     }
 
     public void setUser(UserEntity user) {
@@ -63,43 +70,11 @@ public class Account {
         this.currentBalance = currentBalance;
     }
 
-    public boolean isCreditCardEnabled() {
-        return isCreditCardEnabled;
-    }
-
-    public void setCreditCardEnabled(boolean creditCardEnabled) {
-        isCreditCardEnabled = creditCardEnabled;
-    }
-
-    public boolean isDebitCardEnabled() {
-        return isDebitCardEnabled;
-    }
-
-    public void setDebitCardEnabled(boolean debitCardEnabled) {
-        isDebitCardEnabled = debitCardEnabled;
-    }
-
-    public boolean isUpiEnabled() {
-        return isUpiEnabled;
-    }
-
-    public void setUpiEnabled(boolean upiEnabled) {
-        isUpiEnabled = upiEnabled;
-    }
-
-    public boolean isNetBankingEnabled() {
-        return isNetBankingEnabled;
-    }
-
-    public void setNetBankingEnabled(boolean netBankingEnabled) {
-        isNetBankingEnabled = netBankingEnabled;
-    }
-
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setIsDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
