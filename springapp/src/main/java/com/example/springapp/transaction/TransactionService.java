@@ -82,4 +82,15 @@ public class TransactionService {
         }catch (Exception ignored){
         }
     }
+
+
+    public List<Transaction> getTransactionsByAccount(String userName, Account account) {
+        try{
+            UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+            return transactionRepository.findAllByAccount(account);
+        }catch (UsernameNotFoundException e){
+            return null;
+        }
+    }
+
 }

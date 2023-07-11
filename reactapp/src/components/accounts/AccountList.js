@@ -7,8 +7,8 @@ export default function AccountList() {
     const rows = accountList.map((element) => (
         <tr key={element.accountId}>
           <td><Text fw={700}>{element.name}</Text></td>
-          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
-          <td><Text fw={700}>{`Rs. ${0}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${element.totalIncome}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${element.totalExpenses}`}</Text></td>
           <td><Text fw={700}>{`Rs. ${element.currentBalance}`}</Text></td>
           <td>{<EditSVG/>}</td>
         </tr>
@@ -20,8 +20,8 @@ export default function AccountList() {
                 <thead>
                     <tr>
                         <th><Text c="dimmed">ACCOUNT DETAILS</Text></th>
-                        <th><Text c="dimmed">TOTAL DEPOSIT</Text></th>
-                        <th><Text c="dimmed">TOTAL WITHDRAWAL</Text></th>
+                        <th><Text c="dimmed">TOTAL INCOME</Text></th>
+                        <th><Text c="dimmed">TOTAL EXPENSES</Text></th>
                         <th><Text c="dimmed">CURRENT BALANCE</Text></th>
                         <th></th>
                     </tr>
