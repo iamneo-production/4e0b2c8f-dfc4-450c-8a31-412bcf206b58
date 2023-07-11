@@ -5,8 +5,6 @@ import {closeCategoryForm} from "../../features/categorySlice";
 import { showAccountForm} from "../../features/accountSlice";
 
 export default function AccountHeader() {
-    const dispatch = useDispatch()
-
     return (
         <div>
             <Grid>
