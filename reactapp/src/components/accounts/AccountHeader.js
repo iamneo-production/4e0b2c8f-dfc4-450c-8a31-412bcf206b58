@@ -1,10 +1,9 @@
 import { Grid, Title, Button } from '@mantine/core';
-import AccountForm from './AccountForm'
-import {useDispatch, useSelector} from "react-redux";
-import {closeCategoryForm} from "../../features/categorySlice";
 import { showAccountForm} from "../../features/accountSlice";
+import {useDispatch} from "react-redux";
 
 export default function AccountHeader() {
+    const dispatch = useDispatch()
     return (
         <div>
             <Grid>
