@@ -4,7 +4,6 @@ import { ReactComponent as EditSVG } from '../../assets/Edit.svg';
 import {useSelector} from "react-redux";
 export default function AccountList() {
     const accountList = useSelector(state => state.account.accountList)
-    console.log(accountList)
     const rows = accountList.map((element) => (
         <tr key={element.accountId}>
           <td><Text fw={700}>{element.name}</Text></td>
