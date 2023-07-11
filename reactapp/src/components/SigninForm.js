@@ -11,6 +11,7 @@ import { useForm } from '@mantine/form';
 import {loginAccount} from "../features/userSlice";
 import {useDispatch,useSelector} from "react-redux";
 
+
 export default function SigninForm(props) {
     const signinInProgress = useSelector(state => state.user.signinInProgress)
     const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function SigninForm(props) {
 
 
     return (
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal withCloseButton={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={signinInProgress} overlayBlur={2} />
             <Title size="32" align="center">Hello!!</Title>
             <Container size="md">
