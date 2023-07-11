@@ -2,6 +2,7 @@ package com.example.springapp.controller;
 
 import com.example.springapp.BaseResponceDto;
 import com.example.springapp.account.Account;
+import com.example.springapp.account.AccountResponseDto;
 import com.example.springapp.account.AccountService;
 import com.example.springapp.config.auth.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class AccountController {
     @GetMapping("/api/accounts")
     public BaseResponceDto getAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token){
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        List<Account> accounts = accountService.getAccountsByUsername(userName);
+        List<AccountResponseDto> accounts = accountService.getAccountsByUsername(userName);
         return new BaseResponceDto("success",accounts);
     }
     @DeleteMapping("/api/accounts")
