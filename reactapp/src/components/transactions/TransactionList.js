@@ -2,10 +2,21 @@ import {Badge, Flex, Table, Text} from '@mantine/core';
 import ArrowRIcon from '../../assets/Arrow_alt_ltop.svg'
 import ArrowGIcon from '../../assets/Arrow_alt_ldown.svg'
 import Edit from '../../assets/Edit.svg'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import TransactionEditForm from "./TransactionEditForm";
+import {useState} from "react";
 
 export default function TransactionList() {
     const transactionList = useSelector(state => state.transaction.transactionList)
+    const [displayTransactionEditForm,setDisplayTransactionEditForm] = useState(false);
+    const [selectedEditElement,setSelectedEditElement] = useState(null);
+    function handleTransactionEditFormClose(){
+        setDisplayTransactionEditForm(false)
+    }
+    function handleTransactionEditFormOpen(element){
+        setSelectedEditElement(element)
+        setDisplayTransactionEditForm(true)
+    }
     const dateCol = (date) => {
         const dateTime = new Date(date)
         const dateoptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -41,10 +52,10 @@ export default function TransactionList() {
             </div>
         )
     }
-    const paytype = (paymentType) => {
+    const paytype = (element) => {
         return (
             <div style={{marginBottom:12}}>
-                <img src={Edit} />
+                <img src={Edit} onClick={() => handleTransactionEditFormOpen(element)}/>
             </div>
         )
     }
@@ -63,11 +74,14 @@ export default function TransactionList() {
             <td>{categoryCol(element.category, element.description, element.id)}</td>
             <td>{accountDetails(element.account, element.paymentType)}</td>
             <td>{amountCol(element.amount, element.category.type)}</td>
-            <td>{paytype(element.paymentType)}</td>
+            <td>{paytype(element)}</td>
         </tr>
     ));
+
     return (
         <div>
+            {displayTransactionEditForm && <TransactionEditForm element={selectedEditElement} open={displayTransactionEditForm}
+                                                                close={handleTransactionEditFormClose}></TransactionEditForm>}
             <Table >
                 <thead>
                     <tr>

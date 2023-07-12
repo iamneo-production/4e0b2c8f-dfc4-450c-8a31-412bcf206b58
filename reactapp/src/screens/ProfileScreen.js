@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import {
-  Divider,
-  Text,
-  Space,
-  Button,
-  Modal,
-  Avatar,
-  useMantineTheme,
+    Divider,
+    Text,
+    Space,
+    Button,
+    Modal,
+    Avatar,
+    useMantineTheme, Container, Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import EditNameForm from "../components/settings/EditNameForm";
@@ -22,7 +22,7 @@ export default function ProfileScreen() {
   const [opened, { open, close }] = useDisclosure(false);
   const theme = useMantineTheme();
   const [form, setForm] = useState(null);
-
+  const [formName, setFormName] = useState(null);
   const inputRef = useRef(null);
   const [image, setImage] = useState("");
 
@@ -54,6 +54,7 @@ export default function ProfileScreen() {
   return (
     <>
       <Layout title={""} load={true}>
+          <Title style={{ margin: 5 }} order={2}>Profile</Title>
         <div
           style={{
             marginTop: "10px",
@@ -65,10 +66,6 @@ export default function ProfileScreen() {
           }}
         >
           <div style={{ width: "100%" }}>
-            <Space h="md" />
-            <Text fw={700} fz="xl">
-              Profile
-            </Text>
             <Divider my="sm" />
             <Space h="lg" />
           </div>
@@ -84,19 +81,20 @@ export default function ProfileScreen() {
                 gap: "10px 0",
               }}
             >
-              <Text fw={700} style={{ width: "100%" }}>
+              <Text c={"dimmed"} fw={700} style={{ width: "100%" }}>
                 Name
               </Text>
 
               <Space h="lg" />
-              <Text fz="lg" style={{ display: "inline", maxWidth:"calc(100%-75px)", textOverflow: "ellipsis", overflow: "hidden", whiteSpace:"nowrap" }}>
+              <Text fw={500} fz="lg" style={{ display: "inline", maxWidth:"calc(100%-75px)", textOverflow: "ellipsis", overflow: "hidden", whiteSpace:"nowrap" }}>
                 {currentUser.firstName} {currentUser.lastName}
               </Text>
               <Button
-                variant="light"
+                variant="default"
                 color="dark"
                 radius="md"
                 onClick={() => {
+                    setFormName("Edit Name")
                   setForm(<EditNameForm close={close} />);
                   open();
                 }}
@@ -116,19 +114,20 @@ export default function ProfileScreen() {
                 gap: "10px 0",
               }}
             >
-              <Text fw={700} style={{ width: "100%" }}>
+              <Text c={"dimmed"} fw={700} style={{ width: "100%" }}>
                 Email
               </Text>
               <Space h="lg" />
-              <Text fz="lg" style={{ display: "inline", maxWidth:"calc(100%-75px)", textOverflow: "ellipsis", overflow: "hidden", whiteSpace:"nowrap" }}>
+              <Text fw={500} fz="lg" style={{ display: "inline", maxWidth:"calc(100%-75px)", textOverflow: "ellipsis", overflow: "hidden", whiteSpace:"nowrap" }}>
                 {currentUser.email}
               </Text>
               <Button
-                variant="light"
+                variant="default"
                 color="dark"
                 radius="md"
                 
                 onClick={() => {
+                    setFormName("Edit Email")
                   setForm(<EditEmailForm close={close} />);
                   open();
                 }}
@@ -149,7 +148,7 @@ export default function ProfileScreen() {
               position: "relative",
             }}
           >
-            <Text fw={700} fz="xl">
+            <Text c={"dimmed"} fw={700} >
               Profile Picture
             </Text>
             <div onClick={handleImageClick}>
@@ -184,7 +183,7 @@ export default function ProfileScreen() {
                 style={{ display: "none" }}
               />
               <Button
-                variant="light"
+                variant="default"
                 color="dark"
                 radius="md"
                 style={{ position: "absolute", bottom: "0", left: "100px" }}
@@ -206,11 +205,12 @@ export default function ProfileScreen() {
           <Divider my="sm" />
           <Space h="lg" />
           <Button
-            variant="light"
+            variant="default"
             color="dark"
             radius="md"
             style={{ width: "200px" }}
             onClick={() => {
+                setFormName("Change Passwod")
               setForm(<ChangePasswordForm close={close} />);
               open();
             }}
@@ -219,11 +219,12 @@ export default function ProfileScreen() {
           </Button>
           <Space h="lg" />
           <Button
-            variant="light"
+            variant="default"
             color="dark"
             radius="md"
             style={{ width: "200px" }}
             onClick={() => {
+                setFormName("Delete Account")
               setForm(<DeleteAccount />);
               open();
             }}
@@ -234,16 +235,23 @@ export default function ProfileScreen() {
         <Modal
           opened={opened}
           onClose={close}
+          radius="lg"
+          size="sm"
+          centered
           overlayProps={{
-            color:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[9]
-                : theme.colors.gray[2],
-            opacity: 0.55,
-            blur: 3,
+              color: "white",
+              opacity: 0.55,
+              blur: 3,
           }}
+          title={<Title style={{ marginLeft: 10 }} order={3}>
+              {formName}
+          </Title>}
         >
-          {form}
+            <Container>
+
+                {form}
+            </Container>
+
         </Modal>
       </Layout>
     </>

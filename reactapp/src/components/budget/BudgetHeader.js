@@ -18,13 +18,13 @@ export default function BudgetHeader() {
     }
     return (
 
-            <div>
+            <div style={{marginBottom:10}}>
                 <Grid>
-                    <Grid.Col span={2}>
-                        <Title order={1}>Budgets</Title>
+                    <Grid.Col span={"content"}>
+                        <Title style={{ margin: 5 }} order={2}>Budgets</Title>
                     </Grid.Col>
-                    <Grid.Col span={2}>
-                        <Button fullWidth onClick={()=> dispatch(showBudgetForm())} style={{margin:8}}>
+                    <Grid.Col span={"content"}>
+                        <Button fullWidth radius="md" onClick={()=> dispatch(showBudgetForm())} style={{margin:8}}>
                             Add Budget
                         </Button>
                     </Grid.Col>
