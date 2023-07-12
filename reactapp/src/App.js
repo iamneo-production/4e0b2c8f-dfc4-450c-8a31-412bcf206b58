@@ -10,6 +10,7 @@ import {validateToken} from "./features/userSlice";
 import TransactionScreen from './screens/TransactionScreen';
 import ProfileScreen from './screens/Profile';
 import BudgetScreen from "./screens/BudgetScreen";
+import DebtScreen from './screens/DebtScreen';
 
 
 
@@ -23,6 +24,8 @@ function App() {
               <Route path='/dashboard' element={<RequireAuth><DashboardScreen/></RequireAuth>}/>
               <Route path='/test' element={<DashboardScreen/>}/>
               <Route path='/account' element={<RequireAuth><AccountScreen/></RequireAuth>}/>
+              <Route path='/debts' element={<RequireAuth><DebtScreen/></RequireAuth>}/>
+
               <Route path='/report' element={<ReportScreen/>}/>
               <Route path='/goal' element={<GoalScreen/>}/>
               <Route path='/transaction' element={<RequireAuth><TransactionScreen/></RequireAuth>}/>

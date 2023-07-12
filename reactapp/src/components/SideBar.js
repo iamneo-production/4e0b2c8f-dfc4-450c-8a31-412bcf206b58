@@ -128,6 +128,7 @@ export default function SideBar(props) {
               label="Debts"
               icon={<DebtsIcon />}
               rightSection={<></>}
+              onClick={() => navigate("/debts")}
               color={props.currentPage === "Debts" ? "dark" : "gray"}
               active={props.currentPage === "Debts"}
               disabled={props.currentPage === "Debts"}

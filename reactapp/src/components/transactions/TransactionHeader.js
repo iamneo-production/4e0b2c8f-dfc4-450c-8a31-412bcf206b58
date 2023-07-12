@@ -15,14 +15,14 @@ export default function TransactionHeader() {
         const value = event.target.value;
     };
     return (
-        <div>
+        <div style={{marginBottom:10}}>
             <Grid justify="space-around">
                 <Grid.Col span={6}>
                     <Grid>
-                        <Grid.Col span={5}>
-                            <Title order={1}>Transactions</Title>
+                        <Grid.Col span={"content"}>
+                            <Title style={{ margin: 5 }} order={2}>Transactions</Title>
                         </Grid.Col>
-                        <Grid.Col span={4}>
+                        <Grid.Col span={"content"}>
                             <Button radius="md" fullWidth style={{ margin: 8 }} onClick={() => dispatch(showTransactionForm())}>Add Transactions</Button>
                         </Grid.Col>
                     </Grid>

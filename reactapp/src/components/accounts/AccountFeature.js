@@ -1,37 +1,64 @@
 
 import { Grid, Text, Paper } from '@mantine/core';
+import {useSelector} from "react-redux";
 
 export default function AccountFeature() {
+    const accountList = useSelector(state => state.account.accountList)
+    function handleTotalAccount(){
+        return accountList.length
+    }
+
+    function handleTotalIncome(){
+        return accountList.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.totalIncome,
+            0
+        );
+    }
+
+    function handleTotalExpense(){
+        return accountList.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.totalExpenses,
+            0
+        );
+    }
+
+    function handleTotalBalanace(){
+        return accountList.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.currentBalance,
+            0
+        );
+    }
+
     return (
-        <div style={{margin:20}}>
+        <div style={{marginBottom:10}}>
             <Grid >
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700}>3</Text>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                        <Text size={"lg"} fw={700}>{handleTotalAccount().toLocaleString("en-US")}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL ACCOUNTS
                         </Text>
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700}>Rs. 95,000</Text>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                        <Text size={"lg"} fw={700}>{`Rs. ${handleTotalIncome().toLocaleString("en-US")}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL DEPOSIT
                         </Text>
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700}>Rs. 60,900</Text>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                        <Text size={"lg"} fw={700}>{`Rs. ${handleTotalExpense().toLocaleString("en-US")}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL WITHDRAWAL
                         </Text>
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700} style={{color: "#26AB35"}}>Rs. 35,000</Text>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                        <Text size={"lg"} fw={700} style={{color: "#26AB35"}}>{`Rs. ${handleTotalBalanace().toLocaleString("en-US")}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL BALANCE
                         </Text>

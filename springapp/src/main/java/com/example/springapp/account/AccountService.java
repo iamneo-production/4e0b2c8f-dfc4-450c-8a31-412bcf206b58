@@ -1,10 +1,14 @@
 package com.example.springapp.account;
 
+import com.example.springapp.transaction.Transaction;
+import com.example.springapp.transaction.TransactionService;
 import com.example.springapp.user.UserEntity;
 import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +21,10 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
+    @Lazy
+    @Autowired
+    TransactionService transactionService;
+
     public void addAccount(Account account, String userName) {
         try{
             UserEntity user = userRepository.findByEmail(userName).orElseThrow();
@@ -27,10 +35,35 @@ public class AccountService {
         }
     }
 
-    public List<Account> getAccountsByUsername(String userName) {
+    public List<AccountResponseDto> getAccountsByUsername(String userName) {
         try{
             UserEntity user = userRepository.findByEmail(userName).orElseThrow();
-            return accountRepository.findAllByUser(user);
+            List<Account> accountList= accountRepository.findAllByUser(user);
+            List<AccountResponseDto> accountResponseDtoList = new ArrayList<>();
+            for (Account account: accountList
+                 ) {
+                double totalExpenses =0;
+                double totalIncome =0;
+                List<Transaction> transactionList = transactionService.getTransactionsByAccount(userName,account);
+                for (Transaction transaction: transactionList
+                     ) {
+                    if(transaction.getCategory().getType().equals("expense")){
+                        totalExpenses += transaction.getAmount();
+                    } else if (transaction.getCategory().getType().equals("income")) {
+                        totalIncome += transaction.getAmount();
+                    }
+                }
+                AccountResponseDto accountResponseDto = new AccountResponseDto(
+                        account.getAccountId(),
+                        account.getName(),
+                        account.getCurrentBalance(),
+                        account.getPaymentTypes(),
+                        totalExpenses,
+                        totalIncome
+                );
+                accountResponseDtoList.add(accountResponseDto);
+            }
+            return accountResponseDtoList;
         }catch (Exception e){
             return null;
         }
