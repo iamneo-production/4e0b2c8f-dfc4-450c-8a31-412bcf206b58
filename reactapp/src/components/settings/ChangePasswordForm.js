@@ -1,8 +1,10 @@
 import React from "react";
 import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useDispatch, useSelector } from "react-redux";
+import {editPassword} from "../../features/userSlice";
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({close}) {
   const form = useForm({
     initialValues: {
       password: "",
@@ -20,8 +22,18 @@ export default function ChangePasswordForm() {
         value === password ? null : "Passwords do not match",
     },
   });
+
+  const token = useSelector(state => state.user.token)
+  const dispatch = useDispatch()
+
+  async function handleEditPassword(values){
+    console.log(values)
+    dispatch(editPassword({ ...form.values, token: token }))
+    close()
+  }
+
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <form onSubmit={form.onSubmit((values) => handleEditPassword(values))}>
       <TextInput
         radius="md"
         style={{ marginTop: 16 }}

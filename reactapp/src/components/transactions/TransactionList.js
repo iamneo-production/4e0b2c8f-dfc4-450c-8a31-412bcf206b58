@@ -53,7 +53,7 @@ export default function TransactionList() {
             <div style={{marginBottom:12}}>
                 {type === "income" ?
                 
-                <Text fw={700} fz="md" style={{marginBottom:12,color: '#26AB35'}}>{"+ Rs. " + amount}</Text> : <Text fw={700} fz="md" style={{marginBottom:12}}>{"- Rs. " + amount}</Text>}
+                <Text fw={700} fz="md" style={{marginBottom:12,color: '#26AB35'}}>{"+ Rs. " + amount.toLocaleString("en-US")}</Text> : <Text fw={700} fz="md" style={{marginBottom:12}}>{"- Rs. " + amount.toLocaleString("en-US")}</Text>}
             </div>
         )
     }
