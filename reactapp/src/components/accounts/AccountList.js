@@ -7,9 +7,9 @@ export default function AccountList() {
     const rows = accountList.map((element) => (
         <tr key={element.accountId}>
           <td><Text fw={700}>{element.name}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalIncome}`}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.totalExpenses}`}</Text></td>
-          <td><Text fw={700} style={{color: "#26AB35"}}>{`Rs. ${element.currentBalance}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${element.totalIncome.toLocaleString("en-US")}`}</Text></td>
+          <td><Text fw={700}>{`Rs. ${element.totalExpenses.toLocaleString("en-US")}`}</Text></td>
+          <td><Text fw={700} style={{color: "#26AB35"}}>{`Rs. ${element.currentBalance.toLocaleString("en-US")}`}</Text></td>
           <td>{<EditSVG/>}</td>
         </tr>
       ));
