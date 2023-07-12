@@ -98,4 +98,19 @@ public class TransactionService {
         }
     }
 
+    public void updateTransaction(TransactionRequestDto transactionRequestDto, Integer transactionId, String userName) {
+        try{
+            Transaction entity= transactionRepository.findById(transactionId).orElseThrow();
+            Account account = accountService.getAccountById(transactionRequestDto.getAccountId());
+            Category category = categoryService.getCategoryById(transactionRequestDto.getCategoryId());
+            entity.setAccount(account);
+            entity.setCategory(category);
+            entity.setDateTime(transactionRequestDto.getDateTime());
+            entity.setPaymentType(transactionRequestDto.getPaymentType());
+            entity.setDescription(transactionRequestDto.getDescription());
+            entity.setAmount(transactionRequestDto.getAmount());
+            transactionRepository.save(entity);
+        }catch (Exception ignored){
+        }
+    }
 }

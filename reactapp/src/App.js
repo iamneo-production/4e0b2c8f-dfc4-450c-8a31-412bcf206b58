@@ -19,21 +19,16 @@ function App() {
           <Routes>
               <Route exact path='/' element={<AlreadyLoggedin><LandingScreen></LandingScreen></AlreadyLoggedin>} />
               <Route path='/dashboard' element={<RequireAuth><DashboardScreen/></RequireAuth>}/>
-              <Route path='/test' element={<DashboardScreen/>}/>
               <Route path='/account' element={<RequireAuth><AccountScreen/></RequireAuth>}/>
               <Route path='/debts' element={<RequireAuth><DebtScreen/></RequireAuth>}/>
-
-              <Route path='/report' element={<ReportScreen/>}/>
-              <Route path='/goal' element={<GoalScreen/>}/>
+              <Route path='/report' element={<RequireAuth><ReportScreen/></RequireAuth>}/>
+              <Route path='/goal' element={<RequireAuth><GoalScreen/></RequireAuth>}/>
               <Route path='/transaction' element={<RequireAuth><TransactionScreen/></RequireAuth>}/>
-              <Route path='/profile' element={<ProfileScreen/>}/>
-              <Route path='/budget' element={<BudgetScreen/>}/>
-
+              <Route path='/profile' element={<RequireAuth><ProfileScreen/></RequireAuth>}/>
+              <Route path='/budget' element={<RequireAuth><BudgetScreen/></RequireAuth>}/>
+              <Route path="/*" element={<p>Page not found</p>} />
           </Routes>
       </BrowserRouter>
-   
-     
-     
   );
 }
 
