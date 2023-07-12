@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {createAccountService, loginAccountService, validateTokenService} from "../api/userService";
+import {createAccountService, loginAccountService, validateTokenService, editNameService, editEmailService, editPasswordService, editImageService} from "../api/userService";
 import {notifications} from "@mantine/notifications";
 import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
@@ -43,6 +43,65 @@ export const validateToken =
             return error.responce.data
         })
     })
+
+//Edit name
+export const editName = 
+    createAsyncThunk('user/editName', async(body) => {
+        return editNameService(
+            body.token,
+            body.firstName,
+            body.lastName
+        ).then((res) =>{
+            return res.data
+        }).catch((err) =>{
+            return err.response
+        })
+    })
+//Edit email
+export const editEmail = 
+    createAsyncThunk('user/editEmail', async(body) => {
+        return editEmailService(
+            body.token,
+            body.email
+        ).then((res) =>{
+            return res.data
+        }).catch((err) =>{
+            return err.response.data
+        })
+    })
+
+//Edit Password
+export const editPassword = 
+    createAsyncThunk('user/editPassword', async(body) => {
+        // console.log(body)
+        return editPasswordService(
+            body.token,
+            body.password
+        ).then((res) =>{
+            console.log(res.data)
+            return res.data
+        }).catch((err) =>{
+            console.log(err.response.data.message)
+            return err.response.data.message
+        })
+    })
+
+//Edit image
+export const editImage = 
+createAsyncThunk('user/editImage', async(body) => {
+    // console.log(body)
+    return editImageService(
+        body.token,
+        body.image
+    ).then((res) =>{
+        console.log(res.data)
+        return res.data
+    }).catch((err) =>{
+        console.log(err.response.data.message)
+        return err.response.data.message
+    })
+})
+
 export const userSlice = createSlice({
     name:"user",
     initialState:{
