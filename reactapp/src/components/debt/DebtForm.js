@@ -6,7 +6,7 @@ import { DatePickerInput } from '@mantine/dates';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useSelector } from 'react-redux';
 
-function DebtForm({formOpen}) {
+function DebtForm() {
   const token  = useSelector(state => state.user.token);
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -38,12 +38,11 @@ function DebtForm({formOpen}) {
   const handleSaveModal = async (e) => {
     e.preventDefault();
     if(dueDate.toDateString() === new Date().toDateString()){
-      setErrD("Please select the due date");
+      setErrD("Please select a valid date");
       setTimeout(()=>{
         setErrD('')
       },1000);
       return;
-
     }
     if(!isNaN(moneyFrom) || !moneyFrom.length ){
       console.log(!isNaN(moneyFrom))
@@ -175,16 +174,6 @@ function DebtForm({formOpen}) {
           style={{ position: 'fixed', bottom: '30px', right: '30px' }}
         />
       }
-      {/* <Group 
-        position="center"
-        style={{marginLeft:"50px"}}>
-        <Button 
-          onClick={handleOpenModal} 
-          style={{width:"170px"}}>
-          New Debt
-          {/* <FaPlus style={{marginLeft:"15px"}}/> */}
-        {/* </Button> */}
-      {/* // </Group> */} 
           <Grid.Col style={{margin:"8px"}} span={"content"}>
               <Button onClick={handleOpenModal}  fullWidth>
                   New Debt

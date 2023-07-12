@@ -83,7 +83,6 @@ const DebtList = () => {
     
     setViewModalOpen(false);
     // console.log(`${debtId} deleted`);
-    // Perform your delete logic here
     setdelNot(true);
     setTimeout(()=>{
       setdelNot(false)
@@ -111,12 +110,7 @@ const DebtList = () => {
       </td>
       <td>
         <Button 
-          // variant='light'
           color='gray'
-          // style={{
-          //    color: 'gray',
-          //     // background: 'rgba(217, 214, 210,0.2)' 
-          //     }} 
           onClick={(e) => { handleViewOpenModal(e, element) }}>
             View
             </Button>
@@ -248,22 +242,13 @@ const DebtList = () => {
                 Update
               </Button>
             </div>
-            {/* <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
-              <Grid.Col span={"auto"}>
-              <Button radius="md" color="gray" fullWidth >Cancel</Button>
-              </Grid.Col>
-              <Grid.Col span={"auto"}>
-              <Button radius="md" fullWidth onClick={() => handleSaveModal(debtId)}>Update</Button>
-              </Grid.Col>
-            </Grid> */}
           </Modal>
 
           <Modal
             opened={viewModalOpen}
             onClose={handleCloseViewModal}
             centered
-            radius="lg"
-    
+            radius="lg"    
             overlayProps={{
               color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
               opacity: 0.5,

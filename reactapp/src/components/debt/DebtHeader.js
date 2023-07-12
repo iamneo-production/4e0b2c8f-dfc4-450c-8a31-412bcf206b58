@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
-import { Grid,Button, Title } from '@mantine/core';
+import React from 'react';
+import { Grid, Title } from '@mantine/core';
 import DebtForm from './DebtForm';
 
 const DebtHeader = () => {
-  // const [form,setForm]=useState(false);
-  // const formOpen=()=>{
-  //   console.log("hii")
-  //   setForm(true);
-  //   return <DebtForm formOpen={form} />
-  // };
   return (
     <div style={{marginBottom:10}}>
         <Grid>
