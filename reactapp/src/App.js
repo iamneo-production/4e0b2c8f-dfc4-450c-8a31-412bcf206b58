@@ -28,8 +28,9 @@ function App() {
               <Route path='/report' element={<RequireAuth><ReportScreen/></RequireAuth>}/>
               <Route path='/goal' element={<RequireAuth><GoalScreen/></RequireAuth>}/>
               <Route path='/transaction' element={<RequireAuth><TransactionScreen/></RequireAuth>}/>
-              <Route path='/profile' element={<Profile/>}/>
-              <Route path='/budget' element={<RequireAuth><BudgetScreen/></RequireAuth>}/>
+
+              <Route path='/profile' element={<ProfileScreen/>}/>
+              <Route path='/budget' element={<BudgetScreen/>}/>
 
           </Routes>
       </BrowserRouter>
