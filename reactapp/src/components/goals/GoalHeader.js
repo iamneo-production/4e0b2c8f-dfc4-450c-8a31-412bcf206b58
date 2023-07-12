@@ -8,12 +8,12 @@ export default function GoalHeader() {
     }
 
     return (
-        <div>
+        <div style={{marginBottom:10}}>
             <Grid>
-                <Grid.Col span={2}>
-                    <Title order={1}>Goals</Title>
+                <Grid.Col span={"content"}>
+                    <Title style={{ margin: 5 }} order={2}>Goals</Title>
                 </Grid.Col>
-                <Grid.Col style={{margin:8}} span={2}>
+                <Grid.Col style={{margin:8}} span={"content"}>
                     <Button onClick={()=>setOpen(true)} fullWidth>
                         Add Goals
                     </Button>

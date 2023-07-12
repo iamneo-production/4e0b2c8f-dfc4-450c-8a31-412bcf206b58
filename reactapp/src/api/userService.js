@@ -23,3 +23,40 @@ export async function validateTokenService(token){
         headers: { Authorization: `Bearer ${token}` }
     })
 }
+
+// edit name
+export async function editNameService(token, firstName, lastName) {
+    return await axios.post(`${baseUrl}/profile/name`,{
+        "firstName": firstName,
+        "lastName": lastName
+    }, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+}
+
+// edit email
+export async function editEmailService(token, inemail) {
+    return await axios.post(`${baseUrl}/profile/email`,{
+        "email": inemail
+    }, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+}
+
+// edit password
+export async function editPasswordService(token, password) {
+    return await axios.put(`${baseUrl}/profile/password`,{
+        "password": password
+    }, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+}
+
+// edit image
+export async function editImageService(token, image) {
+    return await axios.post(`${baseUrl}/profile/image`,{     
+        "image": image
+    }, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type":'multipart/form-data' }
+    })
+}
