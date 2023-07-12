@@ -25,12 +25,11 @@ function App() {
               <Route path='/test' element={<DashboardScreen/>}/>
               <Route path='/account' element={<RequireAuth><AccountScreen/></RequireAuth>}/>
               <Route path='/debts' element={<RequireAuth><DebtScreen/></RequireAuth>}/>
-
-              <Route path='/report' element={<ReportScreen/>}/>
-              <Route path='/goal' element={<GoalScreen/>}/>
+              <Route path='/report' element={<RequireAuth><ReportScreen/></RequireAuth>}/>
+              <Route path='/goal' element={<RequireAuth><GoalScreen/></RequireAuth>}/>
               <Route path='/transaction' element={<RequireAuth><TransactionScreen/></RequireAuth>}/>
               <Route path='/profile' element={<Profile/>}/>
-              <Route path='/budget' element={<BudgetScreen/>}/>
+              <Route path='/budget' element={<RequireAuth><BudgetScreen/></RequireAuth>}/>
 
           </Routes>
       </BrowserRouter>
