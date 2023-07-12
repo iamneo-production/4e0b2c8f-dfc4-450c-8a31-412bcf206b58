@@ -14,11 +14,10 @@ const DebtScreen = () => {
 
   return (
         <Layout title={"Debts"} load={true}>
-          <div style={{ display: 'flex',marginBottom:"20px"}}>
+          <div style={{ display: 'flex'}}>
             <DebtHeader />
-            <DebtForm />
           </div>
-          <div style={{marginLeft:"2%"}}>
+          <div>
             <DebtFeature />
             {/* { (!debts || debts.length ===0 ) ? (
                 <NoDebt />

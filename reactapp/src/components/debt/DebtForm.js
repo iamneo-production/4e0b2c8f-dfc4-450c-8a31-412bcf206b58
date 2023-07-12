@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { FaPlus,FaMoneyBill,FaUser,FaCalendarAlt } from 'react-icons/fa';
-import { Modal, Group, Button, TextInput, Title,useMantineTheme,Notification } from '@mantine/core';
+import { Modal,  Button, TextInput, Title,useMantineTheme,Notification, Grid } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useSelector } from 'react-redux';
 
-function DebtForm() {
+function DebtForm({formOpen}) {
   const token  = useSelector(state => state.user.token);
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -22,6 +22,10 @@ function DebtForm() {
   const addDebt=useStoreActions((action)=>action.addDebt)
   const theme = useMantineTheme();
   const [newNot,setnewNot]=useState(false);
+  const [errN,setErrN]=useState('');
+  const [errA,setErrA]=useState('');
+  const [errD,setErrD]=useState('');
+
 
   const handleOpenModal = () => {
     open();
@@ -33,6 +37,31 @@ function DebtForm() {
 
   const handleSaveModal = async (e) => {
     e.preventDefault();
+    if(dueDate.toDateString() === new Date().toDateString()){
+      setErrD("Please select the due date");
+      setTimeout(()=>{
+        setErrD('')
+      },1000);
+      return;
+
+    }
+    if(!isNaN(moneyFrom) || !moneyFrom.length ){
+      console.log(!isNaN(moneyFrom))
+      setErrN("Please enter a valid name");
+      setTimeout(()=>{
+        setErrN('')
+      },1000);
+      return;
+
+    }
+    if(!amount || isNaN(amount)){
+      setErrA("please enter a valid amount");
+      setTimeout(()=>{
+        setErrA('')
+      },1000);
+      return;
+
+    }
     const dueDate1 = dueDate.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -57,7 +86,7 @@ function DebtForm() {
   
   return (
     <>
-      <Modal
+      {<Modal
         opened={opened}
         onClose={close}
         centered
@@ -86,6 +115,7 @@ function DebtForm() {
               label="Due date"
               value={dueDate}
               onChange={setdueDate}
+              error={errD}
               icon={<FaCalendarAlt size="1.1rem" stroke={1.5} />}
 
             />
@@ -93,15 +123,21 @@ function DebtForm() {
           <TextInput radius="md" style={{marginTop:"7px"}}
               label="From"
               value={moneyFrom}
+              placeholder='Ex : Hariharan'
               data-autofocus
+              // required
+              withAsterisk
+              error={errN}
               onChange={(event) => setMoneyFrom(event.currentTarget.value)}
               icon={<FaUser size="1.1rem" stroke={1.5}/>}
             />
             <TextInput radius="md" style={{marginTop:"7px"}}
-              // withAsterisk 
+              withAsterisk 
               label="Amount"
               value={amount}
-              placeholder=""
+              placeholder="1000"
+              // required
+              error={errA}
               onChange={(event) => setAmount(event.currentTarget.value)}
               icon={<FaMoneyBill size="1.1rem" stroke={1.5}/>}
             />
@@ -113,21 +149,22 @@ function DebtForm() {
             marginTop: '16px' 
               }}>
           <Button 
-            variant="subtle" 
+            // variant="subtle" 
             onClick={close} 
             fullWidth 
+            color='gray'
             style={{ marginLeft: '10px', width: '45%' }} >
             Cancel
           </Button>
           <Button 
             onClick={handleSaveModal}
             fullWidth 
-            style={{ marginRight: '10px', width: '45%' }}>
+            style={{ marginRight: '10px', width: '45%' }} type='submit'>
             Save
           </Button>
         </div>
 
-      </Modal>
+      </Modal> }
       {newNot &&
         <Notification
           transition="slide-up"
@@ -138,16 +175,21 @@ function DebtForm() {
           style={{ position: 'fixed', bottom: '30px', right: '30px' }}
         />
       }
-      <Group 
+      {/* <Group 
         position="center"
         style={{marginLeft:"50px"}}>
         <Button 
           onClick={handleOpenModal} 
           style={{width:"170px"}}>
           New Debt
-          <FaPlus style={{marginLeft:"15px"}}/>
-        </Button>
-      </Group>
+          {/* <FaPlus style={{marginLeft:"15px"}}/> */}
+        {/* </Button> */}
+      {/* // </Group> */} 
+          <Grid.Col style={{margin:"8px"}} span={"content"}>
+              <Button onClick={handleOpenModal}  fullWidth>
+                  New Debt
+              </Button>
+          </Grid.Col>
     </>
   );
 }
