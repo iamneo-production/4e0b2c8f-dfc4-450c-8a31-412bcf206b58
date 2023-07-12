@@ -12,9 +12,6 @@ import ProfileScreen from './screens/ProfileScreen';
 import BudgetScreen from "./screens/BudgetScreen";
 import DebtScreen from './screens/DebtScreen';
 
-
-
-
 function App() {
 
   return (

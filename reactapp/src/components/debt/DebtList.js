@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Badge, Table, Button, TextInput, Title, Switch, useMantineTheme ,Notification} from '@mantine/core';
-import { FaTrash,FaEdit,FaMoneyBill,FaUser,FaCalendarAlt } from 'react-icons/fa';
+import { Modal, Badge, Table,Text, Button, TextInput, Title, Switch, useMantineTheme ,Notification,Grid} from '@mantine/core';
+import { FaTrash,FaEdit,FaMoneyBill,FaUser,FaCalendarAlt,FaCheck,FaTimes } from 'react-icons/fa';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { DatePickerInput } from '@mantine/dates';
 import { useSelector } from 'react-redux';
+import NoDebt from './NoDebt';
+// import { IconCheck, IconX } from '@tabler/icons-react';
 
 const DebtList = () => {
   const token  = useSelector(state => state.user.token)
@@ -31,6 +33,7 @@ const DebtList = () => {
   
   const [upNot,setupNot]=useState(false);
   const [delNot,setdelNot]=useState(false);
+  const [checked, setChecked] = useState(false);
 
 
   const handleOpenModal = (e,debtList) => {
@@ -80,7 +83,6 @@ const DebtList = () => {
     
     setViewModalOpen(false);
     // console.log(`${debtId} deleted`);
-    // Perform your delete logic here
     setdelNot(true);
     setTimeout(()=>{
       setdelNot(false)
@@ -90,30 +92,27 @@ const DebtList = () => {
     const newStatus = status === 'paid' ? 'unpaid' : 'paid';
     setStatus(newStatus);
     console.log(status);
+    setChecked(!checked);
   };
 
   const rows = debts.map((element) => (
-    <tr key={element.debtId} style={{ fontWeight: "bold",textAlign:"left" }}>
-      <td>{element.moneyFrom}</td>
-      <td>{element.dueDate}</td>
-      <td>{`Rs. ${element.amount}`}</td>
+    <tr key={element.debtId} style={{textAlign:"left" }}>
+      <td><Text fw={700}>{element.moneyFrom}</Text></td>
+      <td><Text fw={700}>{element.dueDate}</Text></td>
+      <td><Text fw={700}>{`Rs. ${element.amount}`}</Text></td>
       <td>
         <Badge 
           color={element.status === 'paid' ? "green" : "red"} 
-          size="lg" 
+          // size="lg" 
           variant="outline">
           {element.status}
           </Badge>
       </td>
       <td>
         <Button 
-          variant='light'
-          style={{
-             color: 'grey',
-              background: 'rgba(217, 214, 210,0.2)' 
-              }} 
+          color='gray'
           onClick={(e) => { handleViewOpenModal(e, element) }}>
-            <b>view</b>
+            View
             </Button>
       </td>
     </tr>
@@ -121,24 +120,32 @@ const DebtList = () => {
   
 
   return (
-  <div style={{ width: '80%', marginTop: '20px'}}>
-    <Table horizontalSpacing="xl" verticalSpacing="md" fontSize="lg" highlightOnHover>
+    <div style={{ marginTop: '20px'}}>
+      {(!debts || debts.length ===0 ) ? (
+      <NoDebt />
+    ) :(<div >
+    <Table 
+      horizontalSpacing="md" 
+      verticalSpacing="lg" 
+      // fontSize="lg" 
+      highlightOnHover>
      <thead>
       <tr style={{ textAlign: 'left'}}>
             <th style={{color:"grey"}}>
-                FROM
+                <Text c="dimmed">FROM</Text>
               </th>
               <th style={{color:"grey"}}>
-                AMOUNT
+              <Text c="dimmed">AMOUNT</Text>
+                
               </th>
               <th style={{color:"grey"}}>
-                DUE DATE
+              <Text c="dimmed">DUE DATE</Text>                
               </th>
               <th style={{color:"grey"}}>
-                STATUS
+              <Text c="dimmed">STATUS</Text>                
               </th>
               <th style={{color:"grey"}}>
-                DETAILS
+              <Text c="dimmed">DETAILS</Text>                
               </th>
         </tr>
       </thead>
@@ -156,7 +163,7 @@ const DebtList = () => {
                 <span>Edit</span>
               </Title>
             }
-            size="300px"
+            size="350px"
             radius="lg"
             zIndex={1001} // Set a higher zIndex value for the Edit Modal
 
@@ -207,16 +214,25 @@ const DebtList = () => {
                 <Switch 
                   style={{width:"80px"}} checked={status==='paid'}
                   onChange={handleSwitchToggle} size="md"
-                  onLabel={<span style={{fontSize:"13px"}}><b> &nbsp; paid</b></span>} 
-                  offLabel= {<span style={{fontSize:"13px",color:"rgb(51, 154, 240)"}}><b>unpaid</b></span>} />
+                  label="paid"
+                  // thumbIcon:{checked?<FaCheck/>:<FaTimes/>}
+                  thumbIcon={
+                    checked ? (
+                      <FaCheck size="0.8rem"  stroke={3} />
+                    ) : (
+                      <FaTimes size="0.8rem"  stroke={3} />
+                    )}
+                  // onLabel={<span style={{fontSize:"13px"}}><b> &nbsp; paid</b></span>} 
+                  // offLabel= {<span style={{fontSize:"13px",color:"rgb(51, 154, 240)"}}><b>unpaid</b></span>} 
+                  /> 
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
               <Button 
-                variant="subtle" 
+                // variant="subtle" 
                 onClick={close} 
                 fullWidth 
-                style={{ marginLeft: '10px', width: '45%' }} >
+                style={{ marginLeft: '10px', width: '45%' }} color='gray' >
                 Cancel
               </Button>
               <Button 
@@ -232,8 +248,7 @@ const DebtList = () => {
             opened={viewModalOpen}
             onClose={handleCloseViewModal}
             centered
-            radius="lg"
-    
+            radius="lg"    
             overlayProps={{
               color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
               opacity: 0.5,
@@ -292,7 +307,7 @@ const DebtList = () => {
               icon={<FaTrash />}
               style={{ position: 'fixed', bottom: '30px', right: '30px' }}
             />}
-
+          </div>)}
     </div>
   )
 }
