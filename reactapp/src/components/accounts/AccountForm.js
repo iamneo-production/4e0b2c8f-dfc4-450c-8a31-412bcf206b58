@@ -55,7 +55,11 @@ export default function AccountForm(props) {
     }
 
     return (
-        <Modal  withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal  overlayProps={{
+            color: "white",
+            opacity: 0.55,
+            blur: 3,
+        }} withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={addAccountInProcess} overlayBlur={2} />
             <Title style={{ marginLeft: 10 }} order={3}>Add Account</Title>
             <Container size="md">

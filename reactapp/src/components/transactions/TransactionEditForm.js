@@ -147,7 +147,11 @@ export default function TransactionEditForm(props) {
     return (
         <>
 
-            <Modal size={"xl"} withCloseButton={false} closeOnClickOutside={false} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
+            <Modal overlayProps={{
+                color: "white",
+                opacity: 0.55,
+                blur: 3,
+            }} size={"xl"} withCloseButton={false} closeOnClickOutside={false} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
                 <Title style={{ marginLeft: 10 }} order={3}>{`Edit Transaction: `}</Title>
                 <form onSubmit={form.onSubmit((values) => handleEditTransaction())}>
                     <Grid style={{ margin: 10 }}>

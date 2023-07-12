@@ -54,7 +54,11 @@ function BudgetForm(props) {
     }
 
     return (
-        <Modal withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open}
+        <Modal overlayProps={{
+            color: "white",
+            opacity: 0.55,
+            blur: 3,
+        }} withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open}
                onClose={() => {
                    props.close()
                }} centered>
