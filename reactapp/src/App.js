@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import {validateToken} from "./features/userSlice";
 import TransactionScreen from './screens/TransactionScreen';
-import Profile from './screens/Profile';
+import ProfileScreen from './screens/Profile';
 import BudgetScreen from "./screens/BudgetScreen";
 import DebtScreen from './screens/DebtScreen';
 

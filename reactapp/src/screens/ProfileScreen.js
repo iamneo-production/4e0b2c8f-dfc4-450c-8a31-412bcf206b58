@@ -13,25 +13,48 @@ import EditNameForm from "../components/settings/EditNameForm";
 import EditEmailForm from "../components/settings/EditEmailForm";
 import ChangePasswordForm from "../components/settings/ChangePasswordForm";
 import DeleteAccount from "../components/settings/DeleteAccount";
+import { useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
+import { editImage, validateToken } from "../features/userSlice";
+import Layout from "../components/Layout";
 
-export default function Profile() {
+export default function ProfileScreen() {
   const [opened, { open, close }] = useDisclosure(false);
   const theme = useMantineTheme();
   const [form, setForm] = useState(null);
 
   const inputRef = useRef(null);
   const [image, setImage] = useState("");
+  
+  //image
+  const token = useSelector(state => state.user.token)
+  const dispatch = useDispatch()
+
+  const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+});
 
   const handleImageClick = () => {
     inputRef.current.click();
   };
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    setImage(event.target.files[0]);
+    // let url = await toBase64(file);
+    setImage(file);
+    // console.log(url);
+   await  dispatch(editImage({image: file,token: token}));
+   await  dispatch(validateToken(token))
   };
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   return (
     <>
+    <Layout title={""} load={true}>
+            
+           
       <div
         style={{
           marginTop: "10px",
@@ -52,12 +75,12 @@ export default function Profile() {
         </div>
 
         <div style={{ display: "inline", width: "50%" }}>
-          <div style={{ display: "inline" }}>
-            <Text fw={700}>Name</Text>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", maxWidth: "450px", alignItems: "center", gap:"10px 0" }}>
+            <Text fw={700} style={{ width: "100%"}}>Name</Text>
 
             <Space h="lg" />
             <Text fz="lg" style={{ display: "inline" }}>
-              Sayan Das
+              {currentUser.firstName} {currentUser.lastName}
             </Text>
             <Button
               variant="light"
@@ -65,7 +88,7 @@ export default function Profile() {
               radius="md"
               style={{ marginLeft: "300px" }}
               onClick={() => {
-                setForm(<EditNameForm />);
+                setForm(<EditNameForm close={close}/>);
                 open();
               }}
             >
@@ -74,11 +97,11 @@ export default function Profile() {
           </div>
           <Space h="lg" />
 
-          <div style={{ display: "inline" }}>
-            <Text fw={700}>Email</Text>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", maxWidth: "450px", alignItems: "center", gap:"10px 0" }}>
+            <Text fw={700} style={{ width: "100%"}}>Email</Text>
             <Space h="lg" />
-            <Text fz="lg" style={{ display: "inline" }}>
-              sayandas@gmail.com
+            <Text fz="lg" style={{ display: "inline"}}>
+              {currentUser.email}
             </Text>
             <Button
               variant="light"
@@ -86,7 +109,7 @@ export default function Profile() {
               radius="md"
               style={{ marginLeft: "210px" }}
               onClick={() => {
-                setForm(<EditEmailForm />);
+                setForm(<EditEmailForm close={close}/>);
                 open();
               }}
             >
@@ -110,9 +133,9 @@ export default function Profile() {
             Profile Picture
           </Text>
           <div onClick={handleImageClick}>
-            {image ? (
+            {currentUser.profileImage ? (
               <img
-                src={URL.createObjectURL(image)}
+                src={`data:image/jpeg;base64,${currentUser.profileImage}`}
                 alt="Default image"
                 style={{
                   width: "150px",
@@ -120,7 +143,8 @@ export default function Profile() {
                   borderRadius: "1000px",
                 }}
               />
-            ) : (<Avatar radius="xl" />
+            ) : (
+              <Avatar radius="xl" />
               // <img
               //   src={logo}
               //   alt="Default image"
@@ -166,7 +190,7 @@ export default function Profile() {
           radius="md"
           style={{ width: "200px" }}
           onClick={() => {
-            setForm(<ChangePasswordForm />);
+            setForm(<ChangePasswordForm close={close}/>);
             open();
           }}
         >
@@ -200,6 +224,7 @@ export default function Profile() {
       >
         {form}
       </Modal>
+      </Layout>
     </>
   );
 }
