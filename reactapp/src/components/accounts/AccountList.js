@@ -9,13 +9,13 @@ export default function AccountList() {
           <td><Text fw={700}>{element.name}</Text></td>
           <td><Text fw={700}>{`Rs. ${element.totalIncome}`}</Text></td>
           <td><Text fw={700}>{`Rs. ${element.totalExpenses}`}</Text></td>
-          <td><Text fw={700}>{`Rs. ${element.currentBalance}`}</Text></td>
+          <td><Text fw={700} style={{color: "#26AB35"}}>{`Rs. ${element.currentBalance}`}</Text></td>
           <td>{<EditSVG/>}</td>
         </tr>
       ));
 
     return (
-        <div style={{margin:20}}>
+        <div >
             <Table verticalSpacing="lg">
                 <thead>
                     <tr>
@@ -23,7 +23,7 @@ export default function AccountList() {
                         <th><Text c="dimmed">TOTAL INCOME</Text></th>
                         <th><Text c="dimmed">TOTAL EXPENSES</Text></th>
                         <th><Text c="dimmed">CURRENT BALANCE</Text></th>
-                        <th></th>
+                        <th><Text c="dimmed">EDIT</Text></th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>

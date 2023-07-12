@@ -30,10 +30,10 @@ export default function AccountFeature() {
     }
 
     return (
-        <div style={{margin:20}}>
+        <div style={{marginBottom:10}}>
             <Grid >
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
                         <Text size={"lg"} fw={700}>{handleTotalAccount()}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL ACCOUNTS
@@ -41,7 +41,7 @@ export default function AccountFeature() {
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
                         <Text size={"lg"} fw={700}>{`Rs. ${handleTotalIncome()}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL DEPOSIT
@@ -49,7 +49,7 @@ export default function AccountFeature() {
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
                         <Text size={"lg"} fw={700}>{`Rs. ${handleTotalExpense()}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL WITHDRAWAL
@@ -57,7 +57,7 @@ export default function AccountFeature() {
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Paper radius="md" p="md" withBorder>
+                    <Paper shadow="sm" radius="md" p="md" withBorder>
                         <Text size={"lg"} fw={700} style={{color: "#26AB35"}}>{`Rs. ${handleTotalBalanace()}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL BALANCE
