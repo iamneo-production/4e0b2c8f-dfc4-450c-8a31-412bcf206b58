@@ -34,7 +34,7 @@ export default function AccountFeature() {
             <Grid >
                 <Grid.Col span={3}>
                     <Paper shadow="sm" radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700}>{handleTotalAccount()}</Text>
+                        <Text size={"lg"} fw={700}>{handleTotalAccount().toLocaleString("en-US")}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL ACCOUNTS
                         </Text>
@@ -42,7 +42,7 @@ export default function AccountFeature() {
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <Paper shadow="sm" radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700}>{`Rs. ${handleTotalIncome()}`}</Text>
+                        <Text size={"lg"} fw={700}>{`Rs. ${handleTotalIncome().toLocaleString("en-US")}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL DEPOSIT
                         </Text>
@@ -50,7 +50,7 @@ export default function AccountFeature() {
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <Paper shadow="sm" radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700}>{`Rs. ${handleTotalExpense()}`}</Text>
+                        <Text size={"lg"} fw={700}>{`Rs. ${handleTotalExpense().toLocaleString("en-US")}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL WITHDRAWAL
                         </Text>
@@ -58,7 +58,7 @@ export default function AccountFeature() {
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <Paper shadow="sm" radius="md" p="md" withBorder>
-                        <Text size={"lg"} fw={700} style={{color: "#26AB35"}}>{`Rs. ${handleTotalBalanace()}`}</Text>
+                        <Text size={"lg"} fw={700} style={{color: "#26AB35"}}>{`Rs. ${handleTotalBalanace().toLocaleString("en-US")}`}</Text>
                         <Text size={"md"} fw={700} c="dimmed">
                             TOTAL BALANCE
                         </Text>
