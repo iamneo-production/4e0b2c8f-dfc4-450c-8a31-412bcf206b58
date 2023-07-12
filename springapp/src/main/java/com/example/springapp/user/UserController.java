@@ -7,18 +7,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.example.springapp.config.auth.LoginDto;
 import com.example.springapp.config.auth.JWTGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -77,4 +76,51 @@ public class UserController {
 		return new ResponseEntity<>(new BaseResponceDto("unauthorized",data), HttpStatus.UNAUTHORIZED);
 	}
 
+	@PostMapping("/api/profile/image")
+	public ResponseEntity<BaseResponceDto> updateProfilePicture(@RequestHeader(value = "Authorization", defaultValue = "") String token,@ModelAttribute ProfileImageDto profileImageDto){
+		try {
+			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+			System.out.println("done----------------------------------------------");
+			userService.updateUserProfileImage(profileImageDto,userName);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile image."));
+		}
+	}
+
+	@PostMapping("/api/profile/name")
+	public ResponseEntity<BaseResponceDto> updateProfileName(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody ProfileNameDto profileNameDto){
+		try {
+			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+			userService.updateUserProfileName(profileNameDto,userName);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile name."));
+		}
+	}
+
+	@PostMapping("/api/profile/email")
+	public ResponseEntity<BaseResponceDto> updateProfileName(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody ProfileEmailDto profileEmailDto){
+		try {
+			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+			userService.updateUserProfileEmail(profileEmailDto,userName);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile email."));
+		}
+	}
+
+
+	@PostMapping("/api/send-verification-email")
+	public ResponseEntity<BaseResponceDto> sendVerificationEmail(@RequestParam(value = "email") String email){
+		try{
+			String code = userService.sendVerificationEmail(email);
+			Map<String,Object> data = new HashMap<>();
+			data.put("security-code",code);
+			return ResponseEntity.ok(new BaseResponceDto("success",data));
+		} catch (MessagingException | UnsupportedEncodingException e) {
+			return ResponseEntity.internalServerError().body(new BaseResponceDto("Failed try again"));
+		}
+
+	}
 }

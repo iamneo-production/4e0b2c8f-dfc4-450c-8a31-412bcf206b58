@@ -2,11 +2,8 @@ package com.example.springapp.user;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import com.example.springapp.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,7 +20,17 @@ public class UserEntity extends BaseEntity {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
-	
+	@Column(length = 1048576)
+	private byte[] profileImage;
+
+	public byte[] getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(byte[] profileImage) {
+		this.profileImage = profileImage;
+	}
+
 	public Integer getUserId() {
 		return userId;
 	}

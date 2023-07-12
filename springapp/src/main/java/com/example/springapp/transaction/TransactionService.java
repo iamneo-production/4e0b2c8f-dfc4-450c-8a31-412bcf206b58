@@ -49,6 +49,11 @@ public class TransactionService {
                 user
         );
         transactionRepository.save(transaction);
+        if(category.getType().equals("expense")){
+            accountService.debitBalance(account,transactionRequestDto.getAmount());
+        }else if(category.getType().equals("income")) {
+            accountService.creditBalance(account,transactionRequestDto.getAmount());
+        }
     }
 
     public boolean hasTransaction(String transactionId) {
@@ -77,4 +82,15 @@ public class TransactionService {
         }catch (Exception ignored){
         }
     }
+
+
+    public List<Transaction> getTransactionsByAccount(String userName, Account account) {
+        try{
+            UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+            return transactionRepository.findAllByAccount(account);
+        }catch (UsernameNotFoundException e){
+            return null;
+        }
+    }
+
 }

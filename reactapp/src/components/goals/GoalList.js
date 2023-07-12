@@ -32,7 +32,7 @@ export default function GoalList() {
     ));
 
     return (
-        <div style={{margin:20}}>
+        <div style={{marginBottom:10}}>
             <Table verticalSpacing="lg">
                 <thead>
                     <tr>
