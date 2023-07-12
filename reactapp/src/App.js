@@ -37,13 +37,13 @@ function App() {
   );
 }
 
-function RequireAuth({children}){
-    const dispatch = useDispatch()
+function RequireAuth({children}) {
     const token = useSelector(state => state.user.token)
-    if(token!==null){
-        dispatch(validateToken(token))
+    if(token === null){
+        return <Navigate to="/"/>
+    }else{
+        return children
     }
-    return token===null ? <Navigate to="/"/> : children
 }
 
 function AlreadyLoggedin({children}){
