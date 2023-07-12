@@ -71,20 +71,21 @@ export const editEmail =
     })
 
 //Edit Password
-export const editPassword = 
-    createAsyncThunk('user/editPassword', async(body) => {
-        // console.log(body)
-        return editPasswordService(
-            body.token,
-            body.password
-        ).then((res) =>{
-            console.log(res.data)
-            return res.data
-        }).catch((err) =>{
-            console.log(err.response.data.message)
-            return err.response.data.message
-        })
-    })
+export const editPassword = createAsyncThunk(
+  "user/editPassword",
+  async (body) => {
+    // console.log(body)
+    return editPasswordService(body.token, body.oldPassword, body.password)
+      .then((res) => {
+        console.log(res.data);
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        return err.response.data.message;
+      });
+  }
+);
 
 //Edit image
 export const editImage = 

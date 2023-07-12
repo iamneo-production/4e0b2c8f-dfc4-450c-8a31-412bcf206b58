@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
@@ -90,5 +91,19 @@ public class UserServiceImpl implements UserService {
 		helper.setText(content, true);
 		mailSender.send(message);
 		return code;
+	}
+
+	@Override
+	public ResponseEntity<BaseResponceDto> updatePassword(ProfilePasswordDto profilePasswordDto, String userName) {
+		UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+		if(new BCryptPasswordEncoder().matches(profilePasswordDto.getOldPassword(), user.getPassword())) {
+			if(new BCryptPasswordEncoder().matches(profilePasswordDto.getPassword(), user.getPassword())) {
+				return new ResponseEntity<>(new BaseResponceDto("New Password can't be same as Old Password!",null), HttpStatus.BAD_REQUEST);
+			}
+			user.setPassword(passwordEncoder.encode((profilePasswordDto.getPassword())));
+			userRepository.save(user);
+			return new ResponseEntity<>(new BaseResponceDto("Password updated successfully!",null), HttpStatus.OK); 
+		}
+		return new ResponseEntity<>(new BaseResponceDto("Old Password didn't match!",null), HttpStatus.BAD_REQUEST);
 	}
 }
