@@ -44,8 +44,9 @@ export async function editEmailService(token, inemail) {
 }
 
 // edit password
-export async function editPasswordService(token, password) {
+export async function editPasswordService(token, oldPassword, password) {
     return await axios.put(`${baseUrl}/profile/password`,{
+        "oldPassword": oldPassword,
         "password": password
     }, {
         headers: { Authorization: `Bearer ${token}` }
