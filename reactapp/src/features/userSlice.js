@@ -239,6 +239,7 @@ export const userSlice = createSlice({
             }
         },
         [validateToken.rejected]:(state)=>{
+            state.token = null
             console.log("validate token success failed")
             notifications.show({
                 title: 'validate token  failed',
