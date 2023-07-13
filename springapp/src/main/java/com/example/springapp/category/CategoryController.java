@@ -36,5 +36,10 @@ public class CategoryController {
     public BaseResponceDto deleteCourse(@PathVariable String category_id) {
         return new BaseResponceDto(categoryService.deleteCategories(Integer.parseInt(category_id)));
     }
+    
+    @GetMapping("/api/categories/total-transactions/{id}")
+    public ResponseEntity<BaseResponceDto> sortTransaction(@RequestHeader(value = "Authorization", defaultValue = "") String token, @PathVariable("id") Integer categoryId){
+    	return categoryService.sortTransaction(categoryId);
+    }
 
 }

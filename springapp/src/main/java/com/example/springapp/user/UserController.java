@@ -123,4 +123,14 @@ public class UserController {
 		}
 
 	}
+	
+	@PutMapping("/api/profile/password")
+	public ResponseEntity<BaseResponceDto> updatePassword(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody ProfilePasswordDto profilePasswordDto){
+		try {
+			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+			return userService.updatePassword(profilePasswordDto, userName);
+		} catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile password!"));
+		}
+	}
 }

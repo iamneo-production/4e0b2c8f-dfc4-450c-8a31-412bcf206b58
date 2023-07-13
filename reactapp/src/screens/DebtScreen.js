@@ -1,7 +1,6 @@
 import React from 'react';
 import DebtFeature from '../components/debt/DebtFeature';
 import DebtList from '../components/debt/DebtList';
-import DebtForm from '../components/debt/DebtForm';
 import DebtHeader from '../components/debt/DebtHeader';
 import Layout from "../components/Layout";
 import { useStoreActions } from 'easy-peasy';
@@ -14,17 +13,12 @@ const DebtScreen = () => {
 
   return (
         <Layout title={"Debts"} load={true}>
-          <div style={{ display: 'flex',marginBottom:"20px"}}>
+          <div style={{ display: 'flex'}}>
             <DebtHeader />
-            <DebtForm />
           </div>
-          <div style={{marginLeft:"2%"}}>
+          <div>
             <DebtFeature />
-            {/* { (!debts || debts.length ===0 ) ? (
-                <NoDebt />
-              ) : ( */}
-                <DebtList />
-              {/* )} */}
+            <DebtList />
           </div>
         </Layout>
   );

@@ -9,12 +9,13 @@ import {
     Grid, Text, LoadingOverlay
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addAccount, closeAccountForm, fetchAccount} from "../../features/accountSlice";
+import {addAccount, changeAccount, closeAccountForm, fetchAccount, removeAccount} from "../../features/accountSlice";
 import {closeCategoryForm} from "../../features/categorySlice";
 
-export default function AccountForm(props) {
+export default function AccountEditForm(props) {
+    console.log(props.element)
     const dispatch = useDispatch()
     const token  = useSelector(state => state.user.token)
     const addAccountInProcess = useSelector(state => state.account.addAccountInProcess)
@@ -38,20 +39,33 @@ export default function AccountForm(props) {
         }
     });
 
-    async function handleSubmit(){
-        await dispatch(addAccount({...form.values,token:token}))
-        await dispatch(fetchAccount({token:token}))
-        form.reset()
-    }
+    useEffect(() =>{
+        form.setFieldValue('name',props?.element?.name)
+        form.setFieldValue('currentBalance',props?.element?.currentBalance)
+        form.setFieldValue('paymentTypes',props?.element?.paymentTypes)
+    },[])
 
-    function handleDiscard(){
+    async function handleDelete() {
+        await dispatch(removeAccount({token: token, accountId: props.element.accountId}))
+        await dispatch(fetchAccount({token: token}))
         form.reset()
-        setShowDiscard(false)
-        dispatch(closeAccountForm())
+        props.close()
     }
 
     function handleDiscardCancel(){
         setShowDiscard(false)
+    }
+
+    function  handleCancel(){
+        form.reset()
+        props.close()
+    }
+
+    async function handleUpdate() {
+        await dispatch(changeAccount({...form.values, token: token, accountId: props.element.accountId}))
+        await dispatch(fetchAccount({token: token}))
+        form.reset()
+        props.close()
     }
 
     return (
@@ -63,25 +77,25 @@ export default function AccountForm(props) {
             <LoadingOverlay visible={addAccountInProcess} overlayBlur={2} />
             <Title style={{ marginLeft: 10 }} order={3}>Add Account</Title>
             <Container size="md">
-                <form onSubmit={form.onSubmit((values) => handleSubmit())}>
+                <form onSubmit={form.onSubmit((values) => handleUpdate())}>
                     <TextInput radius="md" style={{ marginTop: 16 }}
-                        withAsterisk
-                        label="Name"
-                        placeholder="Ex: State Bank of India"
-                        type='text'
-                        {...form.getInputProps('name')}
+                               withAsterisk
+                               label="Name"
+                               placeholder="Ex: State Bank of India"
+                               type='text'
+                               {...form.getInputProps('name')}
                     />
                     <TextInput radius="md" style={{ marginTop: 16 }}
-                        withAsterisk
-                        label="Balance"
-                        placeholder="Ex: 5,000"
-                        type='number'
-                        {...form.getInputProps('currentBalance')}
+                               withAsterisk
+                               label="Balance"
+                               placeholder="Ex: 5,000"
+                               type='number'
+                               {...form.getInputProps('currentBalance')}
                     />
                     <Checkbox.Group style={{marginTop:16}}
-                        {...form.getInputProps('paymentTypes')}
-                        label="Payment Type"
-                        withAsterisk
+                                    {...form.getInputProps('paymentTypes')}
+                                    label="Payment Type"
+                                    withAsterisk
                     >
                         <Group style={{marginTop:10}} mt="xs">
                             <Checkbox  value="UPI" label="UPI" />
@@ -92,10 +106,13 @@ export default function AccountForm(props) {
                     </Checkbox.Group>
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" onClick={() => setShowDiscard(true)} fullWidth>Discard</Button>
+                            <Button radius="md" color="red" fullWidth onClick={() => setShowDiscard(true)} >Delete</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" fullWidth type="submit">Save</Button>
+                            <Button radius="md" color="gray" onClick={() => handleCancel()} fullWidth>Cancel</Button>
+                        </Grid.Col>
+                        <Grid.Col span={"auto"}>
+                            <Button radius="md" fullWidth type="submit">Save</Button>
                         </Grid.Col>
                     </Grid>
                 </form>
@@ -105,18 +122,18 @@ export default function AccountForm(props) {
                     color: "red",
                     blur: 3,
                 }}
-                size="auto" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showDiscard} onClose={handleDiscardCancel} radius="lg" centered  withCloseButton={false} title="Confirm Discard">
-                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>You will lose all the content you entered</Text>
+                size="auto" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showDiscard} onClose={handleDiscardCancel} radius="lg" centered  withCloseButton={false} title="Confirm Delete">
+                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>This will delete this transaction.</Text>
                 <Grid
                 >
                     <Grid.Col span={"auto"}>
                         <Button radius="md" color="gray" fullWidth  onClick={() => setShowDiscard(false)}>
-                            No
+                            No, Cancel
                         </Button>
                     </Grid.Col>
                     <Grid.Col span={"auto"}>
-                        <Button color={"red"} onClick={()=> handleDiscard()} radius="md" fullWidth type="submit">
-                            Yes
+                        <Button color={"red"} onClick={()=> handleDelete()} radius="md" fullWidth type="submit">
+                            Yes, Delete
                         </Button>
                     </Grid.Col>
                 </Grid>
