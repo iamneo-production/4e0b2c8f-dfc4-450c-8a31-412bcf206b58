@@ -49,7 +49,7 @@ export default function ReportList() {
         <div style={{margin:30}}>
             <Grid>
                 <Grid.Col span={4}>
-                    <Card shadow="sm" padding="lg" radius="md" withBorder>
+                    <Card  padding="lg" radius="md" withBorder>
                         <Group position="apart" mt="md" mb="xs">
                             <Text weight={500}>Transaction Report</Text>
                         </Group>
