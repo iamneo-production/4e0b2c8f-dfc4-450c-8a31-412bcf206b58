@@ -1,10 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {createAccount, getAccount} from "../api/accountService";
+import {createAccount, deleteAccount, getAccount, updateAccount} from "../api/accountService";
 import {notifications} from "@mantine/notifications";
 import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
 export const addAccount =
-    createAsyncThunk('category/addAccount',async (body)=>{
+    createAsyncThunk('account/addAccount',async (body)=>{
         return  createAccount(
             body.token,
             body.name,
@@ -17,8 +17,33 @@ export const addAccount =
         })
     })
 
+export const changeAccount =
+    createAsyncThunk('account/changeAccount',async (body)=>{
+        console.log("account/changeAccount")
+        return  updateAccount(
+            body.token,
+            body
+        ).then((res) =>{
+            return res.data
+        }).catch((err) =>{
+            return err.response.date
+        })
+    })
+
+export const removeAccount =
+    createAsyncThunk('account/removeAccount',async (body)=>{
+        return  deleteAccount(
+            body.token,
+            body.accountId
+        ).then((res) =>{
+            return res.data
+        }).catch((err) =>{
+            return err.response.date
+        })
+    })
+
 export const fetchAccount =
-    createAsyncThunk('category/fetchAccount',async (body)=>{
+    createAsyncThunk('account/fetchAccount',async (body)=>{
         return  getAccount(
             body.token
         ).then((res) =>{
@@ -93,6 +118,74 @@ const accountSlice = createSlice({
         [fetchAccount.rejected]:(state)=>{
             state.fetchAccountInProcess = false
             console.log("Account fetch failed")
+        },
+        [changeAccount.pending]:(state) => {
+            console.log("Account update pending")
+        },
+        [changeAccount.fulfilled]:(state,action) =>{
+            if(action.payload.message ==="success"){
+                notifications.show({
+                    title: 'Account Updated',
+                    message: 'your account updated successfuly!!',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
+            }else {
+                console.log(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
+            }
+            state.fetchAccountInProcess =false
+        },
+        [changeAccount.rejected]:(state)=>{
+            console.log("Account update failed")
+            notifications.show({
+                title: "Account update failed",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
+        },
+        [removeAccount.pending]:(state) => {
+            console.log("Account update pending")
+        },
+        [removeAccount.fulfilled]:(state,action) =>{
+            if(action.payload.message ==="success"){
+                notifications.show({
+                    title: 'Account Deleted',
+                    message: 'your account deleted successfuly!!',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
+            }else {
+                console.log(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
+            }
+            state.fetchAccountInProcess =false
+        },
+        [removeAccount.rejected]:(state)=>{
+            console.log("Account Delete failed")
+            notifications.show({
+                title: "Account deleted failed",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         },
     }
 })

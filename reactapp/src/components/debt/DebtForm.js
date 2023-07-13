@@ -100,10 +100,10 @@ function DebtForm() {
         padding="35px"
         radius="lg"
         overlayProps={{
-          color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+          color: "white",
           opacity: 0.55,
           blur: 3,
-        }}        
+        }}
       >
         <div>
           <DatePickerInput
@@ -175,8 +175,8 @@ function DebtForm() {
         />
       }
           <Grid.Col style={{margin:"8px"}} span={"content"}>
-              <Button onClick={handleOpenModal}  fullWidth>
-                  New Debt
+              <Button onClick={handleOpenModal} radius="md" miw={"120px"} fullWidth>
+                  Add Debt
               </Button>
           </Grid.Col>
     </>

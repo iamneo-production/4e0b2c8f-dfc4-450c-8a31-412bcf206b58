@@ -23,7 +23,11 @@ export default function GoalForm(props){
     });
 
     return(
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal overlayProps={{
+            color: "white",
+            opacity: 0.55,
+            blur: 3,
+        }} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <Title style={{ marginLeft: 10 }} order={3}>Add Goal</Title>
             <Container size="md">
                 <form onSubmit={form.onSubmit((values) => console.log("Account"))}>

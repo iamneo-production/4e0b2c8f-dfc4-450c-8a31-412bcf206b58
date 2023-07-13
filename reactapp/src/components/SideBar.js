@@ -1,11 +1,18 @@
 import { Box, Text, Navbar, Menu, NavLink, Button } from "@mantine/core";
 import { ReactComponent as DashboardIcon } from "../assets/Widget.svg";
+import { ReactComponent as DashboardIconBlue } from "../assets/Widget_Blue.svg";
 import { ReactComponent as TransactionsIcon } from "../assets/Collapse.svg";
+import { ReactComponent as TransactionsIconBlue } from "../assets/Collapse_Blue.svg";
 import { ReactComponent as AccountsIcon } from "../assets/Database.svg";
+import { ReactComponent as AccountsIconBlue } from "../assets/Database_fill_Blue.svg";
 import { ReactComponent as BudgetIcon } from "../assets/Date_range.svg";
+import { ReactComponent as BudgetIconBlue } from "../assets/Date_range_Blue.svg";
 import { ReactComponent as GoalsIcon } from "../assets/Road_finish.svg";
+import { ReactComponent as GoalsIconBlue } from "../assets/Road_finish_Blue.svg";
 import { ReactComponent as DebtsIcon } from "../assets/Calendar.svg";
+import { ReactComponent as DebtsIconBlue } from "../assets/Calendar_fill_Blue.svg";
 import { ReactComponent as ReportsIcon } from "../assets/Desk_alt.svg";
+import { ReactComponent as ReportsIconBlue } from "../assets/Desk_alt_Blue.svg";
 import { ReactComponent as AddIcon } from "../assets/Add_round.svg";
 import { ReactComponent as AddCategoryIcon } from "../assets/Folder_add_duotone_line.svg";
 import { ReactComponent as AddDebtIcon } from "../assets/Calendar_add_duotone.svg";
@@ -66,95 +73,79 @@ export default function SideBar(props) {
           base: 100,
         }}
       >
-        <Navbar.Section mt="xs">
-          <Text fw={500} style={{ margin: 20 }}>
-            Main menu
-          </Text>
-        </Navbar.Section>
         <Navbar.Section grow mt="md">
           <Box>
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Dashboard"
-              icon={<DashboardIcon />}
+              label={props.currentPage === "Dashboard" ?<Text fw={600}>Dashboard</Text>:<Text>Dashboard</Text>}
+              icon={props.currentPage === "Dashboard" ?<DashboardIconBlue style={{width:16,height:16}}/> : <DashboardIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
-              onClick={() => navigate("/test")}
-              color={props.currentPage === "Dashboard" ? "dark" : "gray"}
+              onClick={() => navigate("/dashboard")}
               active={props.currentPage === "Dashboard"}
-              disabled={props.currentPage === "Dashboard"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Transactions"
-              icon={<TransactionsIcon />}
+              label={props.currentPage === "Transactions" ?<Text fw={600}>Transactions</Text>:<Text>Transactions</Text>}
+              icon={props.currentPage === "Transactions" ?<TransactionsIconBlue style={{width:16,height:16}}/> : <TransactionsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/transaction")}
-              color={props.currentPage === "Transactions" ? "dark" : "gray"}
               active={props.currentPage === "Transactions"}
-              disabled={props.currentPage === "Transactions"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Accounts"
-              icon={<AccountsIcon />}
+              label={props.currentPage === "Accounts" ?<Text fw={600}>Accounts</Text>:<Text>Accounts</Text>}
+              icon={props.currentPage === "Accounts" ?<AccountsIconBlue style={{width:16,height:16}}/> : <AccountsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/account")}
-              color={props.currentPage === "Accounts" ? "dark" : "gray"}
               active={props.currentPage === "Accounts"}
-              disabled={props.currentPage === "Accounts"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Budgets"
-              icon={<BudgetIcon />}
+              label={props.currentPage === "Budgets" ?<Text fw={600}>Budgets</Text>:<Text>Budgets</Text>}
+              icon={props.currentPage === "Budgets" ?<BudgetIconBlue style={{width:16,height:16}}/> : <BudgetIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/budget")}
-              color={props.currentPage === "Budgets" ? "dark" : "gray"}
               active={props.currentPage === "Budgets"}
-              disabled={props.currentPage === "Budgets"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Goals"
-              icon={<GoalsIcon />}
+              label={props.currentPage === "Goals" ?<Text fw={600}>Goals</Text>:<Text>Goals</Text>}
+              icon={props.currentPage === "Goals" ?<GoalsIconBlue style={{width:16,height:16}}/> : <GoalsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/goal")}
-              color={props.currentPage === "Goals" ? "dark" : "gray"}
               active={props.currentPage === "Goals"}
-              disabled={props.currentPage === "Goals"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Debts"
-              icon={<DebtsIcon />}
+              label={props.currentPage === "Debts" ?<Text fw={600}>Debts</Text>:<Text>Debts</Text>}
+              icon={props.currentPage === "Debts" ?<DebtsIconBlue style={{width:16,height:16}}/> : <DebtsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/debts")}
-              color={props.currentPage === "Debts" ? "dark" : "gray"}
               active={props.currentPage === "Debts"}
-              disabled={props.currentPage === "Debts"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label="Reports"
-              icon={<ReportsIcon />}
+              label={props.currentPage === "Reports" ?<Text fw={600}>Reports</Text>:<Text>Reports</Text>}
+              icon={props.currentPage === "Reports" ?<ReportsIconBlue style={{width:16,height:16}}/> : <ReportsIcon style={{width:16,height:16}}/>}
               onClick={() => navigate("/report")}
               rightSection={<></>}
-              color={props.currentPage === "Reports" ? "dark" : "gray"}
               active={props.currentPage === "Reports"}
-              disabled={props.currentPage === "Reports"}
             />
           </Box>
         </Navbar.Section>
         <Navbar.Section>
-          <Menu position="right" withArrow shadow="md" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
-            <Menu.Target>
-              <Button
-                leftIcon={<AddIcon />}
-                radius={"md"}
-                style={{ margin: 10, width: 230 }}
-              >
-                New
-              </Button>
+          <Menu position="right" radius={"md"} withArrow shadow="md" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
+            <Menu.Target >
+              <div style={{ padding: 10 }}>
+                <Button
+                    leftIcon={<AddIcon style={{width:16,height:16}}/>}
+                    radius={"md"}
+                    fullWidth
+                >
+                  Add
+                </Button>
+              </div>
+
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showCategoryForm())}>
