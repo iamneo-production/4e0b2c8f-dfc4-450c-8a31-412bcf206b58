@@ -110,4 +110,12 @@ public class AccountService {
         account.setCurrentBalance(account.getCurrentBalance()+amount);
         accountRepository.save(account);
     }
+
+    public void updateAccount(Account account, Integer accountId) {
+        Account acc =  accountRepository.findById(accountId).orElseThrow();
+        acc.setCurrentBalance(account.getCurrentBalance());
+        acc.setName(account.getName());
+        acc.setPaymentTypes(account.getPaymentTypes());
+        accountRepository.save(acc);
+    }
 }

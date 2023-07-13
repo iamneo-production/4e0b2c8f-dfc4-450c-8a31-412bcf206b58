@@ -7,41 +7,38 @@ const DebtFeature = () => {
   const debtCount = useStoreState((state) => state.debtCount);
 
   return (
-
-                <Grid>
-                <Grid.Col span={2}>
-                    <Paper 
+          <div style={{marginBottom:10}}>
+            <Grid>
+                <Grid.Col span={"content"}>
+                    <Paper
+                      miw={"200px"}
                       radius="md" 
                       p="md" 
                       withBorder>
-                        <Text style={{fontSize:"24px"}}>
-                          <b>{`${debtCount}`}</b>
-                          </Text>
-                        <Text 
-                          style={{fontSize:"17px"}}
-                          color='grey'>
-                          <b>TOTAL DEBT</b>
-                          </Text>
+                        <Text size={"lg"} fw={700}>
+                          {debtCount}
+                        </Text>
+                        <Text fw={700} c="dimmed">
+                          TOTAL DEBTS
+                        </Text>
                     </Paper>
                 </Grid.Col>
-                
-                <Grid.Col span={2}>
-                    <Paper 
+                <Grid.Col span={"content"}>
+                    <Paper
+                      miw={"200px"}
                       radius="md"
                       p="md" 
-                      withBorder 
-                      style={{fontSize:"17px"}}>
-                        <Text style={{color:"#F03C2E",fontSize:"24px"}} >
-                          <b>{`${debtPending}`}</b>
-                          </Text>
-                        <Text 
-                          color='grey'
-                          style={{fontSize:"17px"}}>
-                          <b>PENDING</b>
-                          </Text>
+                      withBorder>
+                        <Text size={"lg"} style={{color:"#F03C2E"}} fw={700}>
+                          {debtPending}
+                        </Text>
+                        <Text fw={700} c="dimmed">
+                          PENDING
+                        </Text>
                     </Paper>
                 </Grid.Col>
-            </Grid>
+              </Grid>
+            </div>
   );
 };
 

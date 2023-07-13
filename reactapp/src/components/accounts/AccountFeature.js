@@ -32,34 +32,34 @@ export default function AccountFeature() {
     return (
         <div style={{marginBottom:10}}>
             <Grid >
-                <Grid.Col span={3}>
-                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                <Grid.Col span={"content"}>
+                    <Paper  radius="md" miw={"200px"} p="md" withBorder>
                         <Text size={"lg"} fw={700}>{handleTotalAccount().toLocaleString("en-US")}</Text>
-                        <Text size={"md"} fw={700} c="dimmed">
+                        <Text size={"sm"} fw={700} c="dimmed">
                             TOTAL ACCOUNTS
                         </Text>
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={3}>
-                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                <Grid.Col span={"content"}>
+                    <Paper  radius="md" miw={"200px"} p="md" withBorder>
                         <Text size={"lg"} fw={700}>{`Rs. ${handleTotalIncome().toLocaleString("en-US")}`}</Text>
-                        <Text size={"md"} fw={700} c="dimmed">
-                            TOTAL DEPOSIT
+                        <Text size={"sm"} fw={700} c="dimmed">
+                            TOTAL INCOME
                         </Text>
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={3}>
-                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                <Grid.Col span={"content"}>
+                    <Paper radius="md" miw={"200px"} p="md" withBorder>
                         <Text size={"lg"} fw={700}>{`Rs. ${handleTotalExpense().toLocaleString("en-US")}`}</Text>
-                        <Text size={"md"} fw={700} c="dimmed">
-                            TOTAL WITHDRAWAL
+                        <Text size={"sm"} fw={700} c="dimmed">
+                            TOTAL EXPENSES
                         </Text>
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={3}>
-                    <Paper shadow="sm" radius="md" p="md" withBorder>
+                <Grid.Col span={"content"}>
+                    <Paper  radius="md" miw={"200px"} p="md" withBorder>
                         <Text size={"lg"} fw={700} style={{color: "#26AB35"}}>{`Rs. ${handleTotalBalanace().toLocaleString("en-US")}`}</Text>
-                        <Text size={"md"} fw={700} c="dimmed">
+                        <Text size={"sm"} fw={700} c="dimmed">
                             TOTAL BALANCE
                         </Text>
                     </Paper>

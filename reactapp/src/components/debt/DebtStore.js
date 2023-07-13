@@ -24,9 +24,12 @@ export default createStore({
         state.status=payload;
     }),
     debtCount:computed((state)=>state.debts.length),
-    debtPending:computed((state)=>state.debts.filter((debt)=>debt.status==='unpaid').length),
+    debtPending:computed(
+      (state)=>state.debts.filter(
+        (debt)=>debt.status==='unpaid').length),
     getDebtId:computed((state)=>{
-        return (id)=> state.debts.find((debt)=>(debt.debtId).toString()===id)
+        return (id)=> state.debts.find(
+          (debt)=>(debt.debtId).toString()===id)
     }),
 
 
@@ -38,9 +41,9 @@ export default createStore({
           const response= await axios.post(`${baseUrl}/debts`,body,{
             headers: { Authorization: `Bearer ${body.token}` }
         })
-          console.log(response.data.data); 
+          // console.log(response.data.data); 
           action.setDebts([...debts,response.data.data]);
-          console.log(debts);
+          // console.log(debts);
           console.log("Added ");
           action.setAmount('');
           action.setStatus('unpaid'); 
@@ -71,7 +74,7 @@ export default createStore({
     editDebt:thunk(async (action, body,helpers)=>{
       const { debts } = helpers.getState();
       const { debtId } = body;
-      console.log(body.token);
+      // console.log(body.token);
 
       try{
         const response=await axios.put(`${baseUrl}/debts`,
@@ -98,12 +101,12 @@ export default createStore({
       }
     }),
     getData: thunk(async (action, token, helpers) => {
-      console.log(token);
+      // console.log(token);
       try {
         const response = await axios.get(`${baseUrl}/debts/user`,{
           headers: { Authorization: `Bearer ${token}` }
       });
-        console.log(response.data);
+        // console.log(response.data);
         if (response && response.data) {
           action.setDebts(response.data);
           console.log("Data fetched successfully");
