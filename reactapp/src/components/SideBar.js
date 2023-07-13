@@ -76,85 +76,74 @@ export default function SideBar(props) {
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Dashboard"
-              icon={<DashboardIcon />}
+              icon={<DashboardIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
-              onClick={() => navigate("/test")}
-              color={props.currentPage === "Dashboard" ? "dark" : "gray"}
+              onClick={() => navigate("/dashboard")}
               active={props.currentPage === "Dashboard"}
-              disabled={props.currentPage === "Dashboard"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Transactions"
-              icon={<TransactionsIcon />}
+              icon={<TransactionsIcon  style={{width:16,height:16}} />}
               rightSection={<></>}
               onClick={() => navigate("/transaction")}
-              color={props.currentPage === "Transactions" ? "dark" : "gray"}
               active={props.currentPage === "Transactions"}
-              disabled={props.currentPage === "Transactions"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Accounts"
-              icon={<AccountsIcon />}
+              icon={<AccountsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/account")}
-              color={props.currentPage === "Accounts" ? "dark" : "gray"}
               active={props.currentPage === "Accounts"}
-              disabled={props.currentPage === "Accounts"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Budgets"
-              icon={<BudgetIcon />}
+              icon={<BudgetIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/budget")}
-              color={props.currentPage === "Budgets" ? "dark" : "gray"}
               active={props.currentPage === "Budgets"}
-              disabled={props.currentPage === "Budgets"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Goals"
-              icon={<GoalsIcon />}
+              icon={<GoalsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/goal")}
-              color={props.currentPage === "Goals" ? "dark" : "gray"}
               active={props.currentPage === "Goals"}
-              disabled={props.currentPage === "Goals"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Debts"
-              icon={<DebtsIcon />}
+              icon={<DebtsIcon style={{width:16,height:16}}/>}
               rightSection={<></>}
               onClick={() => navigate("/debts")}
-              color={props.currentPage === "Debts" ? "dark" : "gray"}
               active={props.currentPage === "Debts"}
-              disabled={props.currentPage === "Debts"}
             />
             <NavLink
               style={{ borderRadius: 8, margin: 10, width: 230 }}
               label="Reports"
-              icon={<ReportsIcon />}
+              icon={<ReportsIcon style={{width:16,height:16}}/>}
               onClick={() => navigate("/report")}
               rightSection={<></>}
-              color={props.currentPage === "Reports" ? "dark" : "gray"}
               active={props.currentPage === "Reports"}
-              disabled={props.currentPage === "Reports"}
             />
           </Box>
         </Navbar.Section>
         <Navbar.Section>
-          <Menu position="right" withArrow shadow="md" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
-            <Menu.Target>
-              <Button
-                leftIcon={<AddIcon />}
-                radius={"md"}
-                style={{ margin: 10, width: 230 }}
-              >
-                New
-              </Button>
+          <Menu position="right" radius={"md"} withArrow shadow="md" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
+            <Menu.Target >
+              <div style={{ padding: 10 }}>
+                <Button
+                    leftIcon={<AddIcon style={{width:16,height:16}}/>}
+                    radius={"md"}
+                    fullWidth
+                >
+                  Add
+                </Button>
+              </div>
+
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item icon={<AddCategoryIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showCategoryForm())}>

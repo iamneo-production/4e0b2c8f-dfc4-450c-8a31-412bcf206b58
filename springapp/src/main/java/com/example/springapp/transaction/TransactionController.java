@@ -29,12 +29,19 @@ public class TransactionController {
         return new BaseResponceDto("success", null);
     }
 
-    @DeleteMapping("/api/transactions/{transaction_id}")
-    public BaseResponceDto deleteTransaction(@RequestHeader(value = "Authorization", defaultValue = "") String token,@PathVariable String transaction_id) {
+    @PutMapping("/api/transactions")
+    public BaseResponceDto updateTransactions(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody TransactionRequestDto transactionRequestDto,@RequestParam String transactionId) {
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        if(transactionService.hasTransaction(transaction_id)){
-            if(transactionService.hasPermission(userName,transaction_id)){
-                transactionService.deleteTransaction(Integer.parseInt(transaction_id));
+        transactionService.updateTransaction(transactionRequestDto, Integer.valueOf(transactionId), userName);
+        return new BaseResponceDto("success", null);
+    }
+
+    @DeleteMapping("/api/transactions")
+    public BaseResponceDto deleteTransaction(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestParam String transactionId) {
+        String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
+        if(transactionService.hasTransaction(transactionId)){
+            if(transactionService.hasPermission(userName,transactionId)){
+                transactionService.deleteTransaction(Integer.parseInt(transactionId));
                 return new BaseResponceDto("success");
             }else {
                 return new BaseResponceDto("couldn't delete transaction");

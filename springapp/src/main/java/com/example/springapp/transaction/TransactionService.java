@@ -9,6 +9,9 @@ import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.springapp.category.CategoryService;
 import com.example.springapp.account.AccountService;
+
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +32,9 @@ public class TransactionService {
     public List<Transaction> getTransactionsByUserName(String userName) {
         try{
             UserEntity user = userRepository.findByEmail(userName).orElseThrow();
-            return transactionRepository.findAllByUser(user);
+            List<Transaction> transactionList = transactionRepository.findAllByUser(user);
+            transactionList.sort(Collections.reverseOrder());
+            return transactionList;
         }catch (UsernameNotFoundException e){
             return null;
         }
@@ -93,4 +98,19 @@ public class TransactionService {
         }
     }
 
+    public void updateTransaction(TransactionRequestDto transactionRequestDto, Integer transactionId, String userName) {
+        try{
+            Transaction entity= transactionRepository.findById(transactionId).orElseThrow();
+            Account account = accountService.getAccountById(transactionRequestDto.getAccountId());
+            Category category = categoryService.getCategoryById(transactionRequestDto.getCategoryId());
+            entity.setAccount(account);
+            entity.setCategory(category);
+            entity.setDateTime(transactionRequestDto.getDateTime());
+            entity.setPaymentType(transactionRequestDto.getPaymentType());
+            entity.setDescription(transactionRequestDto.getDescription());
+            entity.setAmount(transactionRequestDto.getAmount());
+            transactionRepository.save(entity);
+        }catch (Exception ignored){
+        }
+    }
 }
