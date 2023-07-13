@@ -9,9 +9,9 @@ const DebtFeature = () => {
   return (
           <div style={{marginBottom:10}}>
             <Grid>
-                <Grid.Col span={3}>
-                    <Paper 
-                      shadow="sm"
+                <Grid.Col span={"content"}>
+                    <Paper
+                      miw={"200px"}
                       radius="md" 
                       p="md" 
                       withBorder>
@@ -23,9 +23,9 @@ const DebtFeature = () => {
                         </Text>
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={3}>
-                    <Paper 
-                      shadow="sm" 
+                <Grid.Col span={"content"}>
+                    <Paper
+                      miw={"200px"}
                       radius="md"
                       p="md" 
                       withBorder>
