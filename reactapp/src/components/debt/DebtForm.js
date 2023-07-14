@@ -175,8 +175,8 @@ function DebtForm() {
         />
       }
           <Grid.Col style={{margin:"8px"}} span={"content"}>
-              <Button onClick={handleOpenModal}  fullWidth>
-                  New Debt
+              <Button onClick={handleOpenModal} radius="md" miw={"120px"} fullWidth>
+                  Add Debt
               </Button>
           </Grid.Col>
     </>
