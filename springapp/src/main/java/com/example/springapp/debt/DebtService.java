@@ -52,9 +52,14 @@ public class DebtService {
         return "Deleted";
     }
 
-    public List<DebtEntity> debtGet(String uName) {
+    public List<DebtEntity> debtGet(String uName,Integer value) {
         try {
             UserEntity user = userRepository.findByEmail(uName).orElseThrow();
+            if(value==1){
+                return debtR.findAllByUserOrderByAmountDesc(user);
+            } else if (value==2) {
+                return  debtR.findAllByUserOrderByDueDateAsc(user);
+            }
             return debtR.findAllByUser(user);
         } catch (Exception e){
             return null;

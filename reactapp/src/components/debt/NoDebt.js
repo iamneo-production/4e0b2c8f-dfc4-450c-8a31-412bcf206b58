@@ -35,7 +35,7 @@ const NoDebt = () => {
               textAlign: 'center' 
               }}>
             <b>You don't have any debts yet.</b>
-            <p>click new debt to add and manage your debts...</p>
+            <p>click New debt to add and manage your debts...</p>
           </Text>
           <div 
             style = {{
