@@ -3,7 +3,7 @@ import {
     Header,
     Group,
     Button,
-    Box, Avatar, Menu,UnstyledButton
+    Box, Avatar, Menu, rem, UnstyledButton
 } from '@mantine/core';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
@@ -12,6 +12,8 @@ import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm,logoutA
 import {ReactComponent as ProfileIcon } from "../assets/User.svg";
 import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
+import {ReactComponent as ExpandIcon} from "../assets/Expand_down.svg";
+import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
 import {useNavigate} from "react-router-dom";
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
@@ -55,19 +57,22 @@ export default function HeaderBar(props) {
                             :<Group>
                                 <Menu  radius={"md"} trigger="hover" openDelay={100} shadow="md" width={220}>
                                     <Menu.Target>
-                                        <UnstyledButton>
+                                        <UnstyledButton style={{height: rem(42)}} radius={"md"} variant={"default"}>
                                         <Group>
-                                            <Avatar src={`data:image/jpeg;base64,${currentUser.profileImage}`} radius="xl" />
+                                            <Button radius={"xl"} variant={"default"} size={rem(42)}>
+                                                <Avatar  src={`data:image/jpeg;base64,${currentUser.profileImage}`} radius="xl"><AvatarIcon/></Avatar>
+                                            </Button>
+
                                             <div style={{ flex: 1 }}>
-                                                <Text size="sm" weight={500}>
-                                                    {currentUser.firstName}
+                                                <Text size="sm" fw={700}>{currentUser.firstName}
+                                                </Text>
+                                                <Text c={"dimmed"} size="xs">{currentUser.email.length>16 ? `${currentUser.email.slice(0,16)}...`:currentUser.email}
                                                 </Text>
 
-                                                <Text color="dimmed" size="xs">
-                                                    {currentUser.email}
-                                                </Text>
                                             </div>
+                                            <ExpandIcon style={{height:16,width:16}}></ExpandIcon>
                                         </Group>
+
                                         </UnstyledButton>
 
                                     </Menu.Target>
