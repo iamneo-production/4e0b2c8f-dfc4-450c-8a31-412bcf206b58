@@ -29,9 +29,9 @@ public class DebtController {
     }
 
     @GetMapping("/api/debts/user")
-    public ResponseEntity<List<DebtEntity>> getDebts(@RequestHeader(value = "Authorization", defaultValue = "") String token){
+    public ResponseEntity<List<DebtEntity>> getDebts(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestParam("value") Integer value){
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        List<DebtEntity> Response= debtS.debtGet(userName);
+        List<DebtEntity> Response= debtS.debtGet(userName,value);
         HttpHeaders httpHead=new HttpHeaders();
         httpHead.add("info","getting the list of Debt Values");
         return ResponseEntity.status(HttpStatus.OK).headers(httpHead).body(Response);

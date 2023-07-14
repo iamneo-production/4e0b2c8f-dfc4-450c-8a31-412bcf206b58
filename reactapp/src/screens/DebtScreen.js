@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const DebtScreen = () => {
   const token  = useSelector(state => state.user.token)
   const getData=useStoreActions((action)=>action.getData);
-  getData(token);
+  getData({token:token,value:0});
 
   return (
         <Layout title={"Debts"} load={true}>
