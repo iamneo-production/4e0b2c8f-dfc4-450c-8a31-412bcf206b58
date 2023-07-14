@@ -19,7 +19,7 @@ export async function loginAccountService(email,password){
 }
 
 export async function validateTokenService(token){
-    return await axios.get(`${baseUrl}/validateToken`,{
+    return await axios.get(`${baseUrl}/auth/validateToken`,{
         headers: { Authorization: `Bearer ${token}` }
     })
 }

@@ -1,4 +1,4 @@
-import {Badge, Flex, Table, Text} from '@mantine/core';
+import {Badge , Table, Text} from '@mantine/core';
 import ArrowRIcon from '../../assets/Arrow_alt_ltop.svg'
 import ArrowGIcon from '../../assets/Arrow_alt_ldown.svg'
 import Edit from '../../assets/Edit.svg'

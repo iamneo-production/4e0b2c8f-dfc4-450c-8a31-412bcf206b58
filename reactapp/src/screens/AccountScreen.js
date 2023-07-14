@@ -6,13 +6,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchAccount} from "../features/accountSlice";
 import {useEffect} from "react";
 import {Container, Divider, Grid, Skeleton} from "@mantine/core";
+import {validateToken} from "../features/userSlice";
+import {fetchTransaction} from "../features/transactionSlice";
 
 
 export default function  AccountScreen(){
     const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
     useEffect(()=>{
-        dispatch(fetchAccount({token:token}))
+        async function fetchData() {
+            await dispatch(validateToken(token))
+            dispatch(fetchAccount({token:token}))
+        }
+        fetchData()
     },[])
     const fetchAccountInProcess = useSelector(state => state.account.fetchAccountInProcess)
     const accountList = useSelector(state => state.account.accountList)

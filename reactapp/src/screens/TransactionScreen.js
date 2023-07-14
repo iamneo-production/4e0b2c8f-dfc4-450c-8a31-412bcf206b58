@@ -6,13 +6,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchTransaction} from "../features/transactionSlice";
 import {useEffect} from "react";
 import {Container, Divider, Grid, Skeleton} from '@mantine/core';
+import {validateToken} from "../features/userSlice";
 
 export default function TransactionScreen() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
     const fetchTransactionInProcess = useSelector(state => state.transaction.fetchTransactionInProcess)
-    useEffect(()=>{
-        dispatch(fetchTransaction({token:token}))
+    useEffect( () => {
+        async function fetchData() {
+            await dispatch(validateToken(token))
+            await dispatch(fetchTransaction({token: token}))
+        }
+        fetchData()
     },[])
     const transactionList = useSelector(state => state.transaction.transactionList)
     function GridSkeleton(){
