@@ -65,7 +65,7 @@ public class UserController {
         return ResponseEntity.ok(new BaseResponceDto("success",data));
 	}
 
-	@GetMapping("/api/validateToken")
+	@GetMapping("/api/auth/validateToken")
 	public ResponseEntity<BaseResponceDto> home(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
 		Map<Object,Object> data = new HashMap<>();
 		if(jwtGenerator.validateToken(jwtGenerator.getTokenFromHeader(token))) {
@@ -73,7 +73,7 @@ public class UserController {
 			data.put("user",user);
 			return ResponseEntity.ok(new BaseResponceDto("success",data));
 		}
-		return new ResponseEntity<>(new BaseResponceDto("unauthorized",data), HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(new BaseResponceDto("Session Expired",data), HttpStatus.UNAUTHORIZED);
 	}
 
 	@PostMapping("/api/profile/image")
