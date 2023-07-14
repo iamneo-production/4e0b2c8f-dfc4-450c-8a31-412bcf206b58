@@ -231,7 +231,7 @@ export const userSlice = createSlice({
                 state.token = null
                 notifications.show({
                     title: action.payload.message,
-                    message: 'Login again!!',
+                    message: 'Please Login again!!',
                     radius:"lg",
                     color:"red",
                     autoClose: 5000,
@@ -240,9 +240,9 @@ export const userSlice = createSlice({
         },
         [validateToken.rejected]:(state)=>{
             state.token = null
-            console.log("validate token success failed")
+            console.log("validate token  failed")
             notifications.show({
-                title: 'validate token  failed',
+                title: 'Session expired',
                 message: 'Login again!!',
                 radius:"lg",
                 color:"red",

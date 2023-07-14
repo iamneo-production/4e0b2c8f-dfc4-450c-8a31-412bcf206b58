@@ -134,7 +134,7 @@ export default function SideBar(props) {
           </Box>
         </Navbar.Section>
         <Navbar.Section>
-          <Menu position="right" radius={"md"} withArrow shadow="md" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
+          <Menu position="right" radius={"md"} withArrow shadow="xl" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
             <Menu.Target >
               <div style={{ padding: 10 }}>
                 <Button

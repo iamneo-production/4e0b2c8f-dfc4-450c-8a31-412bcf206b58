@@ -4,7 +4,7 @@ import {baseUrl} from "./config";
 export async function createBudget(token,categoryId,amount){
     return await axios.post(`${baseUrl}/budgets`,{
         categoryId:categoryId,
-        amount:amount,
+        amount:amount
     },{
         headers: { Authorization: `Bearer ${token}` }
     })
