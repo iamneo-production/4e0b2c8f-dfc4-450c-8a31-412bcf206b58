@@ -5,7 +5,7 @@ import ReportScreen from './screens/ReportScreen';
 import GoalScreen from './screens/GoalScreen';
 import {Route,Routes, Navigate, BrowserRouter} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React from "react";
+import React, {useEffect} from "react";
 import {validateToken} from "./features/userSlice";
 import TransactionScreen from './screens/TransactionScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -42,11 +42,7 @@ function RequireAuth({children}) {
 }
 
 function AlreadyLoggedin({children}){
-    const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
-    if(token!==null){
-        dispatch(validateToken(token))
-    }
     return token!==null ? <Navigate to="/dashboard"/> : children
 }
 

@@ -5,6 +5,7 @@ import com.example.springapp.category.Category;
 import com.example.springapp.user.UserEntity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Budget {
@@ -20,6 +21,10 @@ public class Budget {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    private Long used;
+
+    private Long balance;
+
     public Budget() {
 
     }
@@ -30,8 +35,33 @@ public class Budget {
         this.user = user;
     }
 
+    public Budget(Category category, double amount, UserEntity user, Long used, Long balance) {
+        this.category = category;
+        this.amount = amount;
+        this.user = user;
+        this.used = used;
+        this.balance = balance;
+    }
 
-//Getters and Setters
+    //Getters and Setters
+
+
+    public Long getUsed() {
+        return Objects.requireNonNullElse(balance, 0L);
+    }
+
+    public void setUsed(Long used) {
+        this.used = Objects.requireNonNullElse(used, 0L);
+    }
+
+    public Long getBalance() {
+        return Objects.requireNonNullElse(balance, 0L);
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = Objects.requireNonNullElse(balance, 0L);
+
+    }
 
     public Long getId() {
         return id;
