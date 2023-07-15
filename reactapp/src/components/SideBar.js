@@ -23,7 +23,6 @@ import { ReactComponent as AddGoalIcon } from "../assets/Road_finish_duotone_lin
 
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import CategoryForm from "./category/CategoryForm";
 import {useDispatch, useSelector} from "react-redux";
 import {closeCategoryForm, fetchCategory, showCategoryForm} from "../features/categorySlice";
@@ -33,6 +32,8 @@ import AccountForm from "./accounts/AccountForm";
 import TransactionForm from "./transactions/TransactionFrom";
 import BudgetForm from "./budget/BudgetForm";
 import {closeBudgetForm, showBudgetForm} from "../features/budgetSlice";
+import GoalForm from "./goals/GoalForm";
+import {closeGoalForm, showGoalForm} from "../features/goalSlice";
 
 export default function SideBar(props) {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ export default function SideBar(props) {
   const displayTransactionForm = useSelector(state => state.transaction.displayTransactionForm)
   const displayAccountForm = useSelector(state => state.account.displayAccountForm)
   const displayBudgetForm = useSelector(state => state.budget.displayBudgetForm)
+  const displayGoalForm = useSelector(state => state.goal.displayGoalForm)
   const token = useSelector(state => state.user.token)
   //dispatch(fetchTransaction({token:token}))
   //dispatch(fetchCategory({token:token}))
@@ -57,6 +59,10 @@ export default function SideBar(props) {
 
   function handleBudgetFormClose() {
     dispatch(closeBudgetForm());
+  }
+
+  function handleBudgetFormClose() {
+    dispatch(closeGoalForm());
   }
 
   return (
@@ -160,7 +166,7 @@ export default function SideBar(props) {
               <Menu.Item icon={<AddBudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>dispatch(showBudgetForm())}>
                 Add Budget
               </Menu.Item>
-              <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showGoalForm())}>
                 Add Goal
               </Menu.Item>
               <Menu.Item icon={<AddDebtIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
@@ -179,6 +185,7 @@ export default function SideBar(props) {
               open={displayTransactionForm}
               close={handleTransactionFormClose}></TransactionForm>
           <BudgetForm open={displayBudgetForm} close={handleBudgetFormClose}/>
+          <GoalForm open={displayGoalForm} close={handleBudgetFormClose}/>
         </Navbar.Section>
       </Navbar>
     </div>

@@ -8,13 +8,15 @@ import {
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
 import {useDispatch, useSelector} from "react-redux";
-import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm,logoutAccount} from '../features/userSlice'
+import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm} from '../features/userSlice'
 import {ReactComponent as ProfileIcon } from "../assets/User.svg";
 import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
 import {ReactComponent as ExpandIcon} from "../assets/Expand_down.svg";
 import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
 import {useNavigate} from "react-router-dom";
+import {logout} from "../features/logoutSlice";
+
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
     const displaySignupForm = useSelector(state => state.user.displaySignupForm)
@@ -35,7 +37,7 @@ export default function HeaderBar(props) {
     }
 
     function handleLogout(){
-        dispatch(logoutAccount())
+        dispatch(logout({}));
         navigate("/")
     }
     function handleSetting(){
