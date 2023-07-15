@@ -6,14 +6,16 @@ import {
     Grid, LoadingOverlay, Select, NumberInput, Text
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addBudget, closeBudgetForm, fetchBudget} from "../../features/budgetSlice";
+import {addBudget, closeBudgetForm, editBudget, fetchBudget} from "../../features/budgetSlice";
+import {fetchCategory} from "../../features/categorySlice";
+import {fetchAccount} from "../../features/accountSlice";
 
-function BudgetForm(props) {
+function BudgetEditForm(props) {
     const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
-    const addBudgetInProcess = useSelector(state => state.budget.addBudgetInProcess)
+    const addBudgetEditInProcess = useSelector(state => state.budget.addBudgetEditInProcess)
     const [ showCancel,setShowCancel] = useState(false);
     const categoryList = useSelector(state => state.category.categoryList)
     const form = useForm({
@@ -31,17 +33,24 @@ function BudgetForm(props) {
         }
     });
 
+    useEffect(()=>{
+        dispatch(fetchCategory({token:token}))
+        form.setFieldValue('amount',props?.element?.amount)
+        form.setFieldValue('categoryId',props?.element?.category?.categoryId)
+    },[])
+
     async function handleSubmit() {
-        console.log(form.values)
-        await dispatch(addBudget({...form.values, token: token}))
+        await dispatch(editBudget({...form.values,token: token,budgetId:props.element.id}))
         await dispatch(fetchBudget({token:token}))
         form.reset()
+        props.close()
+
     }
 
     function handleCancel() {
         form.reset()
         setShowCancel(false)
-        dispatch(closeBudgetForm())
+        props.close()
     }
     function handleCancelConfirm(){
         setShowCancel(false)
@@ -63,8 +72,8 @@ function BudgetForm(props) {
                onClose={() => {
                    props.close()
                }} centered>
-            <LoadingOverlay visible={addBudgetInProcess} overlayBlur={2}/>
-            <Title style={{marginLeft: 10,marginBottom:20}} order={3}>Add Budget</Title>
+            <LoadingOverlay visible={addBudgetEditInProcess} overlayBlur={2}/>
+            <Title style={{marginLeft: 10,marginBottom:20}} order={3}>Edit Budget</Title>
             <Container size="md">
                 <form onSubmit={form.onSubmit((values) => handleSubmit())}>
                     <Select
@@ -120,4 +129,4 @@ function BudgetForm(props) {
         </Modal>
     )
 }
-export default BudgetForm;
+export default BudgetEditForm;

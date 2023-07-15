@@ -57,8 +57,12 @@ public class BudgetController {
     @PostMapping("/api/budgets")
     public ResponseEntity<BaseResponceDto> createBudget(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody BudgetRequestDto budgetRequestDto) {
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        Budget createdBudget = budgetService.createBudget(budgetRequestDto,userName);
-        return new ResponseEntity<>(new BaseResponceDto("success",createdBudget), HttpStatus.CREATED);
+        if(!budgetService.hasAlready(userName,budgetRequestDto.getCategoryId())){
+            Budget createdBudget = budgetService.createBudget(budgetRequestDto,userName);
+            return new ResponseEntity<>(new BaseResponceDto("success",createdBudget), HttpStatus.CREATED);
+        }else {
+            return ResponseEntity.ok(new BaseResponceDto("Already exist"));
+        }
     }
 
     //API EndPoint for Updating an existing Budget
