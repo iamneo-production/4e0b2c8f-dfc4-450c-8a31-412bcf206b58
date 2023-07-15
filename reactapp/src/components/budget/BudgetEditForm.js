@@ -8,15 +8,15 @@ import {
 import { useForm } from '@mantine/form';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addBudget, closeBudgetForm, editBudget, fetchBudget} from "../../features/budgetSlice";
+import {addBudget, closeBudgetForm, editBudget, fetchBudget, removeBudget} from "../../features/budgetSlice";
 import {fetchCategory} from "../../features/categorySlice";
-import {fetchAccount} from "../../features/accountSlice";
+import {fetchAccount, removeAccount} from "../../features/accountSlice";
 
 function BudgetEditForm(props) {
     const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
     const addBudgetEditInProcess = useSelector(state => state.budget.addBudgetEditInProcess)
-    const [ showCancel,setShowCancel] = useState(false);
+    const [ showDelete,setShowDelete] = useState(false);
     const categoryList = useSelector(state => state.category.categoryList)
     const form = useForm({
         initialValues: {
@@ -47,13 +47,21 @@ function BudgetEditForm(props) {
 
     }
 
-    function handleCancel() {
+    async function handleDelete() {
+        await dispatch(removeBudget({token: token, budgetId: props.element.id}))
+        await dispatch(fetchBudget({token: token}))
         form.reset()
-        setShowCancel(false)
         props.close()
     }
-    function handleCancelConfirm(){
-        setShowCancel(false)
+
+    function handleCancel() {
+        form.reset()
+        setShowDelete(false)
+        props.close()
+    }
+
+    function handleDeleteCancle(){
+        setShowDelete(false)
     }
     function categoryData(){
         const data =[]
@@ -96,6 +104,10 @@ function BudgetEditForm(props) {
                     />
                     <Grid style={{marginTop: 16, marginBottom: 10}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
+                            <Button radius="md" color="red"
+                                    fullWidth onClick={() => setShowDelete(true)}>Delete</Button>
+                        </Grid.Col>
+                        <Grid.Col span={"auto"}>
                             <Button radius="md" color="gray"
                                     fullWidth onClick={handleCancel}>Cancel</Button>
                         </Grid.Col>
@@ -110,18 +122,18 @@ function BudgetEditForm(props) {
                     color: "red",
                     blur: 3,
                 }}
-                size="auto" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showCancel} onClose={handleCancelConfirm} radius="lg" centered  withCloseButton={false} title="Confirm">
-                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>You will lose all entered data</Text>
+                size="auto" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showDelete} onClose={handleDeleteCancle} radius="lg" centered  withCloseButton={false} title="Confirm Delete">
+                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>This will delete this account</Text>
                 <Grid
                 >
                     <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth  onClick={() => setShowCancel(false)}>
-                            No
+                        <Button radius="md" color="gray" fullWidth  onClick={() => setShowDelete(false)}>
+                            No, Cancel
                         </Button>
                     </Grid.Col>
                     <Grid.Col span={"auto"}>
-                        <Button color={"red"} onClick={()=> handleCancel()} radius="md" fullWidth>
-                            Yes
+                        <Button color={"red"} onClick={()=> handleDelete()} radius="md" fullWidth>
+                            Yes, Delete
                         </Button>
                     </Grid.Col>
                 </Grid>

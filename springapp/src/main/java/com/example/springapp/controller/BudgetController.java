@@ -81,13 +81,13 @@ public class BudgetController {
 
     //API EndPoint for Deleting an existing Budget
     @DeleteMapping("api/budgets/{id}")
-    public ResponseEntity<Void> deleteBudget(@PathVariable("id") Long id) {
+    public ResponseEntity<BaseResponceDto> deleteBudget(@PathVariable("id") Long id) {
         Budget budget = budgetService.getBudgetById(id).orElse(null);
         if (budget == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         budgetService.deleteBudget(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(new BaseResponceDto("success"));
     }
 
         //Test Case

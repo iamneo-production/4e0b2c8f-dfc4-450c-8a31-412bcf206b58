@@ -149,7 +149,6 @@ const budgetSlice = createSlice({
             alert("Budget update failed,Try again")
         },
         [removeBudget.pending]:(state) => {
-            state.addBudgetEditInProcess = true
             console.log("Budget Add pending")
         },
         [removeBudget.fulfilled]:(state,action) =>{
