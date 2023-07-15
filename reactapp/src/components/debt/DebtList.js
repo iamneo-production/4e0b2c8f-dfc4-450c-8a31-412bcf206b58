@@ -212,9 +212,13 @@ const DebtList = () => {
               <div radius="md"
                 style={{marginTop: "6px"}}>
                 <Switch 
-                  style={{width:"80px"}} checked={status==='paid'}
-                  onChange={handleSwitchToggle} size="md"
-                  label="paid"
+                  style={{width:"80px"}} 
+                  checked={status==='paid'}
+                  onChange={handleSwitchToggle} 
+                  size="md"
+                  label="Paid"
+                  labelPosition="left"
+
                   // thumbIcon:{checked?<FaCheck/>:<FaTimes/>}
                   thumbIcon={
                     checked ? (

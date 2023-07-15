@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface DebtRepo extends JpaRepository<DebtEntity,Integer> {
     List<DebtEntity> findAllByUser(UserEntity user);
+    List<DebtEntity> findAllByUserOrderByDueDateAsc(UserEntity user);
+
+    List<DebtEntity> findAllByUserOrderByAmountDesc(UserEntity user);
 }
