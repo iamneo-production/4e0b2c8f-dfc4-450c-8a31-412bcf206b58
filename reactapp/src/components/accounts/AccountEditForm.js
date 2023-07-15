@@ -123,7 +123,7 @@ export default function AccountEditForm(props) {
                     blur: 3,
                 }}
                 size="auto" withinPortal={true} closeOnClickOutside={false} trapFocus={false} withOverlay={false} opened={showDiscard} onClose={handleDiscardCancel} radius="lg" centered  withCloseButton={false} title="Confirm Delete">
-                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>This will delete this transaction.</Text>
+                <Text size={"sm"} c={"dimmed"} style={{marginBottom:10}}>This will delete this account.</Text>
                 <Grid
                 >
                     <Grid.Col span={"auto"}>

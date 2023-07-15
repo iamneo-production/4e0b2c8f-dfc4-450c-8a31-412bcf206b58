@@ -1,6 +1,7 @@
 package com.example.springapp.goals;
 
 
+import com.example.springapp.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,12 @@ public class GoalsServiceImpl implements GoalsService {
     }
 
     public Goal updateGoal(Long id, Goal updatedGoal) {
-        Optional<Goal> existingGoal = goalsRepository.findById(id);
-        if (existingGoal.isPresent()) {
-            updatedGoal.setId(id);
-            return goalsRepository.save(updatedGoal);
-        } else {
-            throw new IllegalArgumentException("Goal with ID " + id + " does not exist.");
-        }
+        Goal existingGoal = goalsRepository.findById(id).orElseThrow();
+        existingGoal.setName(updatedGoal.getName());
+        existingGoal.setDescription(updatedGoal.getDescription());
+        existingGoal.setCurrentAmount(updatedGoal.getCurrentAmount());
+        existingGoal.setTargetAmount(updatedGoal.getTargetAmount());
+        return goalsRepository.save(existingGoal);
     }
 
     public void deleteGoal(Long id) {
@@ -41,7 +41,7 @@ public class GoalsServiceImpl implements GoalsService {
         return goalsRepository.findById(id);
     }
 
-    public List<Goal> getAllGoals() {
-        return goalsRepository.findAll();
+    public List<Goal> getAllGoalsByUser(UserEntity user) {
+        return goalsRepository.findAllByUser(user);
     }
 }
