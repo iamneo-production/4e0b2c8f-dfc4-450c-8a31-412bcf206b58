@@ -5,6 +5,7 @@ import com.example.springapp.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Goal {
@@ -17,6 +18,8 @@ public class Goal {
     private double targetAmount;
     private double currentAmount;
 
+    private Long targetDate;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -25,12 +28,21 @@ public class Goal {
     public Goal() {
     }
 
-    public Goal(String name, String description, double targetAmount, double currentAmount, UserEntity user) {
+    public Goal(String name, String description, double targetAmount, double currentAmount, UserEntity user,long targetDate) {
         this.name = name;
         this.description = description;
         this.targetAmount = targetAmount;
         this.currentAmount = currentAmount;
         this.user = user;
+        this.targetDate = targetDate;
+    }
+
+    public Long getTargetDate() {
+        return targetDate;
+    }
+
+    public void setTargetDate(Long targetDate) {
+        this.targetDate = targetDate;
     }
 
     public UserEntity getUser() {

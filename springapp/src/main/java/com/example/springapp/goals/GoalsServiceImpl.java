@@ -25,6 +25,7 @@ public class GoalsServiceImpl implements GoalsService {
         existingGoal.setDescription(updatedGoal.getDescription());
         existingGoal.setCurrentAmount(updatedGoal.getCurrentAmount());
         existingGoal.setTargetAmount(updatedGoal.getTargetAmount());
+        existingGoal.setTargetDate(updatedGoal.getTargetDate());
         return goalsRepository.save(existingGoal);
     }
 

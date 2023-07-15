@@ -7,6 +7,7 @@ import budgetSlice from "./features/budgetSlice";
 import logoutReducer from './features/logoutSlice';
 import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist";
+import goalSlice from "./features/goalSlice";
 
 const persistConfig = {
     key: "paymint",
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     category: categorySlice.reducer,
     transaction: transactionSlice.reducer,
     budget: budgetSlice.reducer,
+    goal:goalSlice.reducer,
     logout: logoutReducer.reducer,
 });
 
