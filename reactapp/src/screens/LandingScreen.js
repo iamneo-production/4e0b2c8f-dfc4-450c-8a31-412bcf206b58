@@ -22,7 +22,7 @@ export default function LandingScreen() {
                     <Grid.Col justify="center" span={6}>
                         <Title style={{ marginTop: 70,marginLeft:20,textAlign:"left" }} size="48">Empower your finances, simplify your life.</Title>
                         <Text c="dimmed" style={{marginTop:10,marginLeft:20,textAlign:"left"}}>PayMint: Simplify payments, track expenses, achieve financial goals</Text>
-                        <Button onClick={() => dispatch(openSignupForm())} size={"md"} radius="xl" style={{marginTop:20,marginLeft:20}} rightIcon={<ArrowRigntIcon/>}>Get stated</Button>
+                        <Button onClick={() => dispatch(openSignupForm())} size={"md"} radius="xl" style={{marginTop:20,marginLeft:20}} rightIcon={<ArrowRigntIcon/>}>Get started</Button>
                     </Grid.Col>
                     <Grid.Col justify="center" align="center" span={6}>
                         <LeaderSVG/>

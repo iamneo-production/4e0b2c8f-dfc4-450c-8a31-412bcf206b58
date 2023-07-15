@@ -10,7 +10,6 @@ import { useForm } from '@mantine/form';
 import {addGoal, closeGoalForm, fetchGoal} from "../../features/goalSlice";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useState} from "react";
-import {FaCalendarAlt} from "react-icons/fa";
 import {DatePickerInput} from "@mantine/dates";
 
 export default function GoalForm(props){
