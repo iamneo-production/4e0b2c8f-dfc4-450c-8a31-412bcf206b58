@@ -9,7 +9,9 @@ import {
 import { useForm } from '@mantine/form';
 import {addGoal, closeGoalForm, fetchGoal} from "../../features/goalSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import React, {useState} from "react";
+import {FaCalendarAlt} from "react-icons/fa";
+import {DatePickerInput} from "@mantine/dates";
 
 export default function GoalForm(props){
     const dispatch = useDispatch()
@@ -22,6 +24,7 @@ export default function GoalForm(props){
             description: '',
             targetAmount: '',
             currentAmount: '',
+            targetDate: new Date()
         },
         validate: {
 
@@ -29,7 +32,7 @@ export default function GoalForm(props){
     });
 
     async function handleSubmit(){
-        await dispatch(addGoal({...form.values,token:token}))
+        await dispatch(addGoal({...form.values,token:token,targetDate:form.values.targetDate.getTime()}))
         await dispatch(fetchGoal({token:token}))
         form.reset()
     }
@@ -52,38 +55,37 @@ export default function GoalForm(props){
             <LoadingOverlay visible={addGoalInProcess} overlayBlur={2}/>
             <Title style={{ marginLeft: 10 }} order={3}>Add Goal</Title>
             <Container size="md">
-                <form onSubmit={form.onSubmit((values) => console.log("Account"))}>
+                <form onSubmit={form.onSubmit((values) => handleSubmit())}>
                     <TextInput radius="md" style={{ marginTop: 16 }}
                         withAsterisk
                         label="Name"
                         placeholder="Ex: Emergency Fund"
-                        type='email'
+                        type='Goal Name'
                         {...form.getInputProps('name')}
                     />
                     <TextInput radius="md" style={{ marginTop: 16 }}
                         withAsterisk
                         label="Description"
                         placeholder="Ex: For a backup"
-                        type='password'
+                        type='description'
                         {...form.getInputProps('description')}
                     />
                     <TextInput radius="md" style={{ marginTop: 16 }}
                         withAsterisk
-                        label="Amount"
+                        label="Target Amount"
                         placeholder="Ex: 50,000"
-                        type='password'
+                        type='amount'
                         {...form.getInputProps('targetAmount')}
                     />
-                    <TextInput radius="md" style={{ marginTop: 16 }}
-                        withAsterisk
-                        label="Date"
-                        placeholder="choose target Date"
-                        type='password'
-                        {...form.getInputProps('currentAmount')}
+                    <DatePickerInput
+                        radius="md"
+                        style={{marginTop: 16}}
+                        label="Target Date"
+                        {...form.getInputProps('targetDate')}
                     />
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth type="submit">Cancel</Button>
+                        <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)} type="submit">Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                         <Button radius="md" fullWidth type="submit">Save</Button>

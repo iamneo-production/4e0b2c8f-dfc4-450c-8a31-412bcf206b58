@@ -6,7 +6,8 @@ export async function createGoal(token,body){
         "name":body.name,
         "description":body.description,
         "targetAmount":body.targetAmount,
-        "currentAmount":body.currentAmount
+        "currentAmount":body.currentAmount,
+        "targetDate":body.targetDate
     },{
         headers: { Authorization: `Bearer ${token}` }
     })
@@ -24,7 +25,8 @@ export async function updateGoal(token,body){
         "name":body.name,
         "description":body.description,
         "targetAmount":body.targetAmount,
-        "currentAmount":body.currentAmount
+        "currentAmount":body.currentAmount,
+        "targetDate":body.targetDate
     },{
         headers: { Authorization: `Bearer ${token}` }
     })
