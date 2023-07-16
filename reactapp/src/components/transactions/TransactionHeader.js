@@ -17,7 +17,7 @@ export default function TransactionHeader() {
     return (
         <div style={{marginBottom:10}}>
             <Grid justify="space-around">
-                <Grid.Col span={6}>
+                <Grid.Col md={6} lg={6}>
                     <Grid>
                         <Grid.Col span={"content"}>
                             <Title style={{ margin: 5 }} order={2}>Transactions</Title>
@@ -27,9 +27,9 @@ export default function TransactionHeader() {
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={6}>
+                <Grid.Col md={6} lg={6}>
                     <Grid>
-                        <Grid.Col span={8}>
+                        <Grid.Col md={12} lg={8}>
                             <TextInput
                                 style={{ margin: 8 }}
                                 icon={<SearchIcon />}
@@ -39,7 +39,7 @@ export default function TransactionHeader() {
                                 onChange={handleInputChange}
                             />
                         </Grid.Col>
-                        <Grid.Col span={4}>
+                        <Grid.Col md={12} lg={4}>
                             <Button radius="md" style={{ margin: 8 }} leftIcon={<FilterIcon />} variant="outline" color='gray'>Filter</Button>
                         </Grid.Col>
                     </Grid>

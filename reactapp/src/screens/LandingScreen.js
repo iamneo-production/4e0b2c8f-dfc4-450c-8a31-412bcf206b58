@@ -1,4 +1,4 @@
-import {Title, Grid, Container, Text, Button, List, Paper, Card} from '@mantine/core';
+import {Title, Grid, Container, Text, Button, List, Paper, Card, Center} from '@mantine/core';
 import HeaderBar from '../components/HeaderBar';
 import {ReactComponent as LeaderSVG} from "../assets/Finance leaders.svg";
 import {ReactComponent as ArrowRigntIcon} from "../assets/Arrow_right.svg";
@@ -17,25 +17,27 @@ export default function LandingScreen() {
         <div>
             <HeaderBar isLandingPage={true} />
             <Container size="xl" >
-                <Container size={"lg"} style={{marginTop:80}} >
-                <Grid>
-                    <Grid.Col justify="center" span={6}>
-                        <Title style={{ marginTop: 70,marginLeft:20,textAlign:"left" }} size="48">Empower your finances, simplify your life.</Title>
-                        <Text c="dimmed" style={{marginTop:10,marginLeft:20,textAlign:"left"}}>PayMint: Simplify payments, track expenses, achieve financial goals</Text>
-                        <Button onClick={() => dispatch(openSignupForm())} size={"md"} radius="xl" style={{marginTop:20,marginLeft:20}} rightIcon={<ArrowRigntIcon/>}>Get started</Button>
+                <Container size={"lg"}  >
+                <Grid style={{marginTop:40}} justify="center" align="center">
+                    <Grid.Col md={6} lg={6}>
+                        <Title style={{textAlign:"left" }} size="48">Empower your finances, simplify your life.</Title>
+                        <Text c="dimmed" style={{marginTop:10,textAlign:"left"}}>PayMint: Simplify payments, track expenses, achieve financial goals</Text>
+                        <Button onClick={() => dispatch(openSignupForm())} size={"md"} radius="xl" style={{marginTop:20}} rightIcon={<ArrowRigntIcon/>}>Get started</Button>
                     </Grid.Col>
-                    <Grid.Col justify="center" align="center" span={6}>
-                        <LeaderSVG/>
+                    <Grid.Col md={6} lg={6}>
+                        <Center >
+                            <LeaderSVG/>
+                        </Center>
                     </Grid.Col>
                 </Grid>
                 </Container>
                 <Container size={"lg"} style={{marginTop:150}} >
                 <Paper shadow="sm" radius="lg" p="md">
                 <Grid >
-                    <Grid.Col justify="center" align="center" span={6}>
+                    <Grid.Col justify="center" align="center" md={6} lg={6}>
                         <ManageMoneySVG style={{width:350,height:350}}/>
                     </Grid.Col>
-                    <Grid.Col justify="center" span={6}>
+                    <Grid.Col justify="center" md={6} lg={3}>
                         <Title style={{textAlign:"left" }} size="32">Effective Money Management</Title>
                         <Text c="dimmed" style={{fontSize:18,marginTop:10,textAlign:"left"}}>Effective money management is the key to achieving financial stability and success. By taking control of your finances and making informed decisions, you can pave the way for a secure and prosperous future.</Text>
                         <List style={{marginTop:20}}
@@ -58,7 +60,7 @@ export default function LandingScreen() {
                 <Container  size={"lg"} style={{marginTop:100,marginBottom:100}}>
                     <Title order={1}>Features</Title>
                     <Grid style={{marginTop:50}}>
-                        <Grid.Col span={3}>
+                        <Grid.Col md={6} lg={3}>
                             <Card
                                 shadow="sm"
                                 padding="sm"
@@ -79,7 +81,7 @@ export default function LandingScreen() {
                                 </Text>
                             </Card>
                         </Grid.Col>
-                        <Grid.Col span={3}>
+                        <Grid.Col md={6} lg={3}>
                             <Card
                                 shadow="sm"
                                 padding="sm"
@@ -100,7 +102,7 @@ export default function LandingScreen() {
                                 </Text>
                             </Card>
                         </Grid.Col>
-                        <Grid.Col span={3}>
+                        <Grid.Col md={6} lg={3}>
                             <Card
                                 shadow="sm"
                                 padding="sm"
@@ -121,7 +123,7 @@ export default function LandingScreen() {
                                 </Text>
                             </Card>
                         </Grid.Col>
-                        <Grid.Col span={3}>
+                        <Grid.Col md={6} lg={3}>
                             <Card
                                 shadow="sm"
                                 padding="sm"
