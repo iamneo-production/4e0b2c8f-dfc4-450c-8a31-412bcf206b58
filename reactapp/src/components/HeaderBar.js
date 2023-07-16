@@ -3,7 +3,7 @@ import {
     Header,
     Group,
     Button,
-    Box, Avatar, Menu, rem, UnstyledButton
+    Box, Avatar, Menu, rem, UnstyledButton, Burger
 } from '@mantine/core';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
@@ -48,6 +48,7 @@ export default function HeaderBar(props) {
             <Header height={60} px="md">
                 <Group position="apart" sx={{ height: '100%' }}>
                     <Group>
+                        {props.isMobile && <Burger opened={props.navOpened} onClick={() => props.setNavOpened(!props.navOpened)}/>}
                         <AppLogo style={{width:140,height:60}}/>
                     </Group>
                         {props.isLandingPage?
@@ -64,14 +65,14 @@ export default function HeaderBar(props) {
                                             <Button radius={"xl"} variant={"default"} size={rem(42)}>
                                                 <Avatar  src={`data:image/jpeg;base64,${currentUser.profileImage}`} radius="xl"><AvatarIcon/></Avatar>
                                             </Button>
-
-                                            <div style={{ flex: 1 }}>
-                                                <Text size="sm" fw={700}>{currentUser.firstName}
-                                                </Text>
-                                                <Text c={"dimmed"} size="xs">{currentUser.email.length>16 ? `${currentUser.email.slice(0,16)}...`:currentUser.email}
-                                                </Text>
-
-                                            </div>
+                                            {!props.isMobile &&
+                                                <div style={{ flex: 1 }}>
+                                                    <Text size="sm" fw={700}>{currentUser.firstName}
+                                                    </Text>
+                                                    <Text c={"dimmed"} size="xs">{currentUser.email.length>16 ? `${currentUser.email.slice(0,16)}...`:currentUser.email}
+                                                    </Text>
+                                                </div>
+                                            }
                                             <ExpandIcon style={{height:16,width:16}}></ExpandIcon>
                                         </Group>
 
