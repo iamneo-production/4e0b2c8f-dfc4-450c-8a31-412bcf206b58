@@ -15,5 +15,5 @@ public interface BudgetService {
     void deleteBudget(Long id);
 
 
-
+    boolean hasAlready(String userName, int categoryId);
 }
