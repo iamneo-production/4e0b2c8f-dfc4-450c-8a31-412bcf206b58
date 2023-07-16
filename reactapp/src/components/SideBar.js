@@ -65,9 +65,19 @@ export default function SideBar(props) {
     dispatch(closeGoalForm());
   }
 
+  function navStyle(){
+    if(props.isMobile){
+      return {
+        display: props.navOpened ? 'block' : 'none'
+      }
+    }else{
+      return {}
+    }
+  }
+
   return (
     <div>
-      <Navbar
+      <Navbar style={navStyle()}
         width={{
           // When viewport is larger than theme.breakpoints.sm, Navbar width will be 300
           sm: 300,
@@ -76,68 +86,70 @@ export default function SideBar(props) {
           lg: 250,
 
           // When other breakpoints do not match base width is used, defaults to 100%
-          base: 100,
+          base: 0,
         }}
       >
         <Navbar.Section grow mt="md">
-          <Box>
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Dashboard" ?<Text fw={600}>Dashboard</Text>:<Text>Dashboard</Text>}
-              icon={props.currentPage === "Dashboard" ?<DashboardIconBlue style={{width:16,height:16}}/> : <DashboardIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/dashboard")}
-              active={props.currentPage === "Dashboard"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Transactions" ?<Text fw={600}>Transactions</Text>:<Text>Transactions</Text>}
-              icon={props.currentPage === "Transactions" ?<TransactionsIconBlue style={{width:16,height:16}}/> : <TransactionsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/transaction")}
-              active={props.currentPage === "Transactions"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Accounts" ?<Text fw={600}>Accounts</Text>:<Text>Accounts</Text>}
-              icon={props.currentPage === "Accounts" ?<AccountsIconBlue style={{width:16,height:16}}/> : <AccountsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/account")}
-              active={props.currentPage === "Accounts"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Budgets" ?<Text fw={600}>Budgets</Text>:<Text>Budgets</Text>}
-              icon={props.currentPage === "Budgets" ?<BudgetIconBlue style={{width:16,height:16}}/> : <BudgetIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/budget")}
-              active={props.currentPage === "Budgets"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Goals" ?<Text fw={600}>Goals</Text>:<Text>Goals</Text>}
-              icon={props.currentPage === "Goals" ?<GoalsIconBlue style={{width:16,height:16}}/> : <GoalsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/goal")}
-              active={props.currentPage === "Goals"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Debts" ?<Text fw={600}>Debts</Text>:<Text>Debts</Text>}
-              icon={props.currentPage === "Debts" ?<DebtsIconBlue style={{width:16,height:16}}/> : <DebtsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/debts")}
-              active={props.currentPage === "Debts"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Reports" ?<Text fw={600}>Reports</Text>:<Text>Reports</Text>}
-              icon={props.currentPage === "Reports" ?<ReportsIconBlue style={{width:16,height:16}}/> : <ReportsIcon style={{width:16,height:16}}/>}
-              onClick={() => navigate("/report")}
-              rightSection={<></>}
-              active={props.currentPage === "Reports"}
-            />
-          </Box>
+          <div style={{ padding: 10 }}>
+            <Box>
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10}}
+                  label={props.currentPage === "Dashboard" ?<Text fw={600}>Dashboard</Text>:<Text>Dashboard</Text>}
+                  icon={props.currentPage === "Dashboard" ?<DashboardIconBlue style={{width:16,height:16}}/> : <DashboardIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/dashboard")}
+                  active={props.currentPage === "Dashboard"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Transactions" ?<Text fw={600}>Transactions</Text>:<Text>Transactions</Text>}
+                  icon={props.currentPage === "Transactions" ?<TransactionsIconBlue style={{width:16,height:16}}/> : <TransactionsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/transaction")}
+                  active={props.currentPage === "Transactions"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10}}
+                  label={props.currentPage === "Accounts" ?<Text fw={600}>Accounts</Text>:<Text>Accounts</Text>}
+                  icon={props.currentPage === "Accounts" ?<AccountsIconBlue style={{width:16,height:16}}/> : <AccountsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/account")}
+                  active={props.currentPage === "Accounts"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Budgets" ?<Text fw={600}>Budgets</Text>:<Text>Budgets</Text>}
+                  icon={props.currentPage === "Budgets" ?<BudgetIconBlue style={{width:16,height:16}}/> : <BudgetIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/budget")}
+                  active={props.currentPage === "Budgets"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Goals" ?<Text fw={600}>Goals</Text>:<Text>Goals</Text>}
+                  icon={props.currentPage === "Goals" ?<GoalsIconBlue style={{width:16,height:16}}/> : <GoalsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/goal")}
+                  active={props.currentPage === "Goals"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Debts" ?<Text fw={600}>Debts</Text>:<Text>Debts</Text>}
+                  icon={props.currentPage === "Debts" ?<DebtsIconBlue style={{width:16,height:16}}/> : <DebtsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/debts")}
+                  active={props.currentPage === "Debts"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Reports" ?<Text fw={600}>Reports</Text>:<Text>Reports</Text>}
+                  icon={props.currentPage === "Reports" ?<ReportsIconBlue style={{width:16,height:16}}/> : <ReportsIcon style={{width:16,height:16}}/>}
+                  onClick={() => navigate("/report")}
+                  rightSection={<></>}
+                  active={props.currentPage === "Reports"}
+              />
+            </Box>
+          </div>
         </Navbar.Section>
         <Navbar.Section>
           <Menu position="right" radius={"md"} withArrow shadow="xl" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
