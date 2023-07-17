@@ -2,9 +2,14 @@ package com.example.springapp.controller;
 
 
 
+import com.example.springapp.BaseResponceDto;
 import com.example.springapp.account.Account;
+import com.example.springapp.category.CategoryService;
+import com.example.springapp.config.auth.JWTGenerator;
 import com.example.springapp.goals.Goal;
 import com.example.springapp.goals.GoalsService;
+import com.example.springapp.user.UserEntity;
+import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +25,26 @@ public class GoalsController {
     @Autowired
     private GoalsService goalsService;
 
+    @Autowired
+    JWTGenerator jwtGenerator;
+
+    @Autowired
+    UserRepository userRepository;
+
     //API EndPoint for creating a Goal
     @PostMapping("/api/goals")
-    public ResponseEntity<Goal> createGoal(@RequestBody Goal goal) {
+    public ResponseEntity<BaseResponceDto> createGoal(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody Goal goal) {
+        UserEntity user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token))).orElseThrow();
+        goal.setUser(user);
         Goal createdGoal = goalsService.createGoal(goal);
-        return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
+        return ResponseEntity.ok(new BaseResponceDto("success"));
     }
 
     //API EndPoint for Updating the existing a Goal
     @PutMapping("/api/goals/{id}")
-    public ResponseEntity<Goal> updateGoal(@PathVariable("id") Long id, @RequestBody Goal goal) {
+    public ResponseEntity<BaseResponceDto> updateGoal(@PathVariable("id") Long id, @RequestBody Goal goal) {
         Goal updatedGoal = goalsService.updateGoal(id, goal);
-        return new ResponseEntity<>(updatedGoal, HttpStatus.OK);
+        return ResponseEntity.ok(new BaseResponceDto("success",updatedGoal));
     }
 
     //API EndPoint for Deleting the existing Goal
@@ -54,9 +67,10 @@ public class GoalsController {
 
     //API EndPoint for fetching all the existing goals
     @GetMapping("/api/goals")
-    public ResponseEntity<List<Goal>> getAllGoals() {
-        List<Goal> goals = goalsService.getAllGoals();
-        return new ResponseEntity<>(goals, HttpStatus.OK);
+    public ResponseEntity<BaseResponceDto> getAllGoals(@RequestHeader(value = "Authorization", defaultValue = "") String token) {
+        UserEntity user = userRepository.findByEmail(jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token))).orElseThrow();
+        List<Goal> goals = goalsService.getAllGoalsByUser(user);
+        return ResponseEntity.ok(new BaseResponceDto("success",goals));
     }
 
     @GetMapping("/goals")

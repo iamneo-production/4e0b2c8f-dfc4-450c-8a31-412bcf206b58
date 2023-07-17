@@ -47,7 +47,7 @@ public class Budget {
 
 
     public Long getUsed() {
-        return Objects.requireNonNullElse(balance, 0L);
+        return Objects.requireNonNullElse(used, 0L);
     }
 
     public void setUsed(Long used) {

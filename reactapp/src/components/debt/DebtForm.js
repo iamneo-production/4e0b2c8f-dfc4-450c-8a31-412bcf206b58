@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { FaPlus,FaMoneyBill,FaUser,FaCalendarAlt } from 'react-icons/fa';
-import { Modal,  Button, TextInput, Title,useMantineTheme,Notification, Grid } from '@mantine/core';
+import { Modal,  Button, TextInput, Title,Notification, Grid } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,6 @@ function DebtForm() {
   const setdueDate=useStoreActions((action)=>action.setdueDate)
   // const setStatus=useStoreActions((action)=>action.setStatus)
   const addDebt=useStoreActions((action)=>action.addDebt)
-  const theme = useMantineTheme();
   const [newNot,setnewNot]=useState(false);
   const [errN,setErrN]=useState('');
   const [errA,setErrA]=useState('');
@@ -108,9 +107,8 @@ function DebtForm() {
         <div>
           <DatePickerInput
               radius="md"
-              style={{marginTop: "2px"}}
-              mx="auto"
-              maw={400}
+              // style={{marginTop: "2px"}}
+              dropdownType="modal"
               label="Due date"
               value={dueDate}
               onChange={setdueDate}
@@ -148,7 +146,6 @@ function DebtForm() {
             marginTop: '16px' 
               }}>
           <Button 
-            // variant="subtle" 
             onClick={close} 
             fullWidth 
             color='gray'
@@ -174,9 +171,9 @@ function DebtForm() {
           style={{ position: 'fixed', bottom: '30px', right: '30px' }}
         />
       }
-          <Grid.Col style={{margin:"8px"}} span={"content"}>
-              <Button onClick={handleOpenModal} radius="md" miw={"120px"} fullWidth>
-                  Add Debt
+          <Grid.Col style={{margin:8}} span={"content"}>
+              <Button onClick={handleOpenModal}  fullWidth>
+                  New Debt
               </Button>
           </Grid.Col>
     </>

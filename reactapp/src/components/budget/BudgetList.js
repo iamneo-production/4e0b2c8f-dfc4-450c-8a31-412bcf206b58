@@ -3,18 +3,25 @@ import {Button, Table, Progress, Text, Grid} from "@mantine/core";
 import { ReactComponent as EditSVG } from '../../assets/Edit.svg';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBudget, showBudgetForm} from "../../features/budgetSlice";
+import BudgetEditForm from "./BudgetEditForm";
 
 
 export default function BudgetList(){
         const dispatch= useDispatch()
+    const [displayBudgetEditForm,setDisplayBudgetEditForm] = useState(false);
+    const [selectedEditElement,setSelectedEditElement] = useState(null);
     const token = useSelector(state => state.user.token)
         useEffect(()=>{
             dispatch(fetchBudget({token:token}))
         },[])
         const [rowToEdit,setRowToEdit]=useState(null)
-
-    //needs fix
-    const handleEditRow = (idx) =>{setRowToEdit(idx); dispatch(showBudgetForm())}
+    function handleBudgetEditFormClose(){
+        setDisplayBudgetEditForm(false)
+    }
+    function handleBudgetEditFormOpen(element){
+        setSelectedEditElement(element)
+        setDisplayBudgetEditForm(true)
+    }
 
         const budgetList = useSelector(state => state.budget.budgetList)
         const rows = budgetList.map((element) => (
@@ -28,12 +35,14 @@ export default function BudgetList(){
                 </Grid>
             </td>
             <td><Text fw={700} style={{color: "#26AB35"}} >{`Rs. ${element.balance.toLocaleString("en-US")}`}</Text></td>
-            <td>{<EditSVG/>}</td>
+            <td>{<EditSVG onClick={() => handleBudgetEditFormOpen(element)}></EditSVG>}</td>
         </tr>
     ));
 
     return (
         <div >
+            {displayBudgetEditForm && <BudgetEditForm element={selectedEditElement} open={displayBudgetEditForm}
+                                                      close={handleBudgetEditFormClose}></BudgetEditForm>}
             <Table  verticalSpacing="md" >
                 <thead>
                 <tr>
