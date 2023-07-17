@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { FaPlus,FaMoneyBill,FaUser,FaCalendarAlt } from 'react-icons/fa';
-import { Modal,  Button, TextInput, Title,useMantineTheme,Notification, Grid } from '@mantine/core';
+import { Modal,  Button, TextInput, Title,Notification, Grid } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useSelector } from 'react-redux';
