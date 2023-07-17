@@ -27,7 +27,7 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public List<Budget> getAllBudgetByUser(UserEntity user) {
-        return budgetRepository.findAllByUser(user);
+        return budgetRepository.findAllByUser(user.getUserId());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class BudgetServiceImpl implements BudgetService {
     public Budget createBudget(BudgetRequestDto budgetRequestDto, String userName) {
         Category category = categoryService.getCategoryById(budgetRequestDto.getCategoryId());
         UserEntity user = userRepository.findByEmail(userName).orElseThrow();
-        Budget budget = new Budget(category, budgetRequestDto.getAmount(),user);
+        Budget budget = new Budget(category, budgetRequestDto.getAmount(),user,0L,0L);
         return budgetRepository.save(budget);
     }
 
@@ -52,6 +52,21 @@ public class BudgetServiceImpl implements BudgetService {
     @Override
     public void deleteBudget(Long id) {
         budgetRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean hasAlready(String userName, int categoryId) {
+        UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+        List<Budget> budgetList = budgetRepository.findAllByUser(user.getUserId());
+        boolean isAlready = false;
+        for (Budget b: budgetList
+             ) {
+            if (b.getCategory().getCategoryId() == categoryId) {
+                isAlready = true;
+                break;
+            }
+        }
+        return  isAlready;
     }
 
 

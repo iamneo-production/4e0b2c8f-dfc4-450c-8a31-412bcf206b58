@@ -23,7 +23,6 @@ import { ReactComponent as AddGoalIcon } from "../assets/Road_finish_duotone_lin
 
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import CategoryForm from "./category/CategoryForm";
 import {useDispatch, useSelector} from "react-redux";
 import {closeCategoryForm, fetchCategory, showCategoryForm} from "../features/categorySlice";
@@ -33,6 +32,8 @@ import AccountForm from "./accounts/AccountForm";
 import TransactionForm from "./transactions/TransactionFrom";
 import BudgetForm from "./budget/BudgetForm";
 import {closeBudgetForm, showBudgetForm} from "../features/budgetSlice";
+import GoalForm from "./goals/GoalForm";
+import {closeGoalForm, showGoalForm} from "../features/goalSlice";
 
 export default function SideBar(props) {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ export default function SideBar(props) {
   const displayTransactionForm = useSelector(state => state.transaction.displayTransactionForm)
   const displayAccountForm = useSelector(state => state.account.displayAccountForm)
   const displayBudgetForm = useSelector(state => state.budget.displayBudgetForm)
+  const displayGoalForm = useSelector(state => state.goal.displayGoalForm)
   const token = useSelector(state => state.user.token)
   //dispatch(fetchTransaction({token:token}))
   //dispatch(fetchCategory({token:token}))
@@ -59,9 +61,23 @@ export default function SideBar(props) {
     dispatch(closeBudgetForm());
   }
 
+  function handleBudgetFormClose() {
+    dispatch(closeGoalForm());
+  }
+
+  function navStyle(){
+    if(props.isMobile){
+      return {
+        display: props.navOpened ? 'block' : 'none'
+      }
+    }else{
+      return {}
+    }
+  }
+
   return (
     <div>
-      <Navbar
+      <Navbar style={navStyle()}
         width={{
           // When viewport is larger than theme.breakpoints.sm, Navbar width will be 300
           sm: 300,
@@ -70,71 +86,73 @@ export default function SideBar(props) {
           lg: 250,
 
           // When other breakpoints do not match base width is used, defaults to 100%
-          base: 100,
+          base: 0,
         }}
       >
         <Navbar.Section grow mt="md">
-          <Box>
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Dashboard" ?<Text fw={600}>Dashboard</Text>:<Text>Dashboard</Text>}
-              icon={props.currentPage === "Dashboard" ?<DashboardIconBlue style={{width:16,height:16}}/> : <DashboardIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/dashboard")}
-              active={props.currentPage === "Dashboard"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Transactions" ?<Text fw={600}>Transactions</Text>:<Text>Transactions</Text>}
-              icon={props.currentPage === "Transactions" ?<TransactionsIconBlue style={{width:16,height:16}}/> : <TransactionsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/transaction")}
-              active={props.currentPage === "Transactions"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Accounts" ?<Text fw={600}>Accounts</Text>:<Text>Accounts</Text>}
-              icon={props.currentPage === "Accounts" ?<AccountsIconBlue style={{width:16,height:16}}/> : <AccountsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/account")}
-              active={props.currentPage === "Accounts"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Budgets" ?<Text fw={600}>Budgets</Text>:<Text>Budgets</Text>}
-              icon={props.currentPage === "Budgets" ?<BudgetIconBlue style={{width:16,height:16}}/> : <BudgetIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/budget")}
-              active={props.currentPage === "Budgets"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Goals" ?<Text fw={600}>Goals</Text>:<Text>Goals</Text>}
-              icon={props.currentPage === "Goals" ?<GoalsIconBlue style={{width:16,height:16}}/> : <GoalsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/goal")}
-              active={props.currentPage === "Goals"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Debts" ?<Text fw={600}>Debts</Text>:<Text>Debts</Text>}
-              icon={props.currentPage === "Debts" ?<DebtsIconBlue style={{width:16,height:16}}/> : <DebtsIcon style={{width:16,height:16}}/>}
-              rightSection={<></>}
-              onClick={() => navigate("/debts")}
-              active={props.currentPage === "Debts"}
-            />
-            <NavLink
-              style={{ borderRadius: 8, margin: 10, width: 230 }}
-              label={props.currentPage === "Reports" ?<Text fw={600}>Reports</Text>:<Text>Reports</Text>}
-              icon={props.currentPage === "Reports" ?<ReportsIconBlue style={{width:16,height:16}}/> : <ReportsIcon style={{width:16,height:16}}/>}
-              onClick={() => navigate("/report")}
-              rightSection={<></>}
-              active={props.currentPage === "Reports"}
-            />
-          </Box>
+          <div style={{ padding: 10 }}>
+            <Box>
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10}}
+                  label={props.currentPage === "Dashboard" ?<Text fw={600}>Dashboard</Text>:<Text>Dashboard</Text>}
+                  icon={props.currentPage === "Dashboard" ?<DashboardIconBlue style={{width:16,height:16}}/> : <DashboardIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/dashboard")}
+                  active={props.currentPage === "Dashboard"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Transactions" ?<Text fw={600}>Transactions</Text>:<Text>Transactions</Text>}
+                  icon={props.currentPage === "Transactions" ?<TransactionsIconBlue style={{width:16,height:16}}/> : <TransactionsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/transaction")}
+                  active={props.currentPage === "Transactions"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10}}
+                  label={props.currentPage === "Accounts" ?<Text fw={600}>Accounts</Text>:<Text>Accounts</Text>}
+                  icon={props.currentPage === "Accounts" ?<AccountsIconBlue style={{width:16,height:16}}/> : <AccountsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/account")}
+                  active={props.currentPage === "Accounts"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Budgets" ?<Text fw={600}>Budgets</Text>:<Text>Budgets</Text>}
+                  icon={props.currentPage === "Budgets" ?<BudgetIconBlue style={{width:16,height:16}}/> : <BudgetIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/budget")}
+                  active={props.currentPage === "Budgets"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Goals" ?<Text fw={600}>Goals</Text>:<Text>Goals</Text>}
+                  icon={props.currentPage === "Goals" ?<GoalsIconBlue style={{width:16,height:16}}/> : <GoalsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/goal")}
+                  active={props.currentPage === "Goals"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Debts" ?<Text fw={600}>Debts</Text>:<Text>Debts</Text>}
+                  icon={props.currentPage === "Debts" ?<DebtsIconBlue style={{width:16,height:16}}/> : <DebtsIcon style={{width:16,height:16}}/>}
+                  rightSection={<></>}
+                  onClick={() => navigate("/debts")}
+                  active={props.currentPage === "Debts"}
+              />
+              <NavLink
+                  style={{ borderRadius: 8,marginBottom:10 }}
+                  label={props.currentPage === "Reports" ?<Text fw={600}>Reports</Text>:<Text>Reports</Text>}
+                  icon={props.currentPage === "Reports" ?<ReportsIconBlue style={{width:16,height:16}}/> : <ReportsIcon style={{width:16,height:16}}/>}
+                  onClick={() => navigate("/report")}
+                  rightSection={<></>}
+                  active={props.currentPage === "Reports"}
+              />
+            </Box>
+          </div>
         </Navbar.Section>
         <Navbar.Section>
-          <Menu position="right" radius={"md"} withArrow shadow="md" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
+          <Menu position="right" radius={"md"} withArrow shadow="xl" width={200} transitionProps={{ transition: 'scale-x', duration: 150 }}>
             <Menu.Target >
               <div style={{ padding: 10 }}>
                 <Button
@@ -160,7 +178,7 @@ export default function SideBar(props) {
               <Menu.Item icon={<AddBudgetIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() =>dispatch(showBudgetForm())}>
                 Add Budget
               </Menu.Item>
-              <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showGoalForm())}>
                 Add Goal
               </Menu.Item>
               <Menu.Item icon={<AddDebtIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
@@ -179,6 +197,7 @@ export default function SideBar(props) {
               open={displayTransactionForm}
               close={handleTransactionFormClose}></TransactionForm>
           <BudgetForm open={displayBudgetForm} close={handleBudgetFormClose}/>
+          <GoalForm open={displayGoalForm} close={handleBudgetFormClose}/>
         </Navbar.Section>
       </Navbar>
     </div>

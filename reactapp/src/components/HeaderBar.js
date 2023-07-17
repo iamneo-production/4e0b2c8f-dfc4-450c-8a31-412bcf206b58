@@ -3,18 +3,20 @@ import {
     Header,
     Group,
     Button,
-    Box, Avatar, Menu, rem, UnstyledButton
+    Box, Avatar, Menu, rem, UnstyledButton, Burger
 } from '@mantine/core';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
 import {useDispatch, useSelector} from "react-redux";
-import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm,logoutAccount} from '../features/userSlice'
+import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm} from '../features/userSlice'
 import {ReactComponent as ProfileIcon } from "../assets/User.svg";
 import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
 import {ReactComponent as ExpandIcon} from "../assets/Expand_down.svg";
 import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
 import {useNavigate} from "react-router-dom";
+import {logout} from "../features/logoutSlice";
+
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
     const displaySignupForm = useSelector(state => state.user.displaySignupForm)
@@ -35,7 +37,7 @@ export default function HeaderBar(props) {
     }
 
     function handleLogout(){
-        dispatch(logoutAccount())
+        dispatch(logout({}));
         navigate("/")
     }
     function handleSetting(){
@@ -46,6 +48,7 @@ export default function HeaderBar(props) {
             <Header height={60} px="md">
                 <Group position="apart" sx={{ height: '100%' }}>
                     <Group>
+                        {props.isMobile && <Burger opened={props.navOpened} onClick={() => props.setNavOpened(!props.navOpened)}/>}
                         <AppLogo style={{width:140,height:60}}/>
                     </Group>
                         {props.isLandingPage?
@@ -62,14 +65,14 @@ export default function HeaderBar(props) {
                                             <Button radius={"xl"} variant={"default"} size={rem(42)}>
                                                 <Avatar  src={`data:image/jpeg;base64,${currentUser.profileImage}`} radius="xl"><AvatarIcon/></Avatar>
                                             </Button>
-
-                                            <div style={{ flex: 1 }}>
-                                                <Text size="sm" fw={700}>{currentUser.firstName}
-                                                </Text>
-                                                <Text c={"dimmed"} size="xs">{currentUser.email.length>16 ? `${currentUser.email.slice(0,16)}...`:currentUser.email}
-                                                </Text>
-
-                                            </div>
+                                            {!props.isMobile &&
+                                                <div style={{ flex: 1 }}>
+                                                    <Text size="sm" fw={700}>{currentUser.firstName}
+                                                    </Text>
+                                                    <Text c={"dimmed"} size="xs">{currentUser.email.length>16 ? `${currentUser.email.slice(0,16)}...`:currentUser.email}
+                                                    </Text>
+                                                </div>
+                                            }
                                             <ExpandIcon style={{height:16,width:16}}></ExpandIcon>
                                         </Group>
 

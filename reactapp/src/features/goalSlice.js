@@ -1,15 +1,14 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {createBudget, deleteBudget, getBudget, updateBudget} from "../api/budgetService";
+import {createGoal, deleteGoal, getGoal, updateGoal} from "../api/goalService";
 import _ from "lodash";
 import {notifications} from "@mantine/notifications";
 import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
-export const addBudget =
-    createAsyncThunk('budget/addBudget',async (body)=>{
-        return  createBudget(
+export const addGoal =
+    createAsyncThunk('goal/addGoal',async (body)=>{
+        return  createGoal(
             body.token,
-            body.categoryId,
-            body.amount,
+            body
         ).then((res) =>{
             return res.data
         }).catch((err) =>{
@@ -17,13 +16,11 @@ export const addBudget =
         })
     })
 
-export const editBudget =
-    createAsyncThunk('budget/editBudget',async (body)=>{
-        return  updateBudget(
+export const editGoal =
+    createAsyncThunk('goal/editGoal',async (body)=>{
+        return  updateGoal(
             body.token,
-            body.budgetId,
-            body.categoryId,
-            body.amount,
+            body
         ).then((res) =>{
             return res.data
         }).catch((err) =>{
@@ -31,11 +28,11 @@ export const editBudget =
         })
     })
 
-export const removeBudget =
-    createAsyncThunk('budget/removeBudget',async (body)=>{
-        return  deleteBudget(
+export const removeGoal =
+    createAsyncThunk('goal/removeGoal',async (body)=>{
+        return  deleteGoal(
             body.token,
-            body.budgetId
+            body.goalId
         ).then((res) =>{
             return res.data
         }).catch((err) =>{
@@ -43,9 +40,9 @@ export const removeBudget =
         })
     })
 
-export const fetchBudget =
-    createAsyncThunk('budget/fetchBudget',async (body)=>{
-        return  getBudget(
+export const fetchGoal =
+    createAsyncThunk('goal/fetchGoal',async (body)=>{
+        return  getGoal(
             body.token
         ).then((res) =>{
             return res.data
@@ -55,33 +52,33 @@ export const fetchBudget =
     })
 
 
-const budgetSlice = createSlice({
-    name: "budget", initialState: {
-        displayBudgetForm:false,
-        addBudgetInProcess:false,
-        addBudgetEditInProcess:false,
-        fetchBudgetInProcess:false,
-        budgetList: []
+const goalSlice = createSlice({
+    name: "goal", initialState: {
+        displayGoalForm:false,
+        addGoalInProcess:false,
+        addGoalEditInProcess:false,
+        fetchGoalInProcess:false,
+        goalList: []
     }, reducers: {
-        showBudgetForm: (state) => {
-            state.displayBudgetForm = true
+        showGoalForm: (state) => {
+            state.displayGoalForm = true
         },
-        closeBudgetForm:(state) =>{
-            state.displayBudgetForm = false
+        closeGoalForm:(state) =>{
+            state.displayGoalForm = false
         }
     },
     extraReducers:{
-        [addBudget.pending]:(state) => {
-            state.addBudgetInProcess = true
-            console.log("Budget Add pending")
+        [addGoal.pending]:(state) => {
+            state.addGoalInProcess = true
+            console.log("Goal Add pending")
         },
-        [addBudget.fulfilled]:(state,action) =>{
-            state.addBudgetInProcess =false
+        [addGoal.fulfilled]:(state,action) =>{
+            state.addGoalInProcess =false
             if(action.payload?.message ==="success"){
-                console.log("Budget Created")
+                console.log("Goal Created")
                 notifications.show({
-                    title: 'Budget Created',
-                    message: 'your budget created successfuly!!',
+                    title: 'Goal Created',
+                    message: 'your goal created successfuly!!',
                     icon: <SuccessIcon />,
                     radius:"lg",
                     autoClose: 5000,
@@ -103,60 +100,24 @@ const budgetSlice = createSlice({
                     autoClose: 5000,
                 })
             }
-            state.displayBudgetForm = false
+            state.displayGoalForm = false
         },
-        [addBudget.rejected]:(state)=>{
-            state.addBudgetInProcess = false
-            console.log("Budget Create failed")
-            alert("Budget Create failed,Try again")
+        [addGoal.rejected]:(state)=>{
+            state.addGoalInProcess = false
+            console.log("Goal Create failed")
+            alert("Goal Create failed,Try again")
         },
-        [editBudget.pending]:(state) => {
-            state.addBudgetEditInProcess = true
-            console.log("Budget Add pending")
+        [editGoal.pending]:(state) => {
+            state.addGoalEditInProcess = true
+            console.log("Goal Add pending")
         },
-        [editBudget.fulfilled]:(state,action) =>{
-            state.addBudgetEditInProcess =false
+        [editGoal.fulfilled]:(state,action) =>{
+            state.addGoalEditInProcess =false
             if(action.payload?.message ==="success"){
-                console.log("Budget Created")
+                console.log("Goal Created")
                 notifications.show({
-                    title: 'Budget Updated',
-                    message: 'your budget update successfuly!!',
-                    icon: <SuccessIcon />,
-                    radius:"lg",
-                    autoClose: 5000,
-                })
-            }else if(_.isEmpty(action.payload)){
-                notifications.show({
-                    title:"Something went wrong",
-                    message: 'Please try again!!',
-                    radius:"lg",
-                    color:"red",
-                    autoClose: 5000,
-                })
-            }else {
-                notifications.show({
-                    title:action.payload?.message,
-                    message: action.payload?.message,
-                    radius:"lg",
-                    color:"red",
-                    autoClose: 5000,
-                })
-            }
-        },
-        [editBudget.rejected]:(state)=>{
-            state.addBudgetEditInProcess = false
-            console.log("Budget update failed")
-            alert("Budget update failed,Try again")
-        },
-        [removeBudget.pending]:(state) => {
-            console.log("Budget Add pending")
-        },
-        [removeBudget.fulfilled]:(state,action) =>{
-            if(action.payload?.message ==="success"){
-                console.log("Budget Created")
-                notifications.show({
-                    title: 'Budget removed',
-                    message: 'your budget remove successfuly!!',
+                    title: 'Goal Updated',
+                    message: 'your goal update successfuly!!',
                     icon: <SuccessIcon />,
                     radius:"lg",
                     autoClose: 5000,
@@ -179,32 +140,68 @@ const budgetSlice = createSlice({
                 })
             }
         },
-        [removeBudget.rejected]:(state)=>{
-            console.log("Budget remove failed")
-            alert("Budget remove failed,Try again")
+        [editGoal.rejected]:(state)=>{
+            state.addGoalEditInProcess = false
+            console.log("Goal update failed")
+            alert("Goal update failed,Try again")
         },
-        [fetchBudget.pending]:(state) => {
-            state.fetchBudgetInProcess = true
-            console.log("Budget fetch pending")
+        [removeGoal.pending]:(state) => {
+            console.log("Goal Add pending")
         },
-        [fetchBudget.fulfilled]:(state,action) =>{
+        [removeGoal.fulfilled]:(state,action) =>{
+            if(action.payload?.message ==="success"){
+                console.log("Goal Created")
+                notifications.show({
+                    title: 'Goal removed',
+                    message: 'your goal remove successfuly!!',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
+            }else if(_.isEmpty(action.payload)){
+                notifications.show({
+                    title:"Something went wrong",
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
+            }else {
+                notifications.show({
+                    title:action.payload?.message,
+                    message: action.payload?.message,
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
+            }
+        },
+        [removeGoal.rejected]:(state)=>{
+            console.log("Goal remove failed")
+            alert("Goal remove failed,Try again")
+        },
+        [fetchGoal.pending]:(state) => {
+            state.fetchGoalInProcess = true
+            console.log("Goal fetch pending")
+        },
+        [fetchGoal.fulfilled]:(state,action) =>{
             if(action.payload.message ==="success"){
-                console.log(state.budgetList)
-                state.budgetList = action.payload.data
-                console.log("Budget fetched")
-                console.log(state.budgetList)
+                console.log(state.goalList)
+                state.goalList = action.payload.data
+                console.log("Goal fetched")
+                console.log(state.goalList)
             }else {
                 console.log(action.payload.message)
             }
-            state.fetchBudgetInProcess =false
+            state.fetchGoalInProcess =false
         },
-        [fetchBudget.rejected]:(state)=>{
-            state.fetchBudgetInProcess = false
-            console.log("Budget fetch failed")
+        [fetchGoal.rejected]:(state)=>{
+            state.fetchGoalInProcess = false
+            console.log("Goal fetch failed")
         },
     }
 })
 
-export const {showBudgetForm,closeBudgetForm} = budgetSlice.actions;
+export const {showGoalForm,closeGoalForm} = goalSlice.actions;
 
-export default budgetSlice;
+export default goalSlice;
