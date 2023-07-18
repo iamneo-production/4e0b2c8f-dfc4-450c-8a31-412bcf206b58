@@ -8,11 +8,15 @@ import IncomePieChart from "../components/dashboard/IncomePieChart";
 import ExpensesPieChart from "../components/dashboard/ExpensesPieChart";
 import axios from "axios";
 import {baseUrl} from "../api/config";
+import DashboardFeture from "../components/dashboard/DashboardFeature";
 
 export default function  DashboardScreen(){
     const dispatch = useDispatch()
     const token = useSelector(state => state.user.token)
-    const [result,setResult] = useState({});
+    const [result,setResult] = useState({
+        total_expenses:0,
+        total_income:0
+    });
 
     useEffect(()=>{
         dispatch(validateToken(token))
@@ -30,44 +34,17 @@ export default function  DashboardScreen(){
         <Layout title={"Dashboard"} load={true}>
             <div >
                 <Title style={{ margin: 5,marginBottom:10 }} order={2}>Dashboard</Title>
-                <Paper style={{ marginBottom: 16 }} radius="md" p="md" withBorder>
-                    <Grid>
-                        <Grid.Col span={12} sm={6} md={3}>
-                            <Text size={"xl"} fw={700}>{`Rs. 10000`}</Text>
-                            <Text size={"sm"} fw={700} c="dimmed">
-                                TOTAL BALANCE
-                            </Text>
-                        </Grid.Col>
-                        <Grid.Col span={12} sm={6} md={3}>
-                            <Text size={"xl"} fw={700}>{`40%`}</Text>
-                            <Text size={"sm"} fw={700} c="dimmed">
-                                BUDGET USED
-                            </Text>
-                        </Grid.Col>
-                        <Grid.Col span={12} sm={6} md={3}>
-                            <Text size={"xl"} fw={700}>{`1 / 2`}</Text>
-                            <Text size={"sm"} fw={700} c="dimmed">
-                                DEBTS PENDING
-                            </Text>
-                        </Grid.Col>
-                        <Grid.Col span={12} sm={6} md={3}>
-                            <Text size={"xl"} fw={700}>{`3 / 5`}</Text>
-                            <Text size={"sm"} fw={700} c="dimmed">
-                                GOALS COMPLETED
-                            </Text>
-                        </Grid.Col>
-                    </Grid>
-                </Paper>
+                <DashboardFeture/>
                 <Grid style={{height:300}}>
                     <Grid.Col span={12} md={6}>
                         <Paper  radius="md" p="md" withBorder>
                             <Grid >
                                 <Grid.Col span={12} md={6}>
-                                    <Title order={4}>{`- Rs. ${result?.total_expenses}`}</Title>
+                                    <Title order={4}>{`Rs. ${result?.total_expenses}`}</Title>
                                     <Text c={"dimmed"}>This Month Expenses</Text>
                                 </Grid.Col>
                                 <Grid.Col span={6}>
-                                    <Title style={{color: "#26AB35"}} order={4}>{`+ Rs. ${result?.total_income}`}</Title>
+                                    <Title style={{color: "#26AB35"}} order={4}>{`Rs. ${result?.total_income}`}</Title>
                                     <Text c={"dimmed"}>This Month Income</Text>
                                 </Grid.Col>
                             </Grid>
