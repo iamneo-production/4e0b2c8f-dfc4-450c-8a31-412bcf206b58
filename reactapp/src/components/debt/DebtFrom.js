@@ -5,10 +5,8 @@ import { DatePickerInput } from '@mantine/dates';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useSelector } from 'react-redux';
 
-function DebtForm({isOpen,onClose}) {
+const DebtFrom=({ isOpen, onClose })=> {
   const token  = useSelector(state => state.user.token);
-
-  // const [opened, { open, close }] = useDisclosure(false);
   const amount=useStoreState((state)=>state.amount)
   const moneyFrom=useStoreState((state)=>state.moneyFrom)
   const dueDate=useStoreState((state)=>state.dueDate)
@@ -17,25 +15,22 @@ function DebtForm({isOpen,onClose}) {
   const setAmount=useStoreActions((action)=>action.setAmount)
   const setMoneyFrom=useStoreActions((action)=>action.setMoneyFrom)
   const setdueDate=useStoreActions((action)=>action.setdueDate)
-  // const setStatus=useStoreActions((action)=>action.setStatus)
   const addDebt=useStoreActions((action)=>action.addDebt)
   const [newNot,setnewNot]=useState(false);
   const [errN,setErrN]=useState('');
   const [errA,setErrA]=useState('');
   const [errD,setErrD]=useState('');
-
-
   // const handleOpenModal = () => {
-  //   open();
   //   setAmount('');
   //   setdueDate(new Date());
   //   setMoneyFrom('');
   //   // setStatus('unpaid');
+  //   onClose(); // Close the modal when it is opened (you can omit this line if you want the modal to be controlled outside this component)
   // };
 
   const handleSaveModal = async (e) => {
     e.preventDefault();
-    if (dueDate.getTime() === new Date().getTime()) {
+    if(dueDate.toDateString() === new Date().toDateString()){
       setErrD("Please select a valid date");
       setTimeout(()=>{
         setErrD('')
@@ -72,8 +67,7 @@ function DebtForm({isOpen,onClose}) {
     };
     // console.log(NDebt);
     addDebt({...NDebt,token:token});
-    // console.log("Added")
-    onClose();
+    onClose(); // Close the modal when the "Save" button is clicked
     setnewNot(true);
     setTimeout(()=>{
       setnewNot(false)
@@ -145,7 +139,7 @@ function DebtForm({isOpen,onClose}) {
             marginTop: '16px' 
               }}>
           <Button 
-            onClick={onClose} 
+            onClick={onClose} // Use onClose to close the modal when the "Cancel" button is clicked
             fullWidth 
             color='gray'
             style={{ marginLeft: '10px', width: '45%' }} >
@@ -174,4 +168,4 @@ function DebtForm({isOpen,onClose}) {
   );
 }
 
-export default DebtForm;
+export default DebtFrom;
