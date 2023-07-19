@@ -6,7 +6,6 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { DatePickerInput } from '@mantine/dates';
 import { useSelector } from 'react-redux';
 import NoDebt from './NoDebt';
-// import { IconCheck, IconX } from '@tabler/icons-react';
 
 const DebtList = () => {
   const token  = useSelector(state => state.user.token)
@@ -157,7 +156,7 @@ const DebtList = () => {
             opened={opened}
             onClose={close}
             centered
-            position="center" // Center the Modal on the page
+            position="center" 
             title={
               <Title>
                 <span>Edit</span>
@@ -165,7 +164,7 @@ const DebtList = () => {
             }
             size="350px"
             radius="lg"
-            zIndex={1001} // Set a higher zIndex value for the Edit Modal
+            zIndex={1001} 
 
             overlayProps={{
               color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],

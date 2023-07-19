@@ -35,6 +35,9 @@ import {closeBudgetForm, showBudgetForm} from "../features/budgetSlice";
 import GoalForm from "./goals/GoalForm";
 import {closeGoalForm, showGoalForm} from "../features/goalSlice";
 
+import { useState } from "react";
+import DebtForm from "./debt/DebtForm";
+
 export default function SideBar(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -65,6 +68,13 @@ export default function SideBar(props) {
     dispatch(closeGoalForm());
   }
 
+  // Debt From Likning  
+  const [debtFormOpen, setDebtFormOpen] = useState(false);
+
+  const openDebtForm = () => {
+    setDebtFormOpen((prev) => !prev);
+  };
+  
   function navStyle(){
     if(props.isMobile){
       return {
@@ -181,7 +191,7 @@ export default function SideBar(props) {
               <Menu.Item icon={<AddGoalIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => dispatch(showGoalForm())}>
                 Add Goal
               </Menu.Item>
-              <Menu.Item icon={<AddDebtIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={() => {}}>
+              <Menu.Item icon={<AddDebtIcon style={{height:20,width:20}} />}  transitionProps={{ transition: 'rotate-right', duration: 150 }} onClick={openDebtForm} >
                 Add Debt
               </Menu.Item>
             </Menu.Dropdown>
@@ -198,6 +208,8 @@ export default function SideBar(props) {
               close={handleTransactionFormClose}></TransactionForm>
           <BudgetForm open={displayBudgetForm} close={handleBudgetFormClose}/>
           <GoalForm open={displayGoalForm} close={handleBudgetFormClose}/>
+          <DebtForm isOpen={debtFormOpen} onClose={openDebtForm}/>
+
         </Navbar.Section>
       </Navbar>
     </div>
