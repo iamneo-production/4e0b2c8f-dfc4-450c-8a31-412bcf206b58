@@ -16,8 +16,9 @@ export default function  GoalScreen(){
         }
         fetchData()
     },[])
+    const goalList = useSelector(state => state.goal.goalList)
     return(
-        <Layout title={"Goals"} load={true}>
+        <Layout title={"Goals"} load={goalList.length>0}>
             <GoalHeader/>
             <GoalFeature/>
             <GoalList/>

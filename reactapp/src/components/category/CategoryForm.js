@@ -119,7 +119,7 @@ export default function CategoryForm(props) {
             gutterXl={50}
           >
             <Grid.Col span={"auto"}>
-              <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)}>
+              <Button radius="md" variant={"default"} fullWidth onClick={() => setShowDiscard(true)}>
                 Discard
               </Button>
             </Grid.Col>
