@@ -15,6 +15,7 @@ import ChangePasswordForm from "../components/settings/ChangePasswordForm";
 import DeleteAccount from "../components/settings/DeleteAccount";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
 import { editImage, validateToken } from "../features/userSlice";
 import Layout from "../components/Layout";
 
@@ -164,7 +165,15 @@ export default function ProfileScreen() {
                   }}
                 />
               ) : (
-                <Avatar radius="xl" />
+                  <AvatarIcon  style={{
+                      width: 150,
+                      height: 150,
+                      objectFit: "contain",
+                      borderStyle:"solid",
+                      borderWidth:1,
+                      borderColor:"rgba(0,0,0,0.2)",
+                      borderRadius: "1000px",
+                  }}/>
                 // <img
                 //   src={logo}
                 //   alt="Default image"

@@ -58,7 +58,7 @@ export default function HeaderBar(props) {
                             </Group>
 
                             :<Group>
-                                <Menu  radius={"md"} trigger="hover" openDelay={100} shadow="md" width={220}>
+                                <Menu  radius={"md"} openDelay={100} shadow="md" width={220}>
                                     <Menu.Target>
                                         <UnstyledButton style={{height: rem(42)}} radius={"md"} variant={"default"}>
                                         <Group>
