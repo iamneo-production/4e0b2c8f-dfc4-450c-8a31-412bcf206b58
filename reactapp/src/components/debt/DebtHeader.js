@@ -1,7 +1,6 @@
 import React,{useState} from 'react';
 import { Grid, Title,Button } from '@mantine/core';
 import DebtForm from './DebtForm';
-// import DebtFrom from './DebtFrom';
 
 const DebtHeader = () => {
   const [debtFormOpen, setDebtFormOpen] = useState(false);

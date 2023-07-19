@@ -74,6 +74,7 @@ export default function SideBar(props) {
   const openDebtForm = () => {
     setDebtFormOpen((prev) => !prev);
   };
+  
   function navStyle(){
     if(props.isMobile){
       return {

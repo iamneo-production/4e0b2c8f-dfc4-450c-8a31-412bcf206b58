@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 function DebtForm({isOpen,onClose}) {
   const token  = useSelector(state => state.user.token);
 
-  // const [opened, { open, close }] = useDisclosure(false);
   const amount=useStoreState((state)=>state.amount)
   const moneyFrom=useStoreState((state)=>state.moneyFrom)
   const dueDate=useStoreState((state)=>state.dueDate)
@@ -24,18 +23,9 @@ function DebtForm({isOpen,onClose}) {
   const [errA,setErrA]=useState('');
   const [errD,setErrD]=useState('');
 
-
-  // const handleOpenModal = () => {
-  //   open();
-  //   setAmount('');
-  //   setdueDate(new Date());
-  //   setMoneyFrom('');
-  //   // setStatus('unpaid');
-  // };
-
   const handleSaveModal = async (e) => {
     e.preventDefault();
-    if (dueDate.getTime() === new Date().getTime()) {
+    if(dueDate.toDateString() === new Date().toDateString()){
       setErrD("Please select a valid date");
       setTimeout(()=>{
         setErrD('')
