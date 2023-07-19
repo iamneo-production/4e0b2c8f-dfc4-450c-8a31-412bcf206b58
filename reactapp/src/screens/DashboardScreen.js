@@ -9,6 +9,9 @@ import ExpensesPieChart from "../components/dashboard/ExpensesPieChart";
 import axios from "axios";
 import {baseUrl} from "../api/config";
 import DashboardFeture from "../components/dashboard/DashboardFeature";
+import {fetchBudget} from "../features/budgetSlice";
+import {useStoreActions} from "easy-peasy";
+import {fetchAccount} from "../features/accountSlice";
 
 export default function  DashboardScreen(){
     const dispatch = useDispatch()
@@ -17,9 +20,12 @@ export default function  DashboardScreen(){
         total_expenses:0,
         total_income:0
     });
-
+    const getData=useStoreActions((action)=>action.getData);
     useEffect(()=>{
         dispatch(validateToken(token))
+        dispatch(fetchBudget({token:token}))
+        dispatch(fetchAccount({token:token}))
+        getData({token:token,value:0});
         axios.get(`${baseUrl}/dashboard/this-month/total/income-and-expenses`,{
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) =>{

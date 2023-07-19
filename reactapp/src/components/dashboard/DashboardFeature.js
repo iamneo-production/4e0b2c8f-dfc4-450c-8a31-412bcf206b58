@@ -6,7 +6,6 @@ export default function  DashboardFeture(){
     const accountList = useSelector(state => state.account.accountList)
     const budgetList = useSelector(state => state.budget.budgetList)
     const debtPending = useStoreState((state) => state.debtPending);
-    const debtCount = useStoreState((state) => state.debtCount);
     function handleTotalBalanace(){
         return accountList.reduce(
             (accumulator, currentValue) => accumulator + currentValue.currentBalance,
