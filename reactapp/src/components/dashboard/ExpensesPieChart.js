@@ -13,6 +13,8 @@ import {useSelector} from "react-redux";
 import axios from "axios";
 import {baseUrl} from "../../api/config";
 import tinycolor from 'tinycolor2';
+import {Grid, Skeleton} from "@mantine/core";
+import {ReactComponent as NoDataSVG} from "../../assets/No-data-1.svg";
 
 ChartJS.register(
     CategoryScale,
@@ -23,18 +25,22 @@ ChartJS.register(
     Legend
 );
 
-const ExpensesPieChart = () => {
+const ExpensesPieChart = (props) => {
     const [result,setResult] = useState([]);
+    const [pieChartLoading,setPieChartLoading] = useState(false)
     let tempresult=[];
     const token  = useSelector(state => state.user.token)
     useEffect(() =>{
+        setPieChartLoading(true)
         axios.get(`${baseUrl}/dashboard/this-month/expenses`,{
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) =>{
             setResult(res.data.data)
+            setPieChartLoading(false)
             console.log("res",res.data.data)
         }).catch((err) =>{
             console.log(err)
+            setPieChartLoading(false)
         })
     },[])
     const labels = [];
@@ -92,7 +98,32 @@ const ExpensesPieChart = () => {
         }
     };
 
-    return <Pie data={data} options={options} />
+    return <div>
+        {pieChartLoading ?
+            <div>
+                <Grid mb={5}>
+                    <Grid.Col span={4}>
+                        <Skeleton height={8} mt={6} width="70%" radius="xl" />
+                    </Grid.Col>
+                    <Grid.Col span={4}>
+                        <Skeleton height={8} mt={6} width="70%" radius="xl" />
+                    </Grid.Col>
+                    <Grid.Col span={4}>
+                        <Skeleton height={8} mt={6} width="70%" radius="xl" />
+                    </Grid.Col>
+                </Grid>
+                <Skeleton height={190} circle mb="xl"/>
+            </div>
+            :
+            <div>
+                {result.length>1 ?
+                    <Pie data={data} options={options} />
+                    :
+                    <NoDataSVG style={{height:230}}></NoDataSVG>
+                }
+            </div>
+        }
+    </div>
 };
 
 export default ExpensesPieChart;

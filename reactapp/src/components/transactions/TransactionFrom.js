@@ -199,7 +199,7 @@ export default function TransactionForm(props) {
             </Radio.Group>
             <Grid style={{ marginTop: 16 }} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
               <Grid.Col span={"auto"}>
-                <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)} >Discard</Button>
+                <Button radius="md" variant={"default"} fullWidth onClick={() => setShowDiscard(true)} >Discard</Button>
               </Grid.Col>
               <Grid.Col span={"auto"}>
                 <Button radius="md" fullWidth type="submit">Save</Button>

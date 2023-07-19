@@ -31,7 +31,7 @@ export default function Layout(props){
            {
                <div>
                    {props.load ? props.children : <div>
-                       <Title order={1}>{props.title}</Title>
+                       <Title style={{ margin: 5 }} order={2}>{props.title}</Title>
                        <div style={{textAlign:"center",alignSelf:"center",marginTop:50}}>
                            <NoDataSVG/>
                            <Text>You Haven't Created Any {props.title} Yet.</Text>

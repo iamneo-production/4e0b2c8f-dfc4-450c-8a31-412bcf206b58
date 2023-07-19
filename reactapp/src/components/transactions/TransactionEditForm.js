@@ -230,7 +230,7 @@ export default function TransactionEditForm(props) {
                                     <Button radius="md" color="red" fullWidth onClick={() => setShowDiscard(true)} >Delete</Button>
                                 </Grid.Col>
                                 <Grid.Col span={"auto"}>
-                                    <Button radius="md" color="gray" fullWidth onClick={() => handleCancel() }>Cancel</Button>
+                                    <Button radius="md" variant={"default"} fullWidth onClick={() => handleCancel() }>Cancel</Button>
                                 </Grid.Col>
                                 <Grid.Col span={"auto"}>
                                     <Button loading={editTransactionInProcess} radius="md" fullWidth type="submit">Save</Button>
