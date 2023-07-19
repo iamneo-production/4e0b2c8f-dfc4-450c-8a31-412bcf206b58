@@ -3,7 +3,7 @@ import {
     Header,
     Group,
     Button,
-    Box, Avatar, Menu, rem, UnstyledButton, Burger
+    Box, Avatar, Menu, rem, UnstyledButton, Burger, Title, Container, Modal
 } from '@mantine/core';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
@@ -16,10 +16,12 @@ import {ReactComponent as ExpandIcon} from "../assets/Expand_down.svg";
 import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
 import {useNavigate} from "react-router-dom";
 import {logout} from "../features/logoutSlice";
+import React, {useState} from "react";
 
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
     const displaySignupForm = useSelector(state => state.user.displaySignupForm)
+    const [displayConfirmLogout,setDisplayConfirmLogout] = useState(false);
     const currentUser = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
     const navigate = useNavigate();
@@ -81,7 +83,7 @@ export default function HeaderBar(props) {
                                     </Menu.Target>
                                     <Menu.Dropdown >
                                         <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} onClick={()=>{handleSetting()}} icon={<ProfileIcon style={{height:16,width:16}}/>}><Text size={"sm"}>Profile</Text></Menu.Item>
-                                        <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} onClick={()=>{handleLogout()}} color="red" icon={<LogoutIcon style={{height:16,width:16}}/>}><Text size={"sm"}>Logout</Text></Menu.Item>
+                                        <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} onClick={()=>setDisplayConfirmLogout(true)} color="red" icon={<LogoutIcon style={{height:16,width:16}}/>}><Text size={"sm"}>Logout</Text></Menu.Item>
                                     </Menu.Dropdown>
                                 </Menu>
                                 </Group>
@@ -89,7 +91,30 @@ export default function HeaderBar(props) {
                 </Group>
                 <SigninForm open={displaySigninForm} close={handleCloseSigninForm}></SigninForm>
                 <SignupForm open={displaySignupForm} close={handleCloseSignupForm}></SignupForm>
+                <Modal
+                    opened={displayConfirmLogout}
+                    onClose={() => setDisplayConfirmLogout(false)}
+                    radius="lg"
+                    size="sm"
+                    centered
+                    overlayProps={{
+                        color: "white",
+                        opacity: 0.55,
+                        blur: 3,
+                    }}
+                    title={<Title style={{ marginLeft: 10 }} order={3}>
+                        Confirm Logout
+                    </Title>}
+                >
+                    <Container>
+                        <Text fz="lg">Are you sure you want to Logout from your account?</Text>
+                        <Group position="right" mt="md">
+                            <Button radius="md" onClick={()=>{setDisplayConfirmLogout(false)}} variant={"default"}>No, Cancel</Button>
+                            <Button radius="md" onClick={()=>{handleLogout()}} color='red'>Yes, Logout</Button>
+                        </Group>
+                    </Container>
 
+                </Modal>
             </Header>
         </Box>
     );

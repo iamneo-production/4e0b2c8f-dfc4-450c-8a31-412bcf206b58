@@ -30,13 +30,13 @@ export default function  DashboardFeture(){
             <Paper style={{ marginBottom: 16 }} radius="md" p="md" withBorder>
                 <Grid>
                     <Grid.Col span={12} sm={6} md={3}>
-                        <Text size={"xl"} fw={700}>{`Rs. ${handleTotalBalanace()}`}</Text>
+                        <Text size={"xl"} fw={700}>{handleTotalBalanace()>0 ? `Rs. ${handleTotalBalanace()}` : `-`}</Text>
                         <Text size={"sm"} fw={700} c="dimmed">
                             TOTAL BALANCE
                         </Text>
                     </Grid.Col>
                     <Grid.Col span={12} sm={6} md={3}>
-                        <Text size={"xl"} fw={700}>{`${Math.floor((100 * handleTotalUsed()) / handleTotalBudget())}%`}</Text>
+                        <Text size={"xl"} fw={700}>{handleTotalBudget()>0 ? `${Math.floor((100 * handleTotalUsed()) / handleTotalBudget())}%` : `-`}</Text>
                         <Text size={"sm"} fw={700} c="dimmed">
                             BUDGET USED
                         </Text>

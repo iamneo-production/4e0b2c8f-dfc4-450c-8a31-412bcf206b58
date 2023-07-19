@@ -26,7 +26,12 @@ export default function GoalForm(props){
             targetDate: new Date()
         },
         validate: {
-
+            name: (value) => (
+                value !== '' ? null : 'Name is required'
+            ),
+            targetAmount: (value) => (
+                value !== '' ? null : 'Target Amount is required'
+            )
         }
     });
 
@@ -63,7 +68,6 @@ export default function GoalForm(props){
                         {...form.getInputProps('name')}
                     />
                     <TextInput radius="md" style={{ marginTop: 16 }}
-                        withAsterisk
                         label="Description"
                         placeholder="Ex: For a backup"
                         type='description'
@@ -102,7 +106,7 @@ export default function GoalForm(props){
                 <Grid
                 >
                     <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth  onClick={() => setShowDiscard(false)}>
+                        <Button radius="md" variant={"default"} fullWidth  onClick={() => setShowDiscard(false)}>
                             No
                         </Button>
                     </Grid.Col>

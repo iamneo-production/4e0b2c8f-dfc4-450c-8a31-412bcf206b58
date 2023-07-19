@@ -92,7 +92,7 @@ export default function AccountForm(props) {
                     </Checkbox.Group>
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" onClick={() => setShowDiscard(true)} fullWidth>Discard</Button>
+                        <Button radius="md" variant={"default"} onClick={() => setShowDiscard(true)} fullWidth>Discard</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                         <Button radius="md" fullWidth type="submit">Save</Button>
