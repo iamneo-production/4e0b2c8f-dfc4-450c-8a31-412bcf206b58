@@ -1,23 +1,28 @@
-import {Button, Grid} from '@mantine/core';
-import BudgetForm from "./BudgetForm";
-import React, { useState } from "react";
+import {Button, Grid, Title} from '@mantine/core';
+import {useDispatch} from "react-redux";
+import {showBudgetForm,closeBudgetForm} from "../../features/budgetSlice";
+
+
 export default function BudgetHeader() {
-    const [modalOpen, setModalOpen] = useState(false);
+    const dispatch = useDispatch()
+    function handleBudgetFormClose() {
+        dispatch(closeBudgetForm());
+    }
+
     return (
 
-            <div>
-                <Grid align="center">
-                    <Grid.Col span={2}><h1>Budget</h1></Grid.Col>
-                    <Grid.Col span={2}>
-                        <Button
-                        className="openModalBtn"
-                        onClick={() => {
-                            setModalOpen(true);
-                        }}>Add Budget
+            <div style={{marginBottom:10}}>
+                <Grid>
+                    <Grid.Col span={"content"}>
+                        <Title style={{ margin: 5 }} order={2}>Budgets</Title>
+                    </Grid.Col>
+                    <Grid.Col span={"content"}>
+                        <Button fullWidth radius="md" onClick={()=> dispatch(showBudgetForm())} style={{margin:8}}>
+                            Add Budget
                         </Button>
                     </Grid.Col>
                 </Grid>
-                {modalOpen && <BudgetForm setOpenModal={setModalOpen} />}
+
             </div>
     )
 }

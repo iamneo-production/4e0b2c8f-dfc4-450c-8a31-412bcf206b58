@@ -1,34 +1,53 @@
-import React from "react";
-import {Table, Text} from "@mantine/core";
-const elements = [
-    { category: 'WiFi', budget: 12.011, used: 'C', left: 'Carbon' },
-    { category: 'House Rent', budget: 14.007, used: 'N', left: 'Nitrogen'},
-    { category: 'Shopping', budget: 88.906, used: 'Y', left: 'Yttrium'},
-    { category: 'Food', budget: 137.33, used: 'Ba', left: 'Barium'},
-    { category: 'Misc', budget: 140.12, used: 'Ce', left: 'Cerium'},
-];
+import {useEffect, useState} from "react";
+import {Button, Table, Progress, Text, Grid} from "@mantine/core";
+import { ReactComponent as EditSVG } from '../../assets/Edit.svg';
+import {useDispatch, useSelector} from "react-redux";
+import {fetchBudget, showBudgetForm} from "../../features/budgetSlice";
+
+
 export default function BudgetList(){
-        const rows = elements.map((element) => (
-        <tr key={element.name}>
-            <td><Text fw={700}> {element.category} </Text></td>
-            <td><Text fw={700}> {element.budget} </Text></td>
-            <td><Text fw={700}> {element.used} (.....ui element goes here) </Text></td>
-            <td><Text fw={700}> {element.left} </Text></td>
+        const dispatch= useDispatch()
+    const token = useSelector(state => state.user.token)
+        useEffect(()=>{
+            dispatch(fetchBudget({token:token}))
+        },[])
+        const [rowToEdit,setRowToEdit]=useState(null)
+
+    //needs fix
+    const handleEditRow = (idx) =>{setRowToEdit(idx); dispatch(showBudgetForm())}
+
+        const budgetList = useSelector(state => state.budget.budgetList)
+        const rows = budgetList.map((element) => (
+        <tr key={element.budgetId}>
+            <td><Text fw={700}>{element.category.name}</Text></td>
+            <td><Text fw={700}>{`Rs. ${element.amount.toLocaleString("en-US")}`}</Text></td>
+            <td>
+                <Grid>
+                    <Grid.Col span={"content"}><Text  fw={700}>{`Rs. ${element.used.toLocaleString("en-US")}`}</Text></Grid.Col>
+                    <Grid.Col span={"auto"}><Progress tooltip={(100 * element.used) / element.amount} style={{height:9,marginTop:5}} value={(100 * element.used) / element.amount} radius="xl" /></Grid.Col>
+                </Grid>
+            </td>
+            <td><Text fw={700} style={{color: "#26AB35"}} >{`Rs. ${element.balance.toLocaleString("en-US")}`}</Text></td>
+            <td>{<EditSVG/>}</td>
         </tr>
     ));
 
     return (
-        <Table verticalSpacing="md">
-            <thead>
-            <tr>
-                <th> <Text fw={500} c="dimmed">NAME</Text> </th>
-                <th> <Text fw={500} c="dimmed">BUDGET</Text> </th>
-                <th><Text fw={500} c="dimmed">USED</Text></th>
-                <th> <Text fw={500} c="dimmed">LEFT</Text></th>
-            </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-        </Table>
+        <div >
+            <Table  verticalSpacing="md" >
+                <thead>
+                <tr>
+                    <th> <Text c="dimmed">NAME</Text> </th>
+                    <th> <Text c="dimmed">BUDGET </Text> </th>
+                    <th> <Text c="dimmed">USED AMOUNT</Text></th>
+                    <th> <Text c="dimmed">BALANCE LEFT</Text></th>
+                    <th> <Text c="dimmed">EDIT</Text></th>
+                </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+            </Table>
+        </div>
     );
+
 
 }

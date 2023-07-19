@@ -3,21 +3,24 @@ import {
     Header,
     Group,
     Button,
-    Box, Avatar, Menu,
+    Box, Avatar, Menu, rem, UnstyledButton
 } from '@mantine/core';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
 import {useDispatch, useSelector} from "react-redux";
 import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm,logoutAccount} from '../features/userSlice'
-import {ReactComponent as SettingIcon } from "../assets/Setting_line.svg";
+import {ReactComponent as ProfileIcon } from "../assets/User.svg";
 import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
+import {ReactComponent as ExpandIcon} from "../assets/Expand_down.svg";
+import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
+import {useNavigate} from "react-router-dom";
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
     const displaySignupForm = useSelector(state => state.user.displaySignupForm)
     const currentUser = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
-
+    const navigate = useNavigate();
     function handleOpenSigninForm() {
         dispatch(openSigninForm())
     }
@@ -33,6 +36,10 @@ export default function HeaderBar(props) {
 
     function handleLogout(){
         dispatch(logoutAccount())
+        navigate("/")
+    }
+    function handleSetting(){
+        navigate("/profile")
     }
     return (
         <Box >
@@ -43,20 +50,35 @@ export default function HeaderBar(props) {
                     </Group>
                         {props.isLandingPage?
                             <Group>
-                                <Button variant="default" onClick={() => handleOpenSigninForm()}>Sign in</Button>
-                                <Button onClick={() => handleOpenSignupForm()}>Sign up</Button>
+                                <Button radius="xl" variant="subtle" onClick={() => handleOpenSigninForm()}>Sign in</Button>
+                                <Button radius="xl" onClick={() => handleOpenSignupForm()}>Sign up</Button>
                             </Group>
 
                             :<Group>
-                                <Text>{currentUser.firstName}</Text>
-                                <Menu shadow="md" width={200}>
+                                <Menu  radius={"md"} trigger="hover" openDelay={100} shadow="md" width={220}>
                                     <Menu.Target>
-                                        <Avatar radius="xl" />
+                                        <UnstyledButton style={{height: rem(42)}} radius={"md"} variant={"default"}>
+                                        <Group>
+                                            <Button radius={"xl"} variant={"default"} size={rem(42)}>
+                                                <Avatar  src={`data:image/jpeg;base64,${currentUser.profileImage}`} radius="xl"><AvatarIcon/></Avatar>
+                                            </Button>
+
+                                            <div style={{ flex: 1 }}>
+                                                <Text size="sm" fw={700}>{currentUser.firstName}
+                                                </Text>
+                                                <Text c={"dimmed"} size="xs">{currentUser.email.length>16 ? `${currentUser.email.slice(0,16)}...`:currentUser.email}
+                                                </Text>
+
+                                            </div>
+                                            <ExpandIcon style={{height:16,width:16}}></ExpandIcon>
+                                        </Group>
+
+                                        </UnstyledButton>
+
                                     </Menu.Target>
-                                    <Menu.Dropdown>
-                                        <Menu.Item icon={<SettingIcon style={{height:"20px",width:"20px"}}/>}>Settings</Menu.Item>
-                                        <Menu.Divider />
-                                        <Menu.Item onClick={()=>{handleLogout()}} color="red" icon={<LogoutIcon style={{height:"20px",width:"20px"}}/>}>Logout</Menu.Item>
+                                    <Menu.Dropdown >
+                                        <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} onClick={()=>{handleSetting()}} icon={<ProfileIcon style={{height:16,width:16}}/>}><Text size={"sm"}>Profile</Text></Menu.Item>
+                                        <Menu.Item transitionProps={{ transition: 'slide-down', duration: 150 }} onClick={()=>{handleLogout()}} color="red" icon={<LogoutIcon style={{height:16,width:16}}/>}><Text size={"sm"}>Logout</Text></Menu.Item>
                                     </Menu.Dropdown>
                                 </Menu>
                                 </Group>
