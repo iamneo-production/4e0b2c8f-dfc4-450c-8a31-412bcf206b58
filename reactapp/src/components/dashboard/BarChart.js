@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Bar } from 'react-chartjs-2';
+import {Bar, Pie} from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -12,6 +12,8 @@ import {
 import {useSelector} from "react-redux";
 import axios from "axios";
 import {baseUrl} from "../../api/config";
+import {Skeleton} from "@mantine/core";
+import {ReactComponent as NoDataSVG} from "../../assets/No-data-1.svg";
 
 ChartJS.register(
     CategoryScale,
@@ -24,13 +26,17 @@ ChartJS.register(
 const BarChart = () => {
     const [result,setResult] = useState([]);
     const token  = useSelector(state => state.user.token)
+    const [barChartLoading,setBarChartLoading] = useState(false)
     useEffect(() =>{
+        setBarChartLoading(true)
         axios.get(`${baseUrl}/dashboard/monthly-data`,{
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) =>{
+            setBarChartLoading(false)
             setResult(res.data.data)
             console.log("res",res.data.data)
         }).catch((err) =>{
+            setBarChartLoading(false)
             console.log(err)
         })
     },[])
@@ -40,7 +46,15 @@ const BarChart = () => {
     }
     const expensesData = result.map(item => item.expenses);
     const incomeData = result.map(item => item.income);
-
+    function handleHasData(){
+        let hasData = false
+        for (let i=result.length-1;i>=0; i--){
+            if(result[i].expenses>0 || result[i].income>0){
+                hasData =true
+            }
+        }
+        return hasData
+    }
     const data = {
         labels,
         datasets: [
@@ -99,7 +113,22 @@ const BarChart = () => {
     };
 
 
-    return <Bar options={options} data={data} />;
+    return <div>
+        {barChartLoading ?
+            <Skeleton height={250}  >
+            </Skeleton>
+            :
+            <div>
+                {handleHasData() ?
+                    <Bar options={options} data={data} />
+                    :
+                    <NoDataSVG style={{height:230}}></NoDataSVG>
+                }
+            </div>
+        }
+    </div>
+
+
 };
 
 export default BarChart;
