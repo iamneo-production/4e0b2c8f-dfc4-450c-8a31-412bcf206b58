@@ -108,7 +108,7 @@ function BudgetEditForm(props) {
                                     fullWidth onClick={() => setShowDelete(true)}>Delete</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
-                            <Button radius="md" color="gray"
+                            <Button radius="md" variant={"default"}
                                     fullWidth onClick={handleCancel}>Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
