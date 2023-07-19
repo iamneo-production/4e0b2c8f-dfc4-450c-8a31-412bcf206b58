@@ -3,7 +3,7 @@ import {validateToken} from "../features/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import BarChart from "../components/dashboard/BarChart";
-import {Divider, Grid, Paper, Text, Title} from "@mantine/core";
+import {Divider, Grid, Paper, Text, Title,Skeleton } from "@mantine/core";
 import IncomePieChart from "../components/dashboard/IncomePieChart";
 import ExpensesPieChart from "../components/dashboard/ExpensesPieChart";
 import axios from "axios";
@@ -12,6 +12,7 @@ import DashboardFeture from "../components/dashboard/DashboardFeature";
 import {fetchBudget} from "../features/budgetSlice";
 import {useStoreActions} from "easy-peasy";
 import {fetchAccount} from "../features/accountSlice";
+
 
 export default function  DashboardScreen(){
     const dispatch = useDispatch()
@@ -30,12 +31,9 @@ export default function  DashboardScreen(){
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) =>{
             setResult(res.data.data)
-            console.log("res",res.data.data)
         }).catch((err) =>{
-            console.log(err)
         })
     },[])
-
     return(
         <Layout title={"Dashboard"} load={true}>
             <div >
