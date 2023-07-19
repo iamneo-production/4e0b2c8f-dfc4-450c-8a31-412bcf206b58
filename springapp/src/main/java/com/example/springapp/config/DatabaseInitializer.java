@@ -59,11 +59,11 @@ public class DatabaseInitializer implements CommandLineRunner {
             saveUser();
             if(savedUser != null){
                 //Expenses Category
-                saveCategory(savedUser,"Food","expenses");
-                saveCategory(savedUser,"Groceries","expenses");
-                saveCategory(savedUser,"Rent","expenses");
-                saveCategory(savedUser,"Utilities","expenses");
-                saveCategory(savedUser,"Debt Payments","expenses");
+                saveCategory(savedUser,"Food","expense");
+                saveCategory(savedUser,"Groceries","expense");
+                saveCategory(savedUser,"Rent","expense");
+                saveCategory(savedUser,"Utilities","expense");
+                saveCategory(savedUser,"Debt Payments","expense");
 
                 //Income Category
                 saveCategory(savedUser,"Salary","income");
