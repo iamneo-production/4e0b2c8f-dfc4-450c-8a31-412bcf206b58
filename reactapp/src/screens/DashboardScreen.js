@@ -12,6 +12,7 @@ import DashboardFeture from "../components/dashboard/DashboardFeature";
 import {fetchBudget} from "../features/budgetSlice";
 import {useStoreActions} from "easy-peasy";
 import {fetchAccount} from "../features/accountSlice";
+import {fetchGoal} from "../features/goalSlice";
 
 
 export default function  DashboardScreen(){
@@ -26,6 +27,7 @@ export default function  DashboardScreen(){
         dispatch(validateToken(token))
         dispatch(fetchBudget({token:token}))
         dispatch(fetchAccount({token:token}))
+        dispatch(fetchGoal({token:token}))
         getData({token:token,value:0});
         axios.get(`${baseUrl}/dashboard/this-month/total/income-and-expenses`,{
             headers: { Authorization: `Bearer ${token}` }

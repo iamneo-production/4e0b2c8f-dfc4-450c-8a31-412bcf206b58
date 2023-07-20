@@ -43,11 +43,12 @@ const ExpensesPieChart = (props) => {
             setPieChartLoading(false)
         })
     },[])
+    console.log("ex",result)
     const labels = [];
     const expensesData = [];
     const colorPalette = ['#C8DEFF', '#6DA8FF', '#247CFF', '#0057DB', '#0042A4'];
     const colorCount = colorPalette.length;
-    const MAX_CATEGORIES = 5;
+    const MAX_CATEGORIES = 4;
 
     if (result.length > MAX_CATEGORIES) {
         const topCategories = result.slice(0, MAX_CATEGORIES);
@@ -61,6 +62,8 @@ const ExpensesPieChart = (props) => {
         topCategories.push({ category: 'Others', expenses: otherExpensesSum });
 
         tempresult = topCategories;
+    }else {
+        tempresult = result
     }
 
     const data = {
