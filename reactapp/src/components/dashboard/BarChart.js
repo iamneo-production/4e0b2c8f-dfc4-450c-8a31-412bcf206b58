@@ -95,8 +95,16 @@ const BarChart = () => {
             }
         },
         scales: {
+            x: {
+                grid: {
+                    display: false,
+                },
+            },
             y: {
                 beginAtZero: false,
+                grid: {
+                    display: false,
+                },
                 ticks: {
                     stepSize: stepSize,
                     callback: (value) => {
