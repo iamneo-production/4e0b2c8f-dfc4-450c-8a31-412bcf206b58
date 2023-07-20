@@ -13,13 +13,9 @@ const DebtScreen = () => {
 
   return (
         <Layout title={"Debts"} load={true}>
-          <div style={{ display: 'flex'}}>
             <DebtHeader />
-          </div>
-          <div>
             <DebtFeature />
             <DebtList />
-          </div>
         </Layout>
   );
 };
