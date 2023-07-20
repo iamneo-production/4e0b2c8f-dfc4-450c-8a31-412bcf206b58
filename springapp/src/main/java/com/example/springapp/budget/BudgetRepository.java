@@ -19,7 +19,7 @@ public interface BudgetRepository extends JpaRepository<Budget,Long> {
             "FROM transaction WHERE transaction.user_id = ?1 && budget.category_id = transaction.category_category_id " +
             "&& transaction.date_time >= UNIX_TIMESTAMP('2023-07-01 00:00:00') * 1000 " +
             "AND transaction.date_time <= UNIX_TIMESTAMP('2023-07-31 00:00:00') * 1000 )) AS balance " +
-            "FROM budget", nativeQuery = true)
+            "FROM budget WHERE budget.user_id=?1", nativeQuery = true)
     List<Budget> findAllByUser(Integer user_id);
 
 

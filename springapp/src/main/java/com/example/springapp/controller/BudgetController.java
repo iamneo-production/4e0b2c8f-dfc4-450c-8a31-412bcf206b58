@@ -57,8 +57,12 @@ public class BudgetController {
     @PostMapping("/api/budgets")
     public ResponseEntity<BaseResponceDto> createBudget(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody BudgetRequestDto budgetRequestDto) {
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        Budget createdBudget = budgetService.createBudget(budgetRequestDto,userName);
-        return new ResponseEntity<>(new BaseResponceDto("success",createdBudget), HttpStatus.CREATED);
+        if(!budgetService.hasAlready(userName,budgetRequestDto.getCategoryId())){
+            Budget createdBudget = budgetService.createBudget(budgetRequestDto,userName);
+            return new ResponseEntity<>(new BaseResponceDto("success",createdBudget), HttpStatus.CREATED);
+        }else {
+            return ResponseEntity.ok(new BaseResponceDto("Already exist"));
+        }
     }
 
     //API EndPoint for Updating an existing Budget
@@ -77,13 +81,13 @@ public class BudgetController {
 
     //API EndPoint for Deleting an existing Budget
     @DeleteMapping("api/budgets/{id}")
-    public ResponseEntity<Void> deleteBudget(@PathVariable("id") Long id) {
+    public ResponseEntity<BaseResponceDto> deleteBudget(@PathVariable("id") Long id) {
         Budget budget = budgetService.getBudgetById(id).orElse(null);
         if (budget == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         budgetService.deleteBudget(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(new BaseResponceDto("success"));
     }
 
         //Test Case
