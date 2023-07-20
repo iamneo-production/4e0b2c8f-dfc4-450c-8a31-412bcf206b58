@@ -1,17 +1,17 @@
-import {createStore,action,thunk,computed} from 'easy-peasy'; 
+import {createStore,action,thunk,computed, persist} from 'easy-peasy'; 
 import { baseUrl } from '../../api/config';
 import axios from 'axios';
-
-export default createStore({
+export default createStore(
+  persist({
   debts:[],
   setDebts:action((state,payload)=>{
       state.debts=payload;
   }),
-  amount:0,
+  amount:'',
   setAmount:action((state,payload)=>{
       state.amount=payload;
   }),  
-  dueDate:'',
+  dueDate:new Date(),
   setdueDate:action((state,payload)=>{
       state.dueDate=payload;
   }),
@@ -48,7 +48,7 @@ export default createStore({
         action.setAmount('');
         action.setStatus('unpaid'); 
         action.setMoneyFrom('');
-        action.setdueDate('');
+        action.setdueDate(new Date());
       }
       catch(err){
         console.log(`Error: ${err.message}`)
@@ -107,6 +107,7 @@ export default createStore({
     });
       if (response && response.data) {
         action.setDebts(response.data);
+        // console.log(response.data);
         console.log("Data fetched successfully");
       } else {
         console.log("Error: Invalid response");
@@ -116,3 +117,4 @@ export default createStore({
     }
   })  
 })
+);

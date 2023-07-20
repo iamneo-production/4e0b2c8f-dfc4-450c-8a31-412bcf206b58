@@ -61,6 +61,8 @@ const IncomePieChart = (props) => {
         topCategories.push({ category: 'Others', income: otherIncomeSum });
 
         tempresult = topCategories;
+    }else {
+        tempresult = result
     }
 
     const data = {
@@ -73,7 +75,7 @@ const IncomePieChart = (props) => {
             },
         ],
     };
-    result.forEach((item, index) => {
+    tempresult.forEach((item, index) => {
         labels.push(item.category);
         incomeData.push(item.income);
 
