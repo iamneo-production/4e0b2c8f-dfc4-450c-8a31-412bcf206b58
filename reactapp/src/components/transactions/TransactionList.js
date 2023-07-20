@@ -34,7 +34,7 @@ export default function TransactionList() {
                     {category.type === "income" ?
                         <img src={ArrowGIcon} /> : <img src={ArrowRIcon} />}
                     {category.type === "income" ?
-                        <Text fw={700} fz="md">Received from: {<Badge color="green">{category.name}</Badge>}</Text>  : <Text fw={700} fz="md">Sent to: {<Badge  color="red">{category.name}</Badge>}</Text>}
+                        <Text fw={700} fz="md">Received from: {<Badge color="green">{category.name}</Badge>}</Text>  : <Text fw={700} fz="md">Spent on: {<Badge  color="red">{category.name}</Badge>}</Text>}
 
                 </div>
                 <div style={{ marginLeft: "24px" }}>
