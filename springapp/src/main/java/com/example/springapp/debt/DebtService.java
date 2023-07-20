@@ -8,6 +8,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 @Transactional
 @Service
 public class DebtService {
@@ -58,14 +65,27 @@ public class DebtService {
             if(value==1){
                 return debtR.findAllByUserOrderByAmountDesc(user);
             } else if (value==2) {
-                return  debtR.findAllByUserOrderByDueDateAsc(user);
+                List<DebtEntity> debts = debtR.findAllByUser(user);
+
+//                return  debtR.findAllByUserOrderByDueDateAsc(user);
+                return debts.stream()
+                        .sorted(Comparator.comparing(debt -> parseDueDate(debt.getDueDate())))
+                        .collect(Collectors.toList());
             }
             return debtR.findAllByUser(user);
         } catch (Exception e){
             return null;
         }
     }
-
+    private Date parseDueDate(String dueDate) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+            return formatter.parse(dueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public List<DebtEntity> getAllDebts() {
         return debtR.findAll();
     }
