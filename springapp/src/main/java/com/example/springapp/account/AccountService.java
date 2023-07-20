@@ -38,7 +38,7 @@ public class AccountService {
     public List<AccountResponseDto> getAccountsByUsername(String userName) {
         try{
             UserEntity user = userRepository.findByEmail(userName).orElseThrow();
-            List<Account> accountList= accountRepository.findAllByUser(user);
+            List<Account> accountList= accountRepository.findAllByUserAndIsDeletedFalse(user);
             List<AccountResponseDto> accountResponseDtoList = new ArrayList<>();
             for (Account account: accountList
                  ) {
@@ -71,8 +71,9 @@ public class AccountService {
 
     public void deleteAccount(String accountId) {
         try{
-            Account entity= accountRepository.getOne(Integer.valueOf(accountId));
-            accountRepository.delete(entity);
+            Account entity= accountRepository.findById(Integer.valueOf(accountId)).orElseThrow();
+            entity.setIsDeleted(true);
+            accountRepository.save(entity);
         }catch (Exception ignored){
         }
     }
