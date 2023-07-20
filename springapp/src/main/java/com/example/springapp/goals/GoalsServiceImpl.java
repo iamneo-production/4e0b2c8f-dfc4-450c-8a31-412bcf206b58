@@ -23,7 +23,7 @@ public class GoalsServiceImpl implements GoalsService {
         Goal existingGoal = goalsRepository.findById(id).orElseThrow();
         existingGoal.setName(updatedGoal.getName());
         existingGoal.setDescription(updatedGoal.getDescription());
-        existingGoal.setCurrentAmount(updatedGoal.getCurrentAmount());
+        existingGoal.setStatus(updatedGoal.getStatus());
         existingGoal.setTargetAmount(updatedGoal.getTargetAmount());
         existingGoal.setTargetDate(updatedGoal.getTargetDate());
         return goalsRepository.save(existingGoal);

@@ -16,7 +16,7 @@ public class Goal {
     private String name;
     private String description;
     private double targetAmount;
-    private double currentAmount;
+    private String status;
 
     private Long targetDate;
 
@@ -32,7 +32,6 @@ public class Goal {
         this.name = name;
         this.description = description;
         this.targetAmount = targetAmount;
-        this.currentAmount = currentAmount;
         this.user = user;
         this.targetDate = targetDate;
     }
@@ -85,12 +84,12 @@ public class Goal {
         this.targetAmount = targetAmount;
     }
 
-    public double getCurrentAmount() {
-        return currentAmount;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCurrentAmount(double currentAmount) {
-        this.currentAmount = currentAmount;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -99,7 +98,6 @@ public class Goal {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", targetAmount=" + targetAmount +
-                ", currentAmount=" + currentAmount +
                 '}';
     }
 }

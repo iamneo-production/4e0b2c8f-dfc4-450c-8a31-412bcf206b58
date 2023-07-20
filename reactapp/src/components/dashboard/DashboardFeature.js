@@ -6,11 +6,22 @@ export default function  DashboardFeture(){
     const accountList = useSelector(state => state.account.accountList)
     const budgetList = useSelector(state => state.budget.budgetList)
     const debtPending = useStoreState((state) => state.debtPending);
+    const goalList = useSelector(state => state.goal.goalList)
     function handleTotalBalanace(){
         return accountList.reduce(
             (accumulator, currentValue) => accumulator + currentValue.currentBalance,
             0
         );
+    }
+
+    function pendingGoals(){
+        let pendings=0
+        for (let i=0;i<goalList.length;i++){
+            if(goalList[i].status === 'Pending'){
+                pendings = pendings +1
+            }
+        }
+        return pendings
     }
 
     function handleTotalBudget(){
@@ -30,7 +41,7 @@ export default function  DashboardFeture(){
             <Paper style={{ marginBottom: 16 }} radius="md" p="md" withBorder>
                 <Grid>
                     <Grid.Col span={12} sm={6} md={3}>
-                        <Text size={"xl"} fw={700}>{handleTotalBalanace()>0 ? `Rs. ${handleTotalBalanace()}` : `-`}</Text>
+                        <Text size={"xl"} fw={700}>{handleTotalBalanace()>0 ? `Rs. ${handleTotalBalanace().toLocaleString("en-US")}` : `-`}</Text>
                         <Text size={"sm"} fw={700} c="dimmed">
                             TOTAL BALANCE
                         </Text>
@@ -48,7 +59,7 @@ export default function  DashboardFeture(){
                         </Text>
                     </Grid.Col>
                     <Grid.Col span={12} sm={6} md={3}>
-                        <Text size={"xl"} fw={700}>{`3 / 5`}</Text>
+                        <Text size={"xl"} fw={700}>{`${pendingGoals()} / ${goalList.length}`}</Text>
                         <Text size={"sm"} fw={700} c="dimmed">
                             GOALS COMPLETED
                         </Text>

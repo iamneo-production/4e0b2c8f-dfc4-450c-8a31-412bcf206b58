@@ -49,9 +49,9 @@ public class GoalsController {
 
     //API EndPoint for Deleting the existing Goal
     @DeleteMapping("/api/goals/{id}")
-    public ResponseEntity<Void> deleteGoal(@PathVariable("id") Long id) {
+    public ResponseEntity<BaseResponceDto> deleteGoal(@PathVariable("id") Long id) {
         goalsService.deleteGoal(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(new BaseResponceDto("success"));
     }
 
     //API EndPoint for fetching a particular existing Goal

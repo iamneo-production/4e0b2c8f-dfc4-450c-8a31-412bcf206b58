@@ -12,6 +12,7 @@ import DashboardFeture from "../components/dashboard/DashboardFeature";
 import {fetchBudget} from "../features/budgetSlice";
 import {useStoreActions} from "easy-peasy";
 import {fetchAccount} from "../features/accountSlice";
+import {fetchGoal} from "../features/goalSlice";
 
 
 export default function  DashboardScreen(){
@@ -26,6 +27,7 @@ export default function  DashboardScreen(){
         dispatch(validateToken(token))
         dispatch(fetchBudget({token:token}))
         dispatch(fetchAccount({token:token}))
+        dispatch(fetchGoal({token:token}))
         getData({token:token,value:0});
         axios.get(`${baseUrl}/dashboard/this-month/total/income-and-expenses`,{
             headers: { Authorization: `Bearer ${token}` }
@@ -44,11 +46,11 @@ export default function  DashboardScreen(){
                         <Paper  radius="md" p="md" withBorder>
                             <Grid >
                                 <Grid.Col span={12} md={6}>
-                                    <Title order={4}>{result?.total_expenses>0 ? `Rs. ${result?.total_expenses}` : `-`}</Title>
+                                    <Title order={4}>{result?.total_expenses>0 ? `Rs. ${result?.total_expenses.toLocaleString("en-US")}` : `-`}</Title>
                                     <Text c={"dimmed"}>This Month Expenses</Text>
                                 </Grid.Col>
                                 <Grid.Col span={6}>
-                                    <Title style={{color: "#26AB35"}} order={4}>{result?.total_income>0 ? `Rs. ${result?.total_income}` : `-`}</Title>
+                                    <Title style={{color: "#26AB35"}} order={4}>{result?.total_income>0 ? `Rs. ${result?.total_income.toLocaleString("en-US")}` : `-`}</Title>
                                     <Text c={"dimmed"}>This Month Income</Text>
                                 </Grid.Col>
                             </Grid>
