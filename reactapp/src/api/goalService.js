@@ -6,7 +6,7 @@ export async function createGoal(token,body){
         "name":body.name,
         "description":body.description,
         "targetAmount":body.targetAmount,
-        "currentAmount":body.currentAmount,
+        "status":body.status,
         "targetDate":body.targetDate
     },{
         headers: { Authorization: `Bearer ${token}` }
@@ -25,7 +25,7 @@ export async function updateGoal(token,body){
         "name":body.name,
         "description":body.description,
         "targetAmount":body.targetAmount,
-        "currentAmount":body.currentAmount,
+        "status":body.status,
         "targetDate":body.targetDate
     },{
         headers: { Authorization: `Bearer ${token}` }
@@ -33,7 +33,7 @@ export async function updateGoal(token,body){
 }
 
 export async function deleteGoal(token,goalId){
-    return await axios.delete(`${baseUrl}/budgets/${goalId}`,{
+    return await axios.delete(`${baseUrl}/goals/${goalId}`,{
         headers: { Authorization: `Bearer ${token}` }
     })
 }
