@@ -22,7 +22,7 @@ export default function GoalForm(props){
             name: '',
             description: '',
             targetAmount: '',
-            currentAmount: '',
+            status: 'Pending',
             targetDate: new Date()
         },
         validate: {
@@ -88,7 +88,7 @@ export default function GoalForm(props){
                     />
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)} type="submit">Cancel</Button>
+                        <Button radius="md" variant={"default"} fullWidth onClick={() => setShowDiscard(true)}>Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                         <Button radius="md" fullWidth type="submit">Save</Button>
