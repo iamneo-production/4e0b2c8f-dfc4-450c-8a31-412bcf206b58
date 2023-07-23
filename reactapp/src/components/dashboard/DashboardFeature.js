@@ -41,7 +41,7 @@ export default function  DashboardFeture(){
             <Paper style={{ marginBottom: 16 }} radius="md" p="md" withBorder>
                 <Grid>
                     <Grid.Col span={12} sm={6} md={3}>
-                        <Text size={"xl"} fw={700}>{handleTotalBalanace()>0 ? `Rs. ${handleTotalBalanace()}` : `-`}</Text>
+                        <Text size={"xl"} fw={700}>{handleTotalBalanace()>0 ? `Rs. ${handleTotalBalanace().toLocaleString("en-US")}` : `-`}</Text>
                         <Text size={"sm"} fw={700} c="dimmed">
                             TOTAL BALANCE
                         </Text>
