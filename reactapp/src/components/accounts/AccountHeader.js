@@ -1,25 +1,21 @@
 import { Grid, Title, Button } from '@mantine/core';
-import AccountForm from './AccountForm'
-import { useState } from 'react';
+import { showAccountForm} from "../../features/accountSlice";
+import {useDispatch} from "react-redux";
 
 export default function AccountHeader() {
-    const[open,setOpen] = useState(false)
-    function handleClose(){
-        setOpen(false)
-    }
+    const dispatch = useDispatch()
     return (
-        <div>
+        <div style={{marginBottom:10}}>
             <Grid>
-                <Grid.Col span={2}>
-                    <Title order={1}>Accounts</Title>
+                <Grid.Col span={"content"}>
+                    <Title style={{ margin: 5 }} order={2}>Accounts</Title>
                 </Grid.Col>
-                <Grid.Col span={2}>
-                    <Button fullWidth onClick={()=> setOpen(true)} style={{margin:8}}>
+                <Grid.Col span={"content"}>
+                    <Button fullWidth radius="md" onClick={()=> dispatch(showAccountForm())} style={{margin:8}}>
                         Add Account
                     </Button>
                 </Grid.Col>
             </Grid>
-            <AccountForm open={open} close={handleClose}/>
         </div>
     )
 }

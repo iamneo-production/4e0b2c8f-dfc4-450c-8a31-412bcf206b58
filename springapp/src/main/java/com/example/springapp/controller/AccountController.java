@@ -2,6 +2,7 @@ package com.example.springapp.controller;
 
 import com.example.springapp.BaseResponceDto;
 import com.example.springapp.account.Account;
+import com.example.springapp.account.AccountResponseDto;
 import com.example.springapp.account.AccountService;
 import com.example.springapp.config.auth.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,25 @@ public class AccountController {
         accountService.addAccount(account,userName);
         return new BaseResponceDto("success");
     }
+
+    @PutMapping("/api/accounts")
+    public BaseResponceDto updateAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestBody Account account,@RequestParam String accountId){
+        accountService.updateAccount(account,Integer.valueOf(accountId));
+        return new BaseResponceDto("success");
+    }
+
     @GetMapping("/api/accounts")
     public BaseResponceDto getAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token){
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        List<Account> accounts = accountService.getAccountsByUsername(userName);
+        List<AccountResponseDto> accounts = accountService.getAccountsByUsername(userName);
         return new BaseResponceDto("success",accounts);
     }
     @DeleteMapping("/api/accounts")
-    public BaseResponceDto deleteAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token,@PathVariable String account_id){
+    public BaseResponceDto deleteAccount(@RequestHeader(value = "Authorization", defaultValue = "") String token,@RequestParam String accountId){
         String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-        if(accountService.hasAccount(account_id)){
-            if(accountService.hasPermission(userName,account_id)){
-                accountService.deleteAccount(account_id);
+        if(accountService.hasAccount(accountId)){
+            if(accountService.hasPermission(userName,accountId)){
+                accountService.deleteAccount(accountId);
                 return new BaseResponceDto("success");
             }else {
                 return new BaseResponceDto("couldn't delete account");

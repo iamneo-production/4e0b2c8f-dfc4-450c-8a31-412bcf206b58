@@ -3,12 +3,21 @@ package com.example.springapp.transaction;
 public class TransactionRequestDto {
     private double amount;
     private String description;
-    private String type;
     private String paymentType;
 
     private Integer categoryId;
 
     private Integer accountId;
+
+    private Long dateTime;
+
+    public Long getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Long dateTime) {
+        this.dateTime = dateTime;
+    }
 
     public double getAmount() {
         return amount;
@@ -24,14 +33,6 @@ public class TransactionRequestDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getPaymentType() {
