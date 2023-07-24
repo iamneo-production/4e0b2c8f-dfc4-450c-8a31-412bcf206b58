@@ -87,7 +87,7 @@ function BudgetForm(props) {
                     />
                     <Grid style={{marginTop: 16, marginBottom: 10}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                            <Button radius="md" color="gray"
+                            <Button radius="md" variant={"default"}
                                     fullWidth onClick={handleCancel}>Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
@@ -106,7 +106,7 @@ function BudgetForm(props) {
                 <Grid
                 >
                     <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth  onClick={() => setShowCancel(false)}>
+                        <Button radius="md" variant={"default"} fullWidth  onClick={() => setShowCancel(false)}>
                             No
                         </Button>
                     </Grid.Col>

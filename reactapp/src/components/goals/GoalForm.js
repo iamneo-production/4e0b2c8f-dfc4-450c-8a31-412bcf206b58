@@ -22,11 +22,16 @@ export default function GoalForm(props){
             name: '',
             description: '',
             targetAmount: '',
-            currentAmount: '',
+            status: 'Pending',
             targetDate: new Date()
         },
         validate: {
-
+            name: (value) => (
+                value !== '' ? null : 'Name is required'
+            ),
+            targetAmount: (value) => (
+                value !== '' ? null : 'Target Amount is required'
+            )
         }
     });
 
@@ -63,7 +68,6 @@ export default function GoalForm(props){
                         {...form.getInputProps('name')}
                     />
                     <TextInput radius="md" style={{ marginTop: 16 }}
-                        withAsterisk
                         label="Description"
                         placeholder="Ex: For a backup"
                         type='description'
@@ -84,7 +88,7 @@ export default function GoalForm(props){
                     />
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)} type="submit">Cancel</Button>
+                        <Button radius="md" variant={"default"} fullWidth onClick={() => setShowDiscard(true)}>Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                         <Button radius="md" fullWidth type="submit">Save</Button>
@@ -102,7 +106,7 @@ export default function GoalForm(props){
                 <Grid
                 >
                     <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" fullWidth  onClick={() => setShowDiscard(false)}>
+                        <Button radius="md" variant={"default"} fullWidth  onClick={() => setShowDiscard(false)}>
                             No
                         </Button>
                     </Grid.Col>
