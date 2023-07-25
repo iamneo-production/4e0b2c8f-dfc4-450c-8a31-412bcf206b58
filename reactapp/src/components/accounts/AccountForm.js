@@ -55,7 +55,11 @@ export default function AccountForm(props) {
     }
 
     return (
-        <Modal  withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal  overlayProps={{
+            color: "white",
+            opacity: 0.55,
+            blur: 3,
+        }} withCloseButton={false} closeOnClickOutside={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={addAccountInProcess} overlayBlur={2} />
             <Title style={{ marginLeft: 10 }} order={3}>Add Account</Title>
             <Container size="md">
@@ -88,7 +92,7 @@ export default function AccountForm(props) {
                     </Checkbox.Group>
                     <Grid style={{marginTop:16,marginBottom:8}} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
                         <Grid.Col span={"auto"}>
-                        <Button radius="md" color="gray" onClick={() => setShowDiscard(true)} fullWidth>Discard</Button>
+                        <Button radius="md" variant={"default"} onClick={() => setShowDiscard(true)} fullWidth>Discard</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                         <Button radius="md" fullWidth type="submit">Save</Button>

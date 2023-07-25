@@ -119,7 +119,11 @@ export default function TransactionForm(props) {
   }
   return (
     <>
-      <Modal size={"xl"} withCloseButton={false} closeOnClickOutside={false} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
+      <Modal overlayProps={{
+          color: "white",
+          opacity: 0.55,
+          blur: 3,
+      }} size={"xl"} withCloseButton={false} closeOnClickOutside={false} radius="lg" opened={props.open} onClose={() => { props.close() }} centered>
         <Title style={{ marginLeft: 10 }} order={3}>Add Transaction</Title>
         <form onSubmit={form.onSubmit((values) => handleAddTransaction(values))}>
         <Grid style={{ margin: 10 }}>
@@ -195,7 +199,7 @@ export default function TransactionForm(props) {
             </Radio.Group>
             <Grid style={{ marginTop: 16 }} gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
               <Grid.Col span={"auto"}>
-                <Button radius="md" color="gray" fullWidth onClick={() => setShowDiscard(true)} >Discard</Button>
+                <Button radius="md" variant={"default"} fullWidth onClick={() => setShowDiscard(true)} >Discard</Button>
               </Grid.Col>
               <Grid.Col span={"auto"}>
                 <Button radius="md" fullWidth type="submit">Save</Button>

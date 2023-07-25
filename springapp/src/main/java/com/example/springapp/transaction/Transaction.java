@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -143,6 +143,11 @@ public class Transaction {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public int compareTo(Transaction other) {
+        return this.createdAt.compareTo(other.getCreatedAt());
     }
 
 }

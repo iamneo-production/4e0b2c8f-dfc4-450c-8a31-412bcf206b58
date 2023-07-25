@@ -1,25 +1,20 @@
 import { Grid, Title, Button } from '@mantine/core';
-import { useState } from 'react';
-import GoalForm from './GoalForm';
+import {showGoalForm} from "../../features/goalSlice";
+import {useDispatch} from "react-redux";
 export default function GoalHeader() {
-    const [open,setOpen] = useState(false)
-    function handleClose(){
-        setOpen(false)
-    }
-
+    const dispatch = useDispatch()
     return (
-        <div>
+        <div style={{marginBottom:10}}>
             <Grid>
-                <Grid.Col span={2}>
-                    <Title order={1}>Goals</Title>
+                <Grid.Col span={"content"}>
+                    <Title style={{ margin: 5 }} order={2}>Goals</Title>
                 </Grid.Col>
-                <Grid.Col style={{margin:8}} span={2}>
-                    <Button onClick={()=>setOpen(true)} fullWidth>
+                <Grid.Col style={{margin:8}} span={"content"}>
+                    <Button radius="md" miw={"120px"} onClick={() => dispatch(showGoalForm())} fullWidth>
                         Add Goals
                     </Button>
                 </Grid.Col>
             </Grid>
-            <GoalForm open={open} close={handleClose}/>
         </div>
     )
 }

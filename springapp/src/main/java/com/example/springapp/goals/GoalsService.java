@@ -1,5 +1,7 @@
 package com.example.springapp.goals;
 
+import com.example.springapp.user.UserEntity;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,5 +14,6 @@ public interface GoalsService {
 
    public Optional<Goal> getGoal(Long id);
 
-    public List<Goal> getAllGoals();
+
+    List<Goal> getAllGoalsByUser(UserEntity user);
 }

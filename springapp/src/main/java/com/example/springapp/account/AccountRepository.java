@@ -10,4 +10,6 @@ import java.util.List;
 public interface AccountRepository extends JpaRepository<Account,Integer> {
 
     List<Account> findAllByUser(UserEntity user);
+
+    List<Account> findAllByUserAndIsDeletedFalse(UserEntity user);
 }

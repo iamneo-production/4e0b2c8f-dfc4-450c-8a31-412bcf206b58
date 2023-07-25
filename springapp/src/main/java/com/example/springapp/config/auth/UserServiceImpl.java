@@ -5,7 +5,12 @@ import com.example.springapp.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
@@ -16,6 +21,8 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -26,7 +33,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private JWTGenerator jwtGenerator;
+	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private OTPStorage otpStorage;
 	@Override
 	public ResponseEntity<BaseResponceDto> register(UserEntity user) {
 		if(userRepository.existsByEmail(user.getEmail())) {
@@ -66,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public String sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException, MessagingException, UnsupportedEncodingException {
+	public void sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException, MessagingException, UnsupportedEncodingException {
 		String fromAddress = "paymint.ltd@outlook.com";
 		String senderName = "Paymint Team";
 		String subject = "Paymint account security code";
@@ -85,10 +98,48 @@ public class UserServiceImpl implements UserService {
 		helper.setFrom(fromAddress, senderName);
 		helper.setTo(email);
 		helper.setSubject(subject);
-		String code = new DecimalFormat("000000").format(new Random().nextInt(999999));
+		String code = otpStorage.generateOTP(email);
 		content = content.replace("[[CODE]]", code);
 		helper.setText(content, true);
 		mailSender.send(message);
-		return code;
+	}
+
+	@Override
+	public void newPassword(String email, String password) {
+		UserEntity user = userRepository.findByEmail(email).orElseThrow();
+		user.setPassword(passwordEncoder.encode(password));
+		userRepository.save(user);
+	}
+
+	@Override
+	public ResponseEntity<BaseResponceDto> updatePassword(ProfilePasswordDto profilePasswordDto, String userName) {
+		UserEntity user = userRepository.findByEmail(userName).orElseThrow();
+		if(new BCryptPasswordEncoder().matches(profilePasswordDto.getOldPassword(), user.getPassword())) {
+			if(new BCryptPasswordEncoder().matches(profilePasswordDto.getPassword(), user.getPassword())) {
+				return new ResponseEntity<>(new BaseResponceDto("New Password can't be same as Old Password!",null), HttpStatus.BAD_REQUEST);
+			}
+			user.setPassword(passwordEncoder.encode((profilePasswordDto.getPassword())));
+			userRepository.save(user);
+			return new ResponseEntity<>(new BaseResponceDto("Password updated successfully!",null), HttpStatus.OK); 
+		}
+		return new ResponseEntity<>(new BaseResponceDto("Old Password didn't match!",null), HttpStatus.BAD_REQUEST);
+	}
+
+	@Override
+	public ResponseEntity<BaseResponceDto> login(LoginDto user) {
+		
+		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
+		if(!userRepository.existsByEmail(user.getEmail())) {
+			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
+		}
+		if(!new BCryptPasswordEncoder().matches(user.getPassword(), u.getPassword())) {
+			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
+		}
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication);
+		Map<Object,Object> data = new HashMap<>();
+		data.put("token",token);
+        return ResponseEntity.ok(new BaseResponceDto("success",data));
 	}
 }
