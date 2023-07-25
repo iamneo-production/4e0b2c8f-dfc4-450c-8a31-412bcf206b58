@@ -8,7 +8,13 @@ import {
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
 import {useDispatch, useSelector} from "react-redux";
-import {closeSigninForm, closeSignupForm, openSigninForm, openSignupForm} from '../features/userSlice'
+import {
+    closeForgotPasswordForm,
+    closeSigninForm,
+    closeSignupForm, openForgotPasswordForm,
+    openSigninForm,
+    openSignupForm
+} from '../features/userSlice'
 import {ReactComponent as ProfileIcon } from "../assets/User.svg";
 import {ReactComponent as LogoutIcon} from "../assets/Sign_out_squre.svg";
 import {ReactComponent as AppLogo} from "../assets/App logo.svg";
@@ -17,10 +23,12 @@ import {ReactComponent as AvatarIcon} from "../assets/User_duotone.svg";
 import {useNavigate} from "react-router-dom";
 import {logout} from "../features/logoutSlice";
 import React, {useState} from "react";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
 export default function HeaderBar(props) {
     const displaySigninForm = useSelector(state => state.user.displaySigninForm)
     const displaySignupForm = useSelector(state => state.user.displaySignupForm)
+    const displayForgotPasswordForm = useSelector(state => state.user.displayForgotPasswordForm)
     const [displayConfirmLogout,setDisplayConfirmLogout] = useState(false);
     const currentUser = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
@@ -28,8 +36,14 @@ export default function HeaderBar(props) {
     function handleOpenSigninForm() {
         dispatch(openSigninForm())
     }
+    function handleOpenForgotPasswordForm() {
+        dispatch(openForgotPasswordForm())
+    }
     function handleOpenSignupForm() {
         dispatch(openSignupForm())
+    }
+    function handleCloseForgotPasswordForm() {
+        dispatch(closeForgotPasswordForm())
     }
     function handleCloseSigninForm() {
         dispatch(closeSigninForm())
@@ -91,6 +105,7 @@ export default function HeaderBar(props) {
                 </Group>
                 <SigninForm open={displaySigninForm} close={handleCloseSigninForm}></SigninForm>
                 <SignupForm open={displaySignupForm} close={handleCloseSignupForm}></SignupForm>
+                <ForgotPasswordForm open={displayForgotPasswordForm} close={handleCloseForgotPasswordForm}></ForgotPasswordForm>
                 <Modal
                     opened={displayConfirmLogout}
                     onClose={() => setDisplayConfirmLogout(false)}
