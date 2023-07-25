@@ -1,6 +1,8 @@
 package com.example.springapp.user;
 
 import com.example.springapp.BaseResponceDto;
+import com.example.springapp.config.auth.LoginDto;
+
 import org.springframework.http.ResponseEntity;
 
 import javax.mail.MessagingException;
@@ -19,6 +21,8 @@ public interface UserService {
     void sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException;
 
 	ResponseEntity<BaseResponceDto> updatePassword(ProfilePasswordDto profilePasswordDto, String userName);
+
+	ResponseEntity<BaseResponceDto> login(LoginDto user);
 
     void newPassword(String email, String password);
 }

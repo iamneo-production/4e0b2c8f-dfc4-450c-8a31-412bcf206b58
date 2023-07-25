@@ -5,6 +5,10 @@ import com.example.springapp.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +21,8 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -26,6 +32,10 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private JWTGenerator jwtGenerator;
 	@Autowired
 	private JavaMailSender mailSender;
 	@Autowired
@@ -115,4 +125,21 @@ public class UserServiceImpl implements UserService {
 		return new ResponseEntity<>(new BaseResponceDto("Old Password didn't match!",null), HttpStatus.BAD_REQUEST);
 	}
 
+	@Override
+	public ResponseEntity<BaseResponceDto> login(LoginDto user) {
+		
+		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
+		if(!userRepository.existsByEmail(user.getEmail())) {
+			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
+		}
+		if(!new BCryptPasswordEncoder().matches(user.getPassword(), u.getPassword())) {
+			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
+		}
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication);
+		Map<Object,Object> data = new HashMap<>();
+		data.put("token",token);
+        return ResponseEntity.ok(new BaseResponceDto("success",data));
+	}
 }
