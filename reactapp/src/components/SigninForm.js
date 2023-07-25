@@ -22,7 +22,7 @@ export default function SigninForm(props) {
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/.test(value) ? null : 'Requires at least one lowercase, uppercase, number and special character.'
+            password: (value) => (value ? null : 'Requires at least one lowercase, uppercase, number and special character.'
             )
         }
     });

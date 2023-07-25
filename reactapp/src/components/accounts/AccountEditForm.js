@@ -109,7 +109,7 @@ export default function AccountEditForm(props) {
                             <Button radius="md" color="red" fullWidth onClick={() => setShowDiscard(true)} >Delete</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
-                            <Button radius="md" color="gray" onClick={() => handleCancel()} fullWidth>Cancel</Button>
+                            <Button radius="md" variant={"default"} onClick={() => handleCancel()} fullWidth>Cancel</Button>
                         </Grid.Col>
                         <Grid.Col span={"auto"}>
                             <Button radius="md" fullWidth type="submit">Save</Button>

@@ -18,10 +18,10 @@ const DebtFeature = () => {
       }
     }
   return (
-          <div style={{ marginBottom: 10 }}>
-            <Grid alignItems="center"> 
-              <Grid.Col span={3}>
-                <Paper shadow="sm" radius="md" p="md" withBorder>
+        <div style={{ marginBottom: 10}}>
+            <Grid align='center' right={"10"}> 
+              <Grid.Col span={"content"}>
+                <Paper miw={"200px"} radius="md" p="md" withBorder>
                   <Text size="lg" fw={700}>
                     {debtCount}
                   </Text>
@@ -30,8 +30,8 @@ const DebtFeature = () => {
                   </Text>
                 </Paper>
               </Grid.Col>
-              <Grid.Col span={3}>
-                <Paper shadow="sm" radius="md" p="md" withBorder>
+              <Grid.Col span={"content"}>
+                <Paper miw={"200px"} radius="md" p="md" withBorder>
                   <Text size="lg" style={{ color: "#F03C2E" }} fw={700}>
                     {debtPending}
                   </Text>
@@ -40,26 +40,21 @@ const DebtFeature = () => {
                   </Text>
                 </Paper>
               </Grid.Col>
-              <Grid.Col span={6}>
-                <div style={{ 
-                        display: "flex", 
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                         }}>
+                <Grid.Col span={"content"} style={{position:"absolute",right:"50px"}}>
+            
                   <Select
                     clearable
                     data={[
                       { value: 2, label: 'due date' },
                       { value: 1, label: 'Amount' },
                     ]}
-                    placeholder="sort by"
+                    placeholder="Default"
                     label="sort by"
                     onChange={handleSelectChange}
                     size='sm'
                     />
-
-                </div>
-              </Grid.Col>
+                </Grid.Col>
+      
             </Grid>
           </div>
   );

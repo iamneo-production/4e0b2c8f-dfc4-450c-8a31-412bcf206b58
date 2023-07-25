@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { useDisclosure } from '@mantine/hooks';
 import { FaPlus,FaMoneyBill,FaUser,FaCalendarAlt } from 'react-icons/fa';
-import { Modal,  Button, TextInput, Title,Notification, Grid } from '@mantine/core';
+import { Modal,  Button, TextInput, Title,Notification } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useSelector } from 'react-redux';
 
-function DebtForm() {
+function DebtForm({isOpen,onClose}) {
   const token  = useSelector(state => state.user.token);
 
-  const [opened, { open, close }] = useDisclosure(false);
   const amount=useStoreState((state)=>state.amount)
   const moneyFrom=useStoreState((state)=>state.moneyFrom)
   const dueDate=useStoreState((state)=>state.dueDate)
@@ -24,15 +22,6 @@ function DebtForm() {
   const [errN,setErrN]=useState('');
   const [errA,setErrA]=useState('');
   const [errD,setErrD]=useState('');
-
-
-  const handleOpenModal = () => {
-    open();
-    setAmount('');
-    setdueDate(new Date());
-    setMoneyFrom('');
-    // setStatus('unpaid');
-  };
 
   const handleSaveModal = async (e) => {
     e.preventDefault();
@@ -71,10 +60,10 @@ function DebtForm() {
       moneyFrom: moneyFrom,
       status: status,
     };
-    console.log(NDebt);
+    // console.log(NDebt);
     addDebt({...NDebt,token:token});
     // console.log("Added")
-    close();
+    onClose();
     setnewNot(true);
     setTimeout(()=>{
       setnewNot(false)
@@ -85,8 +74,8 @@ function DebtForm() {
   return (
     <>
       {<Modal
-        opened={opened}
-        onClose={close}
+        opened={isOpen}
+        onClose={onClose}
         centered
         position="center" 
 
@@ -146,7 +135,7 @@ function DebtForm() {
             marginTop: '16px' 
               }}>
           <Button 
-            onClick={close} 
+            onClick={onClose} 
             fullWidth 
             color='gray'
             style={{ marginLeft: '10px', width: '45%' }} >
@@ -171,11 +160,6 @@ function DebtForm() {
           style={{ position: 'fixed', bottom: '30px', right: '30px' }}
         />
       }
-          <Grid.Col style={{margin:8}} span={"content"}>
-              <Button onClick={handleOpenModal}  fullWidth>
-                  New Debt
-              </Button>
-          </Grid.Col>
     </>
   );
 }
