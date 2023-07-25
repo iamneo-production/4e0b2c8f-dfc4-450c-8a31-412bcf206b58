@@ -8,7 +8,7 @@ import {
     Container, LoadingOverlay,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import {loginAccount} from "../features/userSlice";
+import {loginAccount, openForgotPasswordForm} from "../features/userSlice";
 import {useDispatch,useSelector} from "react-redux";
 
 
@@ -52,7 +52,8 @@ export default function SigninForm(props) {
                         type='password'
                         {...form.getInputProps('password')}
                     />
-                    <Group style={{ marginTop: 36, marginBottom: 36 }}>
+                    <Text onClick={() => dispatch(openForgotPasswordForm())} size={"sm"} c="blue" style={{ marginTop: 16,cursor:"pointer" }}>Forgot Password?</Text>
+                    <Group style={{ marginTop: 16, marginBottom: 16 }}>
                         <Button radius="md" fullWidth type="submit">Submit</Button>
                     </Group>
                 </form>
