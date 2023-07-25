@@ -18,7 +18,10 @@ public class Category {
     @JoinColumn(name= "user_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserEntity userId;//Type of userIdentity
-    private  boolean isIncome;
+    private  String type;
+
+    private String description;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isDeleted;
 
@@ -45,6 +48,14 @@ public class Category {
         this.categoryId = categoryId;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getName() {
 
         return name;
@@ -55,14 +66,18 @@ public class Category {
         this.name = name;
     }
 
-    public boolean getIsIncome() {
-
-        return isIncome;
+    public String getType() {
+        return type;
     }
 
-    public void setIsIncome(boolean income) {
+    public void setType(String type) {
+        this.type = type;
+    }
 
-        isIncome = income;
+
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public boolean getIsDeleted() {
