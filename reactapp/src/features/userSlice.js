@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {createAccountService, loginAccountService, validateTokenService} from "../api/userService";
+import {createAccountService, loginAccountService, validateTokenService, editNameService, editEmailService, editPasswordService, editImageService} from "../api/userService";
+import {notifications} from "@mantine/notifications";
+import {ReactComponent as SuccessIcon} from "../assets/success-icon.svg";
 
 export const createAccount =
     createAsyncThunk('user/createAccount',async (body)=>{
@@ -9,9 +11,9 @@ export const createAccount =
             body.email,
             body.password
         ).then((response)=>{
-            console.log(response)
+            return response.data
         }).catch((error) =>{
-            console.log(error)
+            return error.response.data
         })
     })
 
@@ -41,6 +43,66 @@ export const validateToken =
             return error.responce.data
         })
     })
+
+//Edit name
+export const editName = 
+    createAsyncThunk('user/editName', async(body) => {
+        return editNameService(
+            body.token,
+            body.firstName,
+            body.lastName
+        ).then((res) =>{
+            return res.data
+        }).catch((err) =>{
+            return err.response
+        })
+    })
+//Edit email
+export const editEmail = 
+    createAsyncThunk('user/editEmail', async(body) => {
+        return editEmailService(
+            body.token,
+            body.email
+        ).then((res) =>{
+            return res.data
+        }).catch((err) =>{
+            return err.response.data
+        })
+    })
+
+//Edit Password
+export const editPassword = createAsyncThunk(
+  "user/editPassword",
+  async (body) => {
+    // console.log(body)
+    return editPasswordService(body.token, body.oldPassword, body.password)
+      .then((res) => {
+        console.log(res.data);
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        return err.response.data.message;
+      });
+  }
+);
+
+//Edit image
+export const editImage = 
+createAsyncThunk('user/editImage', async(body) => {
+    // console.log(body)
+    return editImageService(
+        body.token,
+        body.image
+    ).then((res) =>{
+        console.log(res.data)
+        return res.data
+    }).catch((err) =>{
+        console.log(err.response.data.message)
+        return err.response.data.message
+    })
+})
+
 export const userSlice = createSlice({
     name:"user",
     initialState:{
@@ -65,6 +127,7 @@ export const userSlice = createSlice({
                 firstName:'',
                 lastName:'',
                 email:'',
+                profileImage:'',
                 userId:''
             }
         },
@@ -88,13 +151,38 @@ export const userSlice = createSlice({
         },
         [createAccount.fulfilled]:(state,action) =>{
             state.signupInProgress =false
-            console.log("Account Created")
-            alert("Account Created")
+            if(action.payload.message ==="success"){
+                state.displaySignupForm = false
+                console.log("Account Created")
+                notifications.show({
+                    title: 'Account Created Successfully',
+                    message: 'Now you can login to you account with signin option',
+                    icon: <SuccessIcon />,
+                    radius:"lg",
+                    autoClose: 5000,
+                })
+            }else {
+                console.log(action.payload)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
+            }
             state.displaySignupForm = false
         },
         [createAccount.rejected]:(state)=>{
             state.signupInProgress = false
             console.log("Account Create failed")
+            notifications.show({
+                title: 'Request Failed',
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
             alert("Account Create failed,Try again")
         },
         [loginAccount.pending]:(state) => {
@@ -108,14 +196,24 @@ export const userSlice = createSlice({
                 state.token = action.payload.data.token
                 state.displaySigninForm = false
             }else {
-                state.loginError = action.payload.message
-                alert(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please try again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
             }
         },
         [loginAccount.rejected]:(state)=>{
             state.signinInProgress = false
-            console.log("Account Create failed")
-            alert("Account Create failed,Try again")
+            notifications.show({
+                title: "Something went wrong ",
+                message: 'Please try again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         },
         [validateToken.pending]:(state) => {
             console.log("validate token pending")
@@ -127,15 +225,29 @@ export const userSlice = createSlice({
                 state.currentUser.lastName = action.payload.data.user.lastName
                 state.currentUser.email = action.payload.data.user.email
                 state.currentUser.userId = action.payload.data.user.userId
+                state.currentUser.profileImage = action.payload.data.user.profileImage
             }else {
                 state.loginError = action.payload.message
                 state.token = null
-                alert(action.payload.message)
+                notifications.show({
+                    title: action.payload.message,
+                    message: 'Please Login again!!',
+                    radius:"lg",
+                    color:"red",
+                    autoClose: 5000,
+                })
             }
         },
         [validateToken.rejected]:(state)=>{
-            console.log("validate token success failed")
-            alert("validate token success,Login again")
+            state.token = null
+            console.log("validate token  failed")
+            notifications.show({
+                title: 'Session expired',
+                message: 'Login again!!',
+                radius:"lg",
+                color:"red",
+                autoClose: 5000,
+            })
         }
     }
 })

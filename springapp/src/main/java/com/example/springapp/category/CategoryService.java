@@ -1,14 +1,19 @@
 package com.example.springapp.category;
 
 import com.example.springapp.BaseResponceDto;
+import com.example.springapp.transaction.Transaction;
+import com.example.springapp.transaction.TransactionRepository;
 import com.example.springapp.user.UserEntity;
 import com.example.springapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -18,6 +23,9 @@ public class CategoryService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    TransactionRepository transactionRepository;
+    
     public List<Category> getCategoriesByUserName(String userName){
         try{
             UserEntity user = userRepository.findByEmail(userName).orElseThrow();
@@ -50,5 +58,14 @@ public class CategoryService {
         return "success";
 
     }
+
+    public Category getCategoryById(Integer id){
+        return categoryRepository.findById(id).orElseThrow();
+    }
+
+	public ResponseEntity<BaseResponceDto> sortTransaction(Integer categoryId) {
+		List<Transaction> transactions = transactionRepository.findByCategory(categoryId);
+		return ResponseEntity.ok(new BaseResponceDto("success",transactions));
+	}
 
 }

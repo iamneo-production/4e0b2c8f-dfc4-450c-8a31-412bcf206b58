@@ -22,7 +22,7 @@ export default function SigninForm(props) {
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/.test(value) ? null : 'Requires at least one lowercase, uppercase, number and special character.'
+            password: (value) => (value ? null : 'Requires at least one lowercase, uppercase, number and special character.'
             )
         }
     });
@@ -32,7 +32,7 @@ export default function SigninForm(props) {
 
 
     return (
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal withCloseButton={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={signinInProgress} overlayBlur={2} />
             <Title size="32" align="center">Hello!!</Title>
             <Container size="md">
