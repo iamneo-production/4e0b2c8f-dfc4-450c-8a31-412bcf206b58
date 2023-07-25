@@ -32,14 +32,16 @@ public class UserController {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
+	private OTPStorage otpStorage;
 
     @Autowired
     public UserController(AuthenticationManager authenticationManager, UserRepository userRepository,
-                           PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
+                           PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator,OTPStorage otpStorage) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
+		this.otpStorage = otpStorage;
     }
 
 	@PostMapping("/api/auth/register")
@@ -80,7 +82,6 @@ public class UserController {
 	public ResponseEntity<BaseResponceDto> updateProfilePicture(@RequestHeader(value = "Authorization", defaultValue = "") String token,@ModelAttribute ProfileImageDto profileImageDto){
 		try {
 			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-			System.out.println("done----------------------------------------------");
 			userService.updateUserProfileImage(profileImageDto,userName);
 			return ResponseEntity.ok(new BaseResponceDto("success"));
 		} catch (Exception e) {
@@ -111,19 +112,49 @@ public class UserController {
 	}
 
 
-	@PostMapping("/api/send-verification-email")
+	@PostMapping("/api/auth/send-verification-email")
 	public ResponseEntity<BaseResponceDto> sendVerificationEmail(@RequestParam(value = "email") String email){
 		try{
-			String code = userService.sendVerificationEmail(email);
-			Map<String,Object> data = new HashMap<>();
-			data.put("security-code",code);
-			return ResponseEntity.ok(new BaseResponceDto("success",data));
-		} catch (MessagingException | UnsupportedEncodingException e) {
-			return ResponseEntity.internalServerError().body(new BaseResponceDto("Failed try again"));
+			if(userRepository.existsByEmail(email)) {
+				return ResponseEntity.badRequest().body(new BaseResponceDto("User already exists", null));
+			}
+			userService.sendVerificationEmail(email);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new BaseResponceDto("Failed Try again"));
 		}
-
 	}
-	
+
+	@PostMapping("/api/auth/verify-security-code")
+	public ResponseEntity<BaseResponceDto> verifyOTP(@RequestParam(value = "email") String email, @RequestParam(value = "otp") String otp) {
+		String storedOTP = otpStorage.getOTP(email);
+		if (storedOTP == null || !storedOTP.equals(otp)) {
+			return ResponseEntity.badRequest().body(new BaseResponceDto("Invalid OTP"));
+		}
+		otpStorage.removeOTP(email);
+		return ResponseEntity.ok(new BaseResponceDto("OTP verified successfully"));
+	}
+
+	@PostMapping("/api/auth/forgot-password/send-verification-email")
+	public ResponseEntity<BaseResponceDto> forgetPasswordSendVerificationEmail(@RequestParam(value = "email") String email){
+		try{
+			userService.sendVerificationEmail(email);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new BaseResponceDto("Failed Try again"));
+		}
+	}
+
+	@PutMapping("/api/auth/new-password")
+	public ResponseEntity<BaseResponceDto> newPassword(@RequestParam(value = "email") String email,@RequestParam(value = "password") String password){
+		try {
+			userService.newPassword(email, password);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile password!"));
+		}
+	}
+
 	@PutMapping("/api/profile/password")
 	public ResponseEntity<BaseResponceDto> updatePassword(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody ProfilePasswordDto profilePasswordDto){
 		try {

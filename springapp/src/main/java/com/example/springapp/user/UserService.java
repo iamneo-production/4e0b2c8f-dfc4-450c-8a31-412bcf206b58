@@ -16,8 +16,10 @@ public interface UserService {
 
     void updateUserProfileEmail(ProfileEmailDto profileEmailDto, String userName);
 
-    String sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException;
+    void sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException;
 
 	ResponseEntity<BaseResponceDto> updatePassword(ProfilePasswordDto profilePasswordDto, String userName);
+
+    void newPassword(String email, String password);
 }
 
