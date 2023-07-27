@@ -38,6 +38,8 @@ public class UserServiceImpl implements UserService {
 	private JWTGenerator jwtGenerator;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private OTPStorage otpStorage;
 	@Override
 	public ResponseEntity<BaseResponceDto> register(UserEntity user) {
 		if(userRepository.existsByEmail(user.getEmail())) {
@@ -77,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public String sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException, MessagingException, UnsupportedEncodingException {
+	public void sendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException, MessagingException, UnsupportedEncodingException {
 		String fromAddress = "paymint.ltd@outlook.com";
 		String senderName = "Paymint Team";
 		String subject = "Paymint account security code";
@@ -96,11 +98,17 @@ public class UserServiceImpl implements UserService {
 		helper.setFrom(fromAddress, senderName);
 		helper.setTo(email);
 		helper.setSubject(subject);
-		String code = new DecimalFormat("000000").format(new Random().nextInt(999999));
+		String code = otpStorage.generateOTP(email);
 		content = content.replace("[[CODE]]", code);
 		helper.setText(content, true);
 		mailSender.send(message);
-		return code;
+	}
+
+	@Override
+	public void newPassword(String email, String password) {
+		UserEntity user = userRepository.findByEmail(email).orElseThrow();
+		user.setPassword(passwordEncoder.encode(password));
+		userRepository.save(user);
 	}
 
 	@Override
