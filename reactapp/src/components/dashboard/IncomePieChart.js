@@ -117,7 +117,7 @@ const IncomePieChart = (props) => {
                 <Skeleton height={190} circle/>
             </div>:
             <div>
-                {result.length>1 ?
+                {result.length>0 ?
                     <Pie data={data} options={options} />
                     :
                 <NoDataSVG style={{height:230}}></NoDataSVG>

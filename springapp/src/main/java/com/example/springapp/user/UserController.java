@@ -2,13 +2,7 @@ package com.example.springapp.user;
 
 import com.example.springapp.BaseResponceDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,21 +19,18 @@ import java.util.Optional;
 
 @RestController
 public class UserController {
-	@Autowired
+	
 	private UserService userService;
-
-	private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
+	private OTPStorage otpStorage;
 
     @Autowired
-    public UserController(AuthenticationManager authenticationManager, UserRepository userRepository,
-                           PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
-        this.authenticationManager = authenticationManager;
+    public UserController(UserRepository userRepository, JWTGenerator jwtGenerator, UserService userService,OTPStorage otpStorage) {
+    	this.userService = userService;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
+		this.otpStorage = otpStorage;
     }
 
 	@PostMapping("/api/auth/register")
@@ -48,21 +39,8 @@ public class UserController {
 	}
 
 	@PostMapping("/api/auth/login")
-	public ResponseEntity<BaseResponceDto> login(@RequestBody LoginDto user) {
-
-		UserEntity u = userRepository.findByEmail(user.getEmail()).orElse(null);
-		if(!userRepository.existsByEmail(user.getEmail())) {
-			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
-		}
-		if(!new BCryptPasswordEncoder().matches(user.getPassword(), u.getPassword())) {
-			return new ResponseEntity<>(new BaseResponceDto("Incorrect Email or Password...",null), HttpStatus.BAD_REQUEST);
-		}
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-		Map<Object,Object> data = new HashMap<>();
-		data.put("token",token);
-        return ResponseEntity.ok(new BaseResponceDto("success",data));
+	public ResponseEntity<BaseResponceDto> login(@RequestBody LoginDto user) {		
+		return userService.login(user);
 	}
 
 	@GetMapping("/api/auth/validateToken")
@@ -80,7 +58,6 @@ public class UserController {
 	public ResponseEntity<BaseResponceDto> updateProfilePicture(@RequestHeader(value = "Authorization", defaultValue = "") String token,@ModelAttribute ProfileImageDto profileImageDto){
 		try {
 			String userName = jwtGenerator.getUsernameFromJWT(jwtGenerator.getTokenFromHeader(token));
-			System.out.println("done----------------------------------------------");
 			userService.updateUserProfileImage(profileImageDto,userName);
 			return ResponseEntity.ok(new BaseResponceDto("success"));
 		} catch (Exception e) {
@@ -111,19 +88,49 @@ public class UserController {
 	}
 
 
-	@PostMapping("/api/send-verification-email")
+	@PostMapping("/api/auth/send-verification-email")
 	public ResponseEntity<BaseResponceDto> sendVerificationEmail(@RequestParam(value = "email") String email){
 		try{
-			String code = userService.sendVerificationEmail(email);
-			Map<String,Object> data = new HashMap<>();
-			data.put("security-code",code);
-			return ResponseEntity.ok(new BaseResponceDto("success",data));
-		} catch (MessagingException | UnsupportedEncodingException e) {
-			return ResponseEntity.internalServerError().body(new BaseResponceDto("Failed try again"));
+			if(userRepository.existsByEmail(email)) {
+				return ResponseEntity.badRequest().body(new BaseResponceDto("User already exists", null));
+			}
+			userService.sendVerificationEmail(email);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new BaseResponceDto("Failed Try again"));
 		}
-
 	}
-	
+
+	@PostMapping("/api/auth/verify-security-code")
+	public ResponseEntity<BaseResponceDto> verifyOTP(@RequestParam(value = "email") String email, @RequestParam(value = "otp") String otp) {
+		String storedOTP = otpStorage.getOTP(email);
+		if (storedOTP == null || !storedOTP.equals(otp)) {
+			return ResponseEntity.badRequest().body(new BaseResponceDto("Invalid OTP"));
+		}
+		otpStorage.removeOTP(email);
+		return ResponseEntity.ok(new BaseResponceDto("OTP verified successfully"));
+	}
+
+	@PostMapping("/api/auth/forgot-password/send-verification-email")
+	public ResponseEntity<BaseResponceDto> forgetPasswordSendVerificationEmail(@RequestParam(value = "email") String email){
+		try{
+			userService.sendVerificationEmail(email);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new BaseResponceDto("Failed Try again"));
+		}
+	}
+
+	@PutMapping("/api/auth/new-password")
+	public ResponseEntity<BaseResponceDto> newPassword(@RequestParam(value = "email") String email,@RequestParam(value = "password") String password){
+		try {
+			userService.newPassword(email, password);
+			return ResponseEntity.ok(new BaseResponceDto("success"));
+		} catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponceDto("Failed to update user profile password!"));
+		}
+	}
+
 	@PutMapping("/api/profile/password")
 	public ResponseEntity<BaseResponceDto> updatePassword(@RequestHeader(value = "Authorization", defaultValue = "") String token, @RequestBody ProfilePasswordDto profilePasswordDto){
 		try {
