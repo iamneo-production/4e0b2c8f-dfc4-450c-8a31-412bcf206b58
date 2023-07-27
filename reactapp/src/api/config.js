@@ -1,2 +1,1 @@
-export const baseUrl = 'http://localhost:8080/api'
-
+export const baseUrl = 'https://8080-fefabefbfcfdcaeebecaabcdeeaeaadbdbabf.project.examly.io/api'
