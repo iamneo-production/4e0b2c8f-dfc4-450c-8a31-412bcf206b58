@@ -8,8 +8,9 @@ import {
     Container, LoadingOverlay,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import {loginAccount} from "../features/userSlice";
+import {loginAccount, openForgotPasswordForm} from "../features/userSlice";
 import {useDispatch,useSelector} from "react-redux";
+
 
 export default function SigninForm(props) {
     const signinInProgress = useSelector(state => state.user.signinInProgress)
@@ -21,7 +22,7 @@ export default function SigninForm(props) {
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/.test(value) ? null : 'Requires at least one lowercase, uppercase, number and special character.'
+            password: (value) => (value ? null : 'Requires at least one lowercase, uppercase, number and special character.'
             )
         }
     });
@@ -31,7 +32,7 @@ export default function SigninForm(props) {
 
 
     return (
-        <Modal radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
+        <Modal withCloseButton={false} radius="lg" size="sm" opened={props.open} onClose={() => { props.close() }} centered>
             <LoadingOverlay visible={signinInProgress} overlayBlur={2} />
             <Title size="32" align="center">Hello!!</Title>
             <Container size="md">
@@ -51,7 +52,8 @@ export default function SigninForm(props) {
                         type='password'
                         {...form.getInputProps('password')}
                     />
-                    <Group style={{ marginTop: 36, marginBottom: 36 }}>
+                    <Text onClick={() => dispatch(openForgotPasswordForm())} size={"sm"} c="blue" style={{ marginTop: 16,cursor:"pointer" }}>Forgot Password?</Text>
+                    <Group style={{ marginTop: 16, marginBottom: 16 }}>
                         <Button radius="md" fullWidth type="submit">Submit</Button>
                     </Group>
                 </form>

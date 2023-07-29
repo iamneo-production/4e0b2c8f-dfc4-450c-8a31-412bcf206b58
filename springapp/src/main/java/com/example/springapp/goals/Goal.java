@@ -1,28 +1,63 @@
 package com.example.springapp.goals;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.springapp.user.UserEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
     private String description;
     private double targetAmount;
-    private double currentAmount;
+    private String status;
+
+    private Long targetDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UserEntity user;
 
     public Goal() {
     }
 
-    public Goal(Long id, String description, double targetAmount, double currentAmount) {
-        this.id = id;
+    public Goal(String name, String description, double targetAmount, double currentAmount, UserEntity user,long targetDate) {
+        this.name = name;
         this.description = description;
         this.targetAmount = targetAmount;
-        this.currentAmount = currentAmount;
+        this.user = user;
+        this.targetDate = targetDate;
+    }
+
+    public Long getTargetDate() {
+        return targetDate;
+    }
+
+    public void setTargetDate(Long targetDate) {
+        this.targetDate = targetDate;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -49,12 +84,12 @@ public class Goal {
         this.targetAmount = targetAmount;
     }
 
-    public double getCurrentAmount() {
-        return currentAmount;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCurrentAmount(double currentAmount) {
-        this.currentAmount = currentAmount;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -63,7 +98,6 @@ public class Goal {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", targetAmount=" + targetAmount +
-                ", currentAmount=" + currentAmount +
                 '}';
     }
 }
