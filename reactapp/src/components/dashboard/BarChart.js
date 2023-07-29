@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Bar, Pie} from 'react-chartjs-2';
+import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,11 +9,11 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import {baseUrl} from "../../api/config";
-import {Skeleton} from "@mantine/core";
-import {ReactComponent as NoDataSVG} from "../../assets/No-data-1.svg";
+import { baseUrl } from "../../api/config";
+import { Skeleton } from "@mantine/core";
+import { ReactComponent as NoDataSVG } from "../../assets/No-data-1.svg";
 
 ChartJS.register(
     CategoryScale,
@@ -24,33 +24,33 @@ ChartJS.register(
     Legend
 );
 const BarChart = () => {
-    const [result,setResult] = useState([]);
-    const token  = useSelector(state => state.user.token)
-    const [barChartLoading,setBarChartLoading] = useState(false)
-    useEffect(() =>{
+    const [result, setResult] = useState([]);
+    const token = useSelector(state => state.user.token)
+    const [barChartLoading, setBarChartLoading] = useState(false)
+    useEffect(() => {
         setBarChartLoading(true)
-        axios.get(`${baseUrl}/dashboard/monthly-data`,{
+        axios.get(`${baseUrl}/dashboard/monthly-data`, {
             headers: { Authorization: `Bearer ${token}` }
-        }).then((res) =>{
+        }).then((res) => {
             setBarChartLoading(false)
             setResult(res.data.data)
-            console.log("res",res.data.data)
-        }).catch((err) =>{
+            console.log("res", res.data.data)
+        }).catch((err) => {
             setBarChartLoading(false)
             console.log(err)
         })
-    },[])
+    }, [token])
     const labels = [];
-    for (let i=result.length-1;i>=0; i--){
+    for (let i = result.length - 1; i >= 0; i--) {
         labels.push(result[i].month)
     }
     const expensesData = result.map(item => item.expenses);
     const incomeData = result.map(item => item.income);
-    function handleHasData(){
+    function handleHasData() {
         let hasData = false
-        for (let i=result.length-1;i>=0; i--){
-            if(result[i].expenses>0 || result[i].income>0){
-                hasData =true
+        for (let i = result.length - 1; i >= 0; i--) {
+            if (result[i].expenses > 0 || result[i].income > 0) {
+                hasData = true
             }
         }
         return hasData
@@ -130,7 +130,7 @@ const BarChart = () => {
                 {handleHasData() ?
                     <Bar options={options} data={data} />
                     :
-                    <NoDataSVG style={{height:230}}></NoDataSVG>
+                    <NoDataSVG style={{ height: 230 }}></NoDataSVG>
                 }
             </div>
         }
